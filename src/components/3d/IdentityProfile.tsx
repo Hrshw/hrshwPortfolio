@@ -27,7 +27,7 @@ export default function IdentityProfile({ position }: IdentityProfileProps) {
         <div className="glass-hud" style={{ padding: "2.5rem", width: "500px", borderRight: "4px solid var(--color-secondary)" }}>
           <h3 style={{ color: "var(--color-secondary)", marginBottom: "1rem", fontSize: "1.5rem", letterSpacing: "2px" }}>HELLO VISITOR,</h3>
           <p style={{ color: "#eee", fontSize: "1.05rem", lineHeight: 1.7, marginBottom: "1.5rem" }}>
-            I'm Rahul Singh Shekhawat.
+            I&apos;m Rahul Singh Shekhawat.
             <br/><br/>
             A Cloud Engineer and Full-Stack Developer who genuinely enjoys turning ideas into real-world products. My journey started with curiosity — understanding how applications work, how systems scale, and how technology can solve real problems. 
           </p>
@@ -80,7 +80,7 @@ export default function IdentityProfile({ position }: IdentityProfileProps) {
           <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: "1.5rem" }}>
             <div style={{ color: "var(--color-primary)", fontWeight: "bold", marginBottom: "0.5rem", fontSize: "1.1rem" }}>FINAL MESSAGE</div>
             <p style={{ color: "#ddd", fontSize: "1rem", fontStyle: "italic", margin: 0, lineHeight: 1.6 }}>
-              "Every project is an opportunity to build something better than yesterday."<br/><br/>
+              &quot;Every project is an opportunity to build something better than yesterday.&quot;<br/><br/>
               <span style={{ color: "var(--color-success)", fontWeight: "bold", fontStyle: "normal" }}>STATUS:</span> Always Learning. Always Building. Always Exploring.
             </p>
           </div>

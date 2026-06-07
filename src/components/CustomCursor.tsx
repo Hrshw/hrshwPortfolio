@@ -9,7 +9,10 @@ export default function CustomCursor() {
   const [hoverLabel, setHoverLabel] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
-  const [isScrolling, setIsScrolling] = useState(false);
+
+  // Use refs for values accessed in the animation loop
+  const isHoveringRef = useRef(false);
+  const isScrollingRef = useRef(false);
 
   const mousePos = useRef({ x: 0, y: 0 });
   const displayPos = useRef({ x: 0, y: 0 }); // Magnetic snapped pos
@@ -20,6 +23,7 @@ export default function CustomCursor() {
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const trailElementsRef = useRef<(HTMLDivElement | null)[]>([]);
+  const labelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const checkDevice = () => {
@@ -30,7 +34,9 @@ export default function CustomCursor() {
     window.addEventListener("resize", checkDevice);
 
     if (isMobile) return;
-    setIsVisible(true);
+    
+    // Defer state update to avoid synchronous set-state during effect
+    const timeout = setTimeout(() => setIsVisible(true), 0);
 
     const onMouseMove = (e: MouseEvent) => {
       mousePos.current = { x: e.clientX, y: e.clientY };
@@ -38,9 +44,13 @@ export default function CustomCursor() {
 
     let scrollTimeout: NodeJS.Timeout;
     const onScroll = () => {
+      isScrollingRef.current = true;
       setIsScrolling(true);
       clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => setIsScrolling(false), 150);
+      scrollTimeout = setTimeout(() => {
+        isScrollingRef.current = false;
+        setIsScrolling(false);
+      }, 150);
     };
 
     const onMouseOver = (e: MouseEvent) => {
@@ -50,6 +60,7 @@ export default function CustomCursor() {
       const interactiveEl = target.closest("a, button, input, textarea, .glass-interactive, .hud-interactive");
       if (interactiveEl) {
         setIsHovering(true);
+        isHoveringRef.current = true;
         // Magnetic effect: find center of element
         const rect = interactiveEl.getBoundingClientRect();
         magneticTarget.current = {
@@ -65,6 +76,7 @@ export default function CustomCursor() {
         }
       } else {
         setIsHovering(false);
+        isHoveringRef.current = false;
         setHoverLabel("");
         magneticTarget.current = null;
       }
@@ -106,9 +118,14 @@ export default function CustomCursor() {
         if (el) {
           const pt = trailRef.current[index];
           el.style.transform = `translate3d(${pt.x - 2}px, ${pt.y - 2}px, 0)`;
-          el.style.opacity = `${(1 - index / TRAIL_LENGTH) * (isScrolling ? 0.8 : 0.3)}`;
+          el.style.opacity = `${(1 - index / TRAIL_LENGTH) * (isScrollingRef.current ? 0.8 : 0.3)}`;
         }
       });
+
+      // 5. Update Holographic Label Position
+      if (labelRef.current) {
+        labelRef.current.style.transform = `translate3d(${displayPos.current.x + 25}px, ${displayPos.current.y - 10}px, 0)`;
+      }
 
       animationFrameId = requestAnimationFrame(updateCursor);
     };
@@ -116,6 +133,7 @@ export default function CustomCursor() {
     animationFrameId = requestAnimationFrame(updateCursor);
 
     return () => {
+      clearTimeout(timeout);
       window.removeEventListener("resize", checkDevice);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseover", onMouseOver);
@@ -202,14 +220,15 @@ export default function CustomCursor() {
 
       {/* Holographic Label */}
       <div
+        ref={labelRef}
         style={{
           position: "absolute",
           top: "0",
           left: "0",
-          transform: `translate3d(${displayPos.current.x + 25}px, ${displayPos.current.y - 10}px, 0)`,
+          transform: "translate3d(-100px, -100px, 0)",
           opacity: isHovering ? 1 : 0,
           pointerEvents: "none",
-          transition: "opacity 0.2s, transform 0.1s linear",
+          transition: "opacity 0.2s",
           fontFamily: "var(--font-mono)",
           fontSize: "0.75rem",
           color: "var(--color-secondary)",
