@@ -168,7 +168,7 @@ export default function UniverseCanvas() {
       
       <CommandCenter position={[-20, 0, -650]} />
       
-      <EffectComposer disableNormalPass>
+      <EffectComposer>
         <Bloom luminanceThreshold={0.2} luminanceSmoothing={0.9} intensity={1.5} />
         <ChromaticAberration blendFunction={BlendFunction.NORMAL} offset={new THREE.Vector2(0.002, 0.002)} />
         <Vignette eskil={false} offset={0.1} darkness={1.1} />
