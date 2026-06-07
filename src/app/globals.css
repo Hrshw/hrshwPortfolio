@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Outfit:wght@300;400;600;800&display=swap');
+
+:root {
+  --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Base Color Palette - Evolutionary Theme */
+  --bg-color: #030408; /* Deep space black */
+  --bg-card: rgba(9, 13, 26, 0.4);
+  --bg-terminal: rgba(6, 10, 20, 0.85);
+  --border-color: rgba(255, 255, 255, 0.08);
+  
+  --color-text: #f3f4f6;
+  --color-muted: #9ca3af;
+  
+  /* Primary and secondary will evolve via JS/Canvas, but we set defaults here */
+  --color-primary: #00f2fe; /* Electric Cyan */
+  --color-primary-rgb: 0, 242, 254;
+  --color-secondary: #a78bfa; /* Violet */
+  --color-accent: #ffffff; /* White energy */
+
+  --glow-shadow: 0 0 15px rgba(0, 242, 254, 0.3);
+  --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Hide default cursor on devices that support hover */
+@media (pointer: fine) {
+  * {
+    cursor: none !important;
+  }
+}
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overscroll-behavior: none;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg-color);
+  color: var(--color-text);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar hidden for pure immersion */
+::-webkit-scrollbar {
+  display: none;
+}
+
+/* Lenis Scroll Styles */
+html.lenis, html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+/* Glassmorphism utilities for HUD elements */
+.glass-hud {
+  background: var(--bg-card);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.35);
+  border-radius: 12px;
+}
+
+.glow-text {
+  text-shadow: 0 0 12px rgba(var(--color-primary-rgb), 0.6);
+  color: var(--color-primary);
+}
+
+/* Fullscreen Canvas Wrapper */
+.canvas-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1; /* Base layer */
+  pointer-events: none; /* Let clicks pass through to HTML unless explicitly caught by R3F */
+}
+
+/* The scroll container needs height to allow scrolling, driving the camera */
+.scroll-container {
+  position: relative;
+  width: 100%;
+  /* Height is determined by the number of sections we have in 3D. 
+     e.g., 5 sections * 100vh = 500vh */
+  height: 700vh; 
+  z-index: 2;
+  pointer-events: none; /* We will use Html component from Drei for interactive overlay */
+}
+
+/* HUD Overlay Layer */
+.hud-layer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 100;
+  pointer-events: none; /* Only specific HUD elements should capture pointer events */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 2rem;
+}
+
+.hud-interactive {
+  pointer-events: auto;
+}
