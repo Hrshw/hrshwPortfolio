@@ -9,6 +9,7 @@ export default function CustomCursor() {
   const [hoverLabel, setHoverLabel] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
+  const [isScrolling, setIsScrolling] = useState(false);
 
   // Use refs for values accessed in the animation loop
   const isHoveringRef = useRef(false);
