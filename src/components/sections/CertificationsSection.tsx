@@ -52,10 +52,10 @@ export default function CertificationsSection() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="mb-20 text-center max-w-3xl mx-auto">
-          <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white tracking-tighter mb-4 transition-colors duration-500">
             Certifications.
           </h2>
-          <p className="text-zinc-500 text-lg md:text-xl font-light tracking-tight">
+          <p className="text-zinc-600 dark:text-zinc-500 text-lg md:text-xl font-light tracking-tight transition-colors duration-500">
             Continuous learning and official recognition of technical proficiencies.
           </p>
         </div>
@@ -69,12 +69,12 @@ export default function CertificationsSection() {
               whileHover={{ y: -5 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="bg-zinc-900/30 backdrop-blur-xl border border-white/5 rounded-2xl p-8 relative group hover:border-white/10 transition-colors"
+              className="bg-black/5 dark:bg-zinc-900/30 backdrop-blur-xl border border-black/5 dark:border-white/5 rounded-2xl p-8 relative group hover:border-black/20 dark:hover:border-white/10 transition-colors duration-500"
             >
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--color-primary)] to-[var(--color-secondary)] opacity-0 group-hover:opacity-100 transition-opacity rounded-t-2xl" />
               <div className="text-zinc-500 text-xs font-mono uppercase tracking-widest mb-3">{cert.date}</div>
-              <h3 className="text-xl font-medium text-zinc-200 mb-2 leading-snug">{cert.title}</h3>
-              <p className="text-zinc-500 text-sm">{cert.issuer}</p>
+              <h3 className="text-xl font-medium text-zinc-900 dark:text-zinc-200 mb-2 leading-snug transition-colors duration-500">{cert.title}</h3>
+              <p className="text-zinc-600 dark:text-zinc-500 text-sm transition-colors duration-500">{cert.issuer}</p>
             </motion.div>
           ))}
         </div>

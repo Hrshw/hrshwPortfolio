@@ -14,12 +14,12 @@ export default function ContactSection() {
         whileInView={{ opacity: 1, scale: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-        className="text-center bg-[#050505]/40 backdrop-blur-2xl border border-white/5 p-16 md:p-24 rounded-[3rem] w-full max-w-5xl relative overflow-hidden"
+        className="text-center bg-black/5 dark:bg-[#050505]/40 backdrop-blur-2xl border border-black/5 dark:border-white/5 p-16 md:p-24 rounded-[3rem] w-full max-w-5xl relative overflow-hidden transition-colors duration-500"
       >
-        <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent opacity-50 pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/5 dark:from-white/5 to-transparent opacity-50 pointer-events-none transition-colors duration-500" />
 
-        <h2 className="text-5xl md:text-7xl font-bold text-white mb-6 tracking-tighter relative z-10">Let&apos;s collaborate.</h2>
-        <p className="text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto mb-14 font-light tracking-tight relative z-10">
+        <h2 className="text-5xl md:text-7xl font-bold text-zinc-900 dark:text-white mb-6 tracking-tighter relative z-10 transition-colors duration-500">Let&apos;s collaborate.</h2>
+        <p className="text-zinc-600 dark:text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto mb-14 font-light tracking-tight relative z-10 transition-colors duration-500">
           I&apos;m currently open for new opportunities. Whether you have a question, a project idea, or just want to connect, my inbox is always open.
         </p>
 
@@ -28,7 +28,7 @@ export default function ContactSection() {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             href="mailto:rahulsinghpilani7@gmail.com"
-            className="px-10 py-5 bg-white text-black font-semibold tracking-wide rounded-full hover:bg-zinc-200 transition-colors duration-300 w-full sm:w-auto"
+            className="px-10 py-5 bg-zinc-900 dark:bg-white text-white dark:text-black font-semibold tracking-wide rounded-full hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors duration-300 w-full sm:w-auto"
           >
             Say Hello
           </motion.a>
@@ -39,7 +39,7 @@ export default function ContactSection() {
             href="https://github.com/Hrshw"
             target="_blank"
             rel="noreferrer"
-            className="px-10 py-5 bg-transparent border border-zinc-700 text-zinc-300 font-semibold tracking-wide rounded-full hover:border-zinc-500 hover:text-white transition-all duration-300 w-full sm:w-auto"
+            className="px-10 py-5 bg-transparent border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-semibold tracking-wide rounded-full hover:border-zinc-900 hover:text-zinc-900 dark:hover:border-zinc-500 dark:hover:text-white transition-all duration-300 w-full sm:w-auto"
           >
             GitHub Profile
           </motion.a>
@@ -50,7 +50,7 @@ export default function ContactSection() {
             href="https://linkedin.com/in/rahulsinghshekhawat"
             target="_blank"
             rel="noreferrer"
-            className="px-10 py-5 bg-transparent border border-zinc-700 text-zinc-300 font-semibold tracking-wide rounded-full hover:border-zinc-500 hover:text-white transition-all duration-300 w-full sm:w-auto"
+            className="px-10 py-5 bg-transparent border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-semibold tracking-wide rounded-full hover:border-zinc-900 hover:text-zinc-900 dark:hover:border-zinc-500 dark:hover:text-white transition-all duration-300 w-full sm:w-auto"
           >
             LinkedIn
           </motion.a>

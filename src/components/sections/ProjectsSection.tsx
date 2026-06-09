@@ -70,10 +70,10 @@ export default function ProjectsSection() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="mb-24">
-          <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-4">
+          <h2 className="text-4xl md:text-6xl font-bold text-zinc-900 dark:text-white tracking-tighter mb-4 transition-colors duration-500">
             Selected Work.
           </h2>
-          <p className="text-zinc-500 text-lg md:text-xl font-light tracking-tight max-w-2xl">
+          <p className="text-zinc-600 dark:text-zinc-500 text-lg md:text-xl font-light tracking-tight max-w-2xl transition-colors duration-500">
             A showcase of my recent projects, focusing on scalable architecture, AI integration, and sleek user experiences.
           </p>
         </div>
@@ -88,30 +88,30 @@ export default function ProjectsSection() {
               whileHover={{ y: -5 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ duration: 0.5, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className={`bg-zinc-900/40 backdrop-blur-2xl border border-white/5 rounded-3xl p-8 relative overflow-hidden group ${project.colSpan}`}
+              className={`bg-black/5 dark:bg-zinc-900/40 backdrop-blur-2xl border border-black/5 dark:border-white/5 rounded-3xl p-8 relative overflow-hidden group transition-colors duration-500 ${project.colSpan}`}
             >
               {/* Subtle animated gradient glow inside the card */}
               <div className={`absolute inset-0 bg-gradient-to-br ${project.color} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
               
               <div className="relative z-10 h-full flex flex-col">
                 <div className="flex justify-between items-start mb-3">
-                  <div className="font-mono text-xs text-zinc-500 tracking-wider uppercase">{project.category}</div>
+                  <div className="font-mono text-xs text-zinc-600 dark:text-zinc-500 tracking-wider uppercase transition-colors duration-500">{project.category}</div>
                   {project.link !== "#" && (
-                    <a href={project.link} target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-white transition-colors">
+                    <a href={project.link} target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-zinc-900 dark:text-zinc-500 dark:hover:text-white transition-colors duration-500">
                       <svg className="w-5 h-5 -rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </a>
                   )}
                 </div>
-                <h3 className="text-3xl font-semibold text-zinc-100 mb-4 tracking-tight">
-                  {project.link !== "#" ? <a href={project.link} target="_blank" rel="noreferrer" className="hover:underline decoration-white/30 underline-offset-4">{project.title}</a> : project.title}
+                <h3 className="text-3xl font-semibold text-zinc-900 dark:text-zinc-100 mb-4 tracking-tight transition-colors duration-500">
+                  {project.link !== "#" ? <a href={project.link} target="_blank" rel="noreferrer" className="hover:underline decoration-black/30 dark:decoration-white/30 underline-offset-4">{project.title}</a> : project.title}
                 </h3>
-                <p className="text-zinc-400 font-light leading-relaxed mb-8 flex-grow">
+                <p className="text-zinc-700 dark:text-zinc-400 font-light leading-relaxed mb-8 flex-grow transition-colors duration-500">
                   {project.description}
                 </p>
                 
                 <div className="flex flex-wrap gap-2 mt-auto">
                   {project.tech.map((t, i) => (
-                    <span key={i} className="px-3 py-1.5 bg-white/5 text-zinc-300 text-xs font-medium rounded-full border border-white/10 backdrop-blur-md">
+                    <span key={i} className="px-3 py-1.5 bg-black/5 dark:bg-white/5 text-zinc-700 dark:text-zinc-300 text-xs font-medium rounded-full border border-black/10 dark:border-white/10 backdrop-blur-md transition-colors duration-500">
                       {t}
                     </span>
                   ))}

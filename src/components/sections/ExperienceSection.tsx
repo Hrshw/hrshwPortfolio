@@ -46,15 +46,15 @@ export default function ExperienceSection() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="mb-24">
-          <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-4">
+          <h2 className="text-4xl md:text-6xl font-bold text-zinc-900 dark:text-white tracking-tighter mb-4 transition-colors duration-500">
             Experience.
           </h2>
-          <p className="text-zinc-500 text-lg md:text-xl font-light tracking-tight max-w-2xl">
+          <p className="text-zinc-600 dark:text-zinc-500 text-lg md:text-xl font-light tracking-tight max-w-2xl transition-colors duration-500">
             A timeline of my professional journey in software engineering and cloud architecture.
           </p>
         </div>
 
-        <div className="relative border-l border-zinc-800 ml-4 md:ml-8 space-y-20">
+        <div className="relative border-l border-zinc-200 dark:border-zinc-800 ml-4 md:ml-8 space-y-20 transition-colors duration-500">
           {experiences.map((exp, idx) => (
             <motion.div 
               key={idx}
@@ -64,19 +64,19 @@ export default function ExperienceSection() {
               transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="relative pl-10 md:pl-16 group"
             >
-              <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-zinc-700 group-hover:bg-zinc-300 transition-colors duration-500 ring-4 ring-[#010204]" />
+              <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-zinc-300 dark:bg-zinc-700 group-hover:bg-zinc-700 dark:group-hover:bg-zinc-300 transition-colors duration-500 ring-4 ring-white dark:ring-[#010204]" />
               
               <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4 mb-3">
-                <h3 className="text-2xl md:text-3xl font-semibold text-zinc-200 tracking-tight">{exp.role}</h3>
-                <span className="text-zinc-600 hidden md:inline">/</span>
-                <span className="text-zinc-400 font-medium">{exp.company}</span>
+                <h3 className="text-2xl md:text-3xl font-semibold text-zinc-900 dark:text-zinc-200 tracking-tight transition-colors duration-500">{exp.role}</h3>
+                <span className="text-zinc-400 dark:text-zinc-600 hidden md:inline transition-colors duration-500">/</span>
+                <span className="text-zinc-700 dark:text-zinc-400 font-medium transition-colors duration-500">{exp.company}</span>
               </div>
               
               <div className="font-mono text-xs text-zinc-500 mb-6 tracking-widest uppercase">
                 {exp.period}
               </div>
               
-              <p className="text-zinc-400 text-lg leading-relaxed max-w-3xl font-light">
+              <p className="text-zinc-600 dark:text-zinc-400 text-lg leading-relaxed max-w-3xl font-light transition-colors duration-500">
                 {exp.description}
               </p>
             </motion.div>

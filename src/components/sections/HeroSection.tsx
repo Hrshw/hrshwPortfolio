@@ -7,36 +7,68 @@ export default function HeroSection() {
   return (
     <section className="min-h-screen flex flex-col justify-center items-start px-8 md:px-24 pt-20 relative overflow-hidden" style={{ zIndex: 10 }}>
       {/* Sophisticated Glows */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-zinc-800/20 rounded-full blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-900/10 rounded-full blur-[150px] pointer-events-none" />
-
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-        className="max-w-5xl"
-      >
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5, duration: 1 }}
-          className="flex items-center gap-4 mb-8"
+      <div className="absolute top-1/2 left-0 -translate-y-1/2 w-96 h-96 bg-[var(--color-primary)]/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="absolute top-1/2 right-0 -translate-y-1/2 w-96 h-96 bg-[var(--color-secondary)]/10 rounded-full blur-[120px] pointer-events-none" />
+      
+      <div className="max-w-4xl relative z-10 w-full flex flex-col items-start text-left">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-6"
         >
-          <div className="w-12 h-[1px] bg-zinc-600" />
-          <h2 className="text-zinc-400 font-mono text-sm tracking-[0.2em] uppercase">
+          <h2 className="text-zinc-500 font-mono text-sm tracking-[0.2em] uppercase">
+            <span className="text-[var(--color-primary)] pr-2">{"//"}</span>
             Software & Cloud Engineer
           </h2>
         </motion.div>
         
-        <h1 className="text-6xl md:text-8xl font-black text-white leading-[1.1] mb-8 tracking-tighter">
-          Rahul Singh Shekhawat.
-          <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-200 via-zinc-400 to-zinc-600">
-            Designing scalable systems.
-          </span>
-        </h1>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <h1 className="text-6xl md:text-8xl font-black tracking-tighter leading-[0.95] text-zinc-900 dark:text-white">
+              Rahul Singh Shekhawat.
+              <br />
+              <span 
+                className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-600 to-zinc-900 dark:from-zinc-400 dark:to-zinc-600 transition-colors duration-500 hover:from-cyan-500 hover:to-emerald-500 dark:hover:from-cyan-400 dark:hover:to-emerald-400 cursor-default"
+                onMouseEnter={() => {
+                  if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('setDesignMode', { detail: true }));
+                }}
+                onMouseLeave={() => {
+                  if (typeof window !== 'undefined') window.dispatchEvent(new CustomEvent('setDesignMode', { detail: false }));
+                }}
+              >
+                {['D', 'e', 's', 'i', 'g', 'n', 'i', 'n', 'g'].map((char, i) => {
+                  // Use deterministic pseudo-random values to prevent SSR Hydration Mismatch
+                  // Math.round is critical to prevent floating-point precision mismatches between Node and Browser
+                  const rX = Math.round(Math.sin(i * 12.9898) * 800);
+                  const rY = Math.round(Math.cos(i * 78.233) * 800);
+                  const rRot = Math.round(Math.sin(i * 43.11) * 720);
+                  
+                  return (
+                    <motion.span
+                      key={i}
+                      initial={{ x: rX, y: rY, rotate: rRot, opacity: 0 }}
+                      animate={{ x: 0, y: 0, rotate: 0, opacity: 1 }}
+                      transition={{ 
+                        duration: 1.5, 
+                        ease: "circOut", 
+                        delay: 0.2 + (Math.abs(Math.sin(i)) * 0.5) 
+                      }}
+                      className="inline-block origin-center"
+                    >
+                      {char}
+                    </motion.span>
+                  );
+                })}
+                <span> scalable systems.</span>
+              </span>
+            </h1>
+          </motion.div>
         
-        <p className="text-zinc-400 text-xl md:text-2xl max-w-2xl leading-relaxed mb-14 font-light tracking-tight">
+        <p className="text-zinc-600 dark:text-zinc-400 text-xl md:text-2xl max-w-2xl leading-relaxed mb-14 font-light tracking-tight transition-colors duration-500">
           Cloud & Software Engineer with 3+ years of experience designing, developing, and deploying scalable web applications and cloud infrastructure.
         </p>
 
@@ -44,12 +76,12 @@ export default function HeroSection() {
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
           href="mailto:rahulsinghpilani7@gmail.com"
-          className="inline-flex items-center gap-4 px-8 py-5 bg-white text-black font-semibold tracking-wide rounded-full hover:bg-zinc-200 transition-colors duration-300"
+          className="inline-flex items-center gap-4 px-8 py-5 bg-zinc-900 dark:bg-white text-white dark:text-black font-semibold tracking-wide rounded-full hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors duration-300"
         >
           <span>Initiate Contact</span>
           <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </motion.a>
-      </motion.div>
+      </div>
     </section>
   );
 }

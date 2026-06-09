@@ -36,10 +36,10 @@ export default function SkillsSection() {
         transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
         <div className="mb-24">
-          <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-4">
+          <h2 className="text-4xl md:text-6xl font-bold text-zinc-900 dark:text-white tracking-tighter mb-4 transition-colors duration-500">
             Capabilities.
           </h2>
-          <p className="text-zinc-500 text-lg md:text-xl font-light tracking-tight max-w-2xl">
+          <p className="text-zinc-600 dark:text-zinc-500 text-lg md:text-xl font-light tracking-tight max-w-2xl transition-colors duration-500">
             A comprehensive overview of my technical expertise and the tools I use to build scalable systems.
           </p>
         </div>
@@ -53,12 +53,12 @@ export default function SkillsSection() {
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
             >
-              <h3 className="text-lg font-medium text-zinc-300 mb-6 tracking-tight border-b border-zinc-800 pb-3">{category.title}</h3>
+              <h3 className="text-lg font-medium text-zinc-900 dark:text-zinc-300 mb-6 tracking-tight border-b border-zinc-200 dark:border-zinc-800 pb-3 transition-colors duration-500">{category.title}</h3>
               <div className="flex flex-wrap gap-3">
                 {category.skills.map((skill, i) => (
                   <div 
                     key={i} 
-                    className="px-4 py-2 bg-zinc-900/50 border border-white/5 rounded-full text-zinc-400 text-sm hover:text-white hover:bg-zinc-800 hover:border-white/20 transition-all cursor-default"
+                    className="px-4 py-2 bg-black/5 dark:bg-zinc-900/50 border border-black/5 dark:border-white/5 rounded-full text-zinc-700 dark:text-zinc-400 text-sm hover:text-zinc-900 dark:hover:text-white hover:bg-black/10 dark:hover:bg-zinc-800 hover:border-black/20 dark:hover:border-white/20 transition-all cursor-default"
                   >
                     {skill}
                   </div>
