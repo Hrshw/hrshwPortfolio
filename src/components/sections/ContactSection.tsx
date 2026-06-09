@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export default function ContactSection() {
   return (
-    <section className="min-h-[70vh] flex flex-col items-center justify-center px-8 py-32 relative overflow-hidden" style={{ zIndex: 10 }}>
+    <section id="section-contact" className="min-h-[70vh] flex flex-col items-center justify-center px-8 py-32 relative overflow-hidden" style={{ zIndex: 10 }}>
       {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-4xl h-96 bg-zinc-800/20 rounded-full blur-[150px] pointer-events-none" />
 

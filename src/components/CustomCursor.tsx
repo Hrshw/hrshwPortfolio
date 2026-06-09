@@ -185,7 +185,7 @@ export default function CustomCursor() {
           backgroundColor: isHovering ? "var(--color-secondary)" : "var(--color-primary)",
           boxShadow: isHovering ? "0 0 15px var(--color-secondary), 0 0 30px var(--color-secondary)" : "0 0 10px var(--color-primary)",
           transform: "translate3d(-100px, -100px, 0)",
-          transition: "background-color 0.3s, box-shadow 0.3s, transform 0.1s linear",
+          transition: "background-color 0.3s, box-shadow 0.3s",
           willChange: "transform"
         }}
       />

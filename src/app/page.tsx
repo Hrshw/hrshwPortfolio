@@ -1,8 +1,10 @@
 import React from "react";
 import HeroSection from "@/components/sections/HeroSection";
+import AboutSection from "@/components/sections/AboutSection";
 import ExperienceSection from "@/components/sections/ExperienceSection";
 import SkillsSection from "@/components/sections/SkillsSection";
 import ProjectsSection from "@/components/sections/ProjectsSection";
+import CertificationsSection from "@/components/sections/CertificationsSection";
 import ContactSection from "@/components/sections/ContactSection";
 
 export default function Home() {
@@ -17,9 +19,11 @@ export default function Home() {
       {/* Sections */}
       <div className="relative z-10 mx-auto max-w-7xl">
         <HeroSection />
+        <AboutSection />
         <ExperienceSection />
         <SkillsSection />
         <ProjectsSection />
+        <CertificationsSection />
         <ContactSection />
       </div>
     </main>

@@ -1,166 +1,97 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function HUDHeader() {
-  const [telemetry, setTelemetry] = useState({
-    ping: 14,
-    temp: 34,
-    load: 2.4
-  });
+  const [scrolled, setScrolled] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      setTelemetry({
-        ping: Math.floor(11 + Math.random() * 8),
-        temp: Math.floor(32 + Math.random() * 5),
-        load: parseFloat((1.2 + Math.random() * 3.5).toFixed(1))
-      });
-    }, 2500);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+      
+      const sections = ["about", "experience", "skills", "projects", "certifications", "contact"];
+      let current = "";
+      for (const section of sections) {
+        const el = document.getElementById(`section-${section}`);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          if (rect.top <= 200 && rect.bottom >= 200) {
+            current = section;
+            break;
+          }
+        }
+      }
+      setActiveSection(current);
+    };
 
-    return () => clearInterval(interval);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollTo = (id: string) => {
-    const el = document.getElementById(id);
+    const el = document.getElementById(`section-${id}`);
     if (el) {
       el.scrollIntoView({ behavior: "smooth" });
     }
   };
 
+  const navLinks = [
+    { id: "about", label: "About" },
+    { id: "experience", label: "Experience" },
+    { id: "skills", label: "Skills" },
+    { id: "projects", label: "Projects" },
+    { id: "certifications", label: "Certifications" },
+    { id: "contact", label: "Connect" },
+  ];
+
   return (
     <header
-      className="glass"
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "60px",
-        zIndex: 900,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        padding: "0 2rem",
-        borderBottom: "1px solid var(--border-color)",
-        fontFamily: "var(--font-mono)",
-        fontSize: "0.8rem",
-        color: "var(--color-muted)",
-        boxShadow: "0 4px 20px rgba(0,0,0,0.15)"
-      }}
+      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
+        scrolled ? "py-4 bg-[#030303]/80 backdrop-blur-xl border-b border-white/5" : "py-6 bg-transparent"
+      }`}
     >
-      {/* HUD Logo */}
-      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        <span className="indicator indicator-green" />
-        <span style={{ fontWeight: 700, color: "#ffffff", letterSpacing: "1px" }}>
-          SYS_NODE_RSS // <span className="glow-text">ONLINE</span>
-        </span>
-      </div>
-
-      {/* Nav Link Chapters */}
-      <nav style={{ display: "flex", gap: "1.5rem" }}>
-        <button
-          onClick={() => scrollTo("section-hero")}
-          style={{
-            background: "none",
-            border: "none",
-            color: "inherit",
-            cursor: "pointer",
-            fontWeight: 500,
-            fontSize: "0.8rem",
-            fontFamily: "inherit",
-            transition: "var(--transition-smooth)"
-          }}
-          className="hud-link"
+      <div className="max-w-7xl mx-auto px-8 flex items-center justify-between">
+        {/* Logo/Name */}
+        <div 
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          className="cursor-pointer group flex items-center gap-3"
         >
-          [ 01_HERO ]
-        </button>
-        <button
-          onClick={() => scrollTo("section-terminal")}
-          style={{
-            background: "none",
-            border: "none",
-            color: "inherit",
-            cursor: "pointer",
-            fontWeight: 500,
-            fontSize: "0.8rem",
-            fontFamily: "inherit",
-            transition: "var(--transition-smooth)"
-          }}
-          className="hud-link"
-        >
-          [ 02_SHELL ]
-        </button>
-        <button
-          onClick={() => scrollTo("section-experience")}
-          style={{
-            background: "none",
-            border: "none",
-            color: "inherit",
-            cursor: "pointer",
-            fontWeight: 500,
-            fontSize: "0.8rem",
-            fontFamily: "inherit",
-            transition: "var(--transition-smooth)"
-          }}
-          className="hud-link"
-        >
-          [ 03_JOURNEY ]
-        </button>
-        <button
-          onClick={() => scrollTo("section-projects")}
-          style={{
-            background: "none",
-            border: "none",
-            color: "inherit",
-            cursor: "pointer",
-            fontWeight: 500,
-            fontSize: "0.8rem",
-            fontFamily: "inherit",
-            transition: "var(--transition-smooth)"
-          }}
-          className="hud-link"
-        >
-          [ 04_PROJECTS ]
-        </button>
-        <button
-          onClick={() => scrollTo("section-contact")}
-          style={{
-            background: "none",
-            border: "none",
-            color: "inherit",
-            cursor: "pointer",
-            fontWeight: 500,
-            fontSize: "0.8rem",
-            fontFamily: "inherit",
-            transition: "var(--transition-smooth)"
-          }}
-          className="hud-link"
-        >
-          [ 05_CONNECT ]
-        </button>
-      </nav>
-
-      {/* Cyber Diagnostics */}
-      <div style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
-        <div>
-          PING: <span className="glow-text" style={{ color: "#ffffff" }}>{telemetry.ping}ms</span>
+          <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center text-black font-bold tracking-tighter group-hover:scale-105 transition-transform">
+            RS
+          </div>
+          <span className="text-white font-medium tracking-tight hidden sm:block">Rahul Singh Shekhawat</span>
         </div>
-        <div>
-          TEMP: <span style={{ color: "#ffffff" }}>{telemetry.temp}°C</span>
-        </div>
-        <div style={{ display: "inline-block" }}>
-          SYS_LOAD: <span style={{ color: "#ffffff" }}>{telemetry.load}%</span>
+
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-1 bg-white/5 backdrop-blur-md px-2 py-1.5 rounded-full border border-white/10">
+          {navLinks.map((link) => (
+            <button
+              key={link.id}
+              onClick={() => scrollTo(link.id)}
+              className={`relative px-4 py-2 text-sm font-medium transition-colors rounded-full ${
+                activeSection === link.id ? "text-black" : "text-zinc-400 hover:text-white"
+              }`}
+            >
+              {activeSection === link.id && (
+                <motion.div
+                  layoutId="activeNavBackground"
+                  className="absolute inset-0 bg-white rounded-full -z-10"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
+              {link.label}
+            </button>
+          ))}
+        </nav>
+
+        {/* Status indicator */}
+        <div className="hidden lg:flex items-center gap-2 text-xs font-mono text-zinc-500 uppercase tracking-widest px-4 py-2 rounded-full border border-white/5 bg-white/5">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          System Online
         </div>
       </div>
-      
-      {/* Link Hover FX style overrides */}
-      <style jsx global>{`
-        .hud-link:hover {
-          color: var(--color-primary) !important;
-          text-shadow: 0 0 8px rgba(0, 242, 254, 0.4);
-        }
-      `}</style>
     </header>
   );
 }
