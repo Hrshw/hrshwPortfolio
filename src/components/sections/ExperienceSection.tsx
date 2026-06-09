@@ -5,52 +5,78 @@ import { motion } from "framer-motion";
 
 const experiences = [
   {
-    role: "Full-Stack Developer Intern",
-    company: "Envint",
-    period: "May 2024 - Sep 2024",
-    description: "Architected a scalable file-processing queue capable of parsing 5,000+ ESG data files. Developed custom Next.js dashboards and integrated AWS text extraction."
+    role: "Full-Stack Developer",
+    company: "Envint Services LLP",
+    period: "Nov 2023 - Present",
+    description: "Developed scalable backend services and REST APIs using Node.js and Express.js, improving system performance by 20%. Built CI/CD pipelines and managed AWS infrastructure (EC2, S3, Lambda). Integrated LLMs with RAG and MongoDB Atlas Vector Search."
   },
   {
-    role: "Cloud Engineering Intern",
-    company: "Cloudeq",
-    period: "Feb 2024 - May 2024",
-    description: "Built Observyze (A code coverage tracking tool) focusing on cloud architecture, scaling performance, and ensuring fault-tolerance."
+    role: "Software Engineer Intern",
+    company: "Finquant Technologies Pvt Ltd",
+    period: "Aug 2023 - Sep 2023",
+    description: "Developed interactive web pages using ASP.NET, C#, and JavaScript. Resolved 100+ bugs to improve system stability. Built a cross-platform jewelry marketplace mobile app using React Native."
+  },
+  {
+    role: "Full-Stack Web Developer Intern",
+    company: "PIEDS BITS Pilani – DEDSO",
+    period: "2023",
+    description: "Rebuilt backend services for an event management platform. Implemented dynamic multi-form submission workflows with JavaScript and MongoDB."
+  },
+  {
+    role: "Backend Developer Intern",
+    company: "PIEDS BITS Pilani – DreamSync",
+    period: "2023",
+    description: "Built a secure media storage system using AWS S3, AWS Lambda, and REST APIs. Generated 150+ pre-signed URLs per day for secure sharing."
+  },
+  {
+    role: "Full-Stack Developer",
+    company: "Freelance",
+    period: "2022 - 2024",
+    description: "Delivered web applications for 10+ clients using Node.js, React, and MongoDB, including transport booking platforms and referral systems with JWT."
   }
 ];
 
 export default function ExperienceSection() {
   return (
-    <section className="min-h-screen flex flex-col justify-center px-8 md:px-24 py-24 relative" style={{ zIndex: 10 }}>
+    <section className="min-h-screen flex flex-col justify-center px-8 md:px-24 py-32 relative" style={{ zIndex: 10 }}>
       <motion.div
         initial={{ opacity: 0, y: 50 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-100px" }}
-        transition={{ duration: 0.6 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
-        <div className="flex items-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold text-white tracking-wide">
-            Professional Journey
+        <div className="mb-24">
+          <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-4">
+            Experience.
           </h2>
-          <div className="flex-1 h-[1px] bg-gradient-to-r from-[var(--color-primary)] to-transparent ml-8 opacity-50" />
+          <p className="text-zinc-500 text-lg md:text-xl font-light tracking-tight max-w-2xl">
+            A timeline of my professional journey in software engineering and cloud architecture.
+          </p>
         </div>
 
-        <div className="relative border-l-2 border-[var(--color-secondary)]/30 ml-4 md:ml-8 space-y-16">
+        <div className="relative border-l border-zinc-800 ml-4 md:ml-8 space-y-20">
           {experiences.map((exp, idx) => (
             <motion.div 
               key={idx}
-              initial={{ opacity: 0, x: -30 }}
+              initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: idx * 0.2 }}
-              className="relative pl-8 md:pl-16"
+              transition={{ duration: 0.6, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="relative pl-10 md:pl-16 group"
             >
-              <div className="absolute -left-[11px] top-1 w-5 h-5 rounded-full bg-[var(--color-secondary)]" style={{ boxShadow: "0 0 15px var(--color-secondary)" }} />
+              <div className="absolute -left-[5px] top-2 w-2.5 h-2.5 rounded-full bg-zinc-700 group-hover:bg-zinc-300 transition-colors duration-500 ring-4 ring-[#010204]" />
               
-              <h3 className="text-2xl font-bold text-white mb-2">{exp.role}</h3>
-              <div className="font-mono text-[var(--color-primary)] mb-4">
-                <span>{exp.company}</span> <span className="text-gray-500 mx-2">|</span> <span>{exp.period}</span>
+              <div className="flex flex-col md:flex-row md:items-baseline gap-2 md:gap-4 mb-3">
+                <h3 className="text-2xl md:text-3xl font-semibold text-zinc-200 tracking-tight">{exp.role}</h3>
+                <span className="text-zinc-600 hidden md:inline">/</span>
+                <span className="text-zinc-400 font-medium">{exp.company}</span>
               </div>
-              <p className="text-gray-400 text-lg leading-relaxed max-w-3xl">
+              
+              <div className="font-mono text-xs text-zinc-500 mb-6 tracking-widest uppercase">
+                {exp.period}
+              </div>
+              
+              <p className="text-zinc-400 text-lg leading-relaxed max-w-3xl font-light">
                 {exp.description}
               </p>
             </motion.div>

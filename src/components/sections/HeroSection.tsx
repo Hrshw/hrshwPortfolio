@@ -6,40 +6,48 @@ import { motion } from "framer-motion";
 export default function HeroSection() {
   return (
     <section className="min-h-screen flex flex-col justify-center items-start px-8 md:px-24 pt-20 relative overflow-hidden" style={{ zIndex: 10 }}>
-      {/* Background Glow */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-500/10 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-[120px] pointer-events-none" />
+      {/* Sophisticated Glows */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-zinc-800/20 rounded-full blur-[150px] pointer-events-none" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-blue-900/10 rounded-full blur-[150px] pointer-events-none" />
 
       <motion.div
-        initial={{ opacity: 0, y: 30 }}
+        initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
-        className="max-w-4xl"
+        transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+        className="max-w-5xl"
       >
-        <h2 className="text-[var(--color-secondary)] font-mono text-lg md:text-xl mb-6 tracking-widest">
-          HELLO VISITOR,
-        </h2>
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5, duration: 1 }}
+          className="flex items-center gap-4 mb-8"
+        >
+          <div className="w-12 h-[1px] bg-zinc-600" />
+          <h2 className="text-zinc-400 font-mono text-sm tracking-[0.2em] uppercase">
+            Software & Cloud Engineer
+          </h2>
+        </motion.div>
         
-        <h1 className="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-8 drop-shadow-lg">
-          I&apos;m Rahul Singh Shekhawat.
+        <h1 className="text-6xl md:text-8xl font-black text-white leading-[1.1] mb-8 tracking-tighter">
+          Rahul Singh Shekhawat.
           <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#00f2fe] to-[#4facfe]">
-            I build digital experiences.
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-zinc-200 via-zinc-400 to-zinc-600">
+            Designing scalable systems.
           </span>
         </h1>
         
-        <p className="text-gray-400 text-lg md:text-2xl max-w-2xl leading-relaxed mb-12">
-          A Cloud Engineer and Full-Stack Developer who genuinely enjoys turning complex problems into elegant, scalable real-world solutions.
+        <p className="text-zinc-400 text-xl md:text-2xl max-w-2xl leading-relaxed mb-14 font-light tracking-tight">
+          Cloud & Software Engineer with 3+ years of experience designing, developing, and deploying scalable web applications and cloud infrastructure.
         </p>
 
         <motion.a
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-          href="mailto:rahulsinghshekhawat2003@gmail.com"
-          className="inline-block px-8 py-4 bg-transparent border-2 border-[var(--color-primary)] text-[var(--color-primary)] font-mono font-bold tracking-widest rounded hover:bg-[var(--color-primary)] hover:text-black transition-all duration-300"
-          style={{ boxShadow: "0 0 20px rgba(0, 242, 254, 0.2)" }}
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
+          href="mailto:rahulsinghpilani7@gmail.com"
+          className="inline-flex items-center gap-4 px-8 py-5 bg-white text-black font-semibold tracking-wide rounded-full hover:bg-zinc-200 transition-colors duration-300"
         >
-          INITIATE_CONTACT
+          <span>Initiate Contact</span>
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
         </motion.a>
       </motion.div>
     </section>
