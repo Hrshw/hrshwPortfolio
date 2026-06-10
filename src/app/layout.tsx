@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import CustomCursor from "@/components/CustomCursor";
 import HUDHeader from "@/components/HUDHeader";
-
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { constructMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Rahul Singh Shekhawat | Software & Cloud Engineer",
-  description: "Portfolio of Rahul Singh Shekhawat, Software & Cloud Engineer specializing in Next.js, Node.js, AWS infrastructure, and AI integrations.",
-};
+const inter = Inter({ subsets: ["latin"], display: "swap" });
+
+export const metadata: Metadata = constructMetadata();
 
 export default function RootLayout({
   children,
@@ -16,7 +16,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className={inter.className}>
       <body className="bg-white dark:bg-[#030303] text-zinc-900 dark:text-zinc-200 transition-colors duration-500">
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <CustomCursor />
