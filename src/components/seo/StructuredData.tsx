@@ -10,7 +10,7 @@ export default function StructuredData() {
     url: siteMetadata.siteUrl,
     sameAs: [
       'https://github.com/hrshw',
-      'https://linkedin.com/in/rahulshekhawat', // Placeholder, user should update
+      'https://www.linkedin.com/in/rahul-singh-shekhawat-b4ba481ab',
     ],
     description: siteMetadata.description,
     knowsAbout: [
