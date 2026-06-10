@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "@/components/ThemeToggle";
+import Link from "next/link";
 
 export default function HUDHeader() {
   const [scrolled, setScrolled] = useState(false);
@@ -88,6 +89,12 @@ export default function HUDHeader() {
                 {link.label}
               </button>
             ))}
+            <Link
+              href="/insights"
+              className={`relative px-4 py-2 text-sm font-medium transition-colors duration-500 rounded-full text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
+            >
+              Insights
+            </Link>
           </nav>
           <ThemeToggle />
           
@@ -121,6 +128,13 @@ export default function HUDHeader() {
               {link.label}
             </button>
           ))}
+          <Link
+            href="/insights"
+            className={`text-left text-xl font-medium transition-colors text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Insights
+          </Link>
         </motion.div>
       )}
     </header>

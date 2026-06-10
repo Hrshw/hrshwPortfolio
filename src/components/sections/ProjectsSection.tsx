@@ -20,7 +20,8 @@ const projects = [
     tech: ["Next.js", "Cloud Architecture", "AI Integration"],
     color: "from-indigo-500/20 to-blue-500/0",
     colSpan: "md:col-span-1",
-    link: "https://observyze.com"
+    link: "https://observyze.com",
+    insightLink: "/insights/observyze-llm-pipeline-audit"
   },
   {
     title: "Env Secret Lock",
@@ -109,6 +110,15 @@ export default function ProjectsSection() {
                   {project.description}
                 </p>
                 
+                {project.insightLink && (
+                  <div className="mb-6">
+                    <a href={project.insightLink} className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium rounded-full transition-colors">
+                      View Engineering Insight
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"></path></svg>
+                    </a>
+                  </div>
+                )}
+
                 <div className="flex flex-wrap gap-2 mt-auto">
                   {project.tech.map((t, i) => (
                     <span key={i} className="px-3 py-1.5 bg-black/5 dark:bg-white/5 text-zinc-700 dark:text-zinc-300 text-xs font-medium rounded-full border border-black/10 dark:border-white/10 backdrop-blur-md transition-colors duration-500">
