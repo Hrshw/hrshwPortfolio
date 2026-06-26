@@ -17,10 +17,12 @@ export interface Feedback {
 }
 
 // ---------------------------------------------------------------------------
-// Redis client — reads UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN
-// from environment variables (auto-injected by Vercel after connecting store)
+// Redis client
 // ---------------------------------------------------------------------------
-const redis = Redis.fromEnv();
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || "",
+  token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || "",
+});
 
 const FEEDBACKS_KEY = "feedbacks";
 const RATE_LIMIT_TTL = 86400; // 24 hours in seconds
