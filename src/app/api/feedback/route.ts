@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { Redis } from "@upstash/redis";
 import crypto from "crypto";
 
 // ---------------------------------------------------------------------------
@@ -18,50 +17,30 @@ export interface Feedback {
 }
 
 // ---------------------------------------------------------------------------
-// Paths
+// Redis client — reads UPSTASH_REDIS_REST_URL + UPSTASH_REDIS_REST_TOKEN
+// from environment variables (auto-injected by Vercel after connecting store)
 // ---------------------------------------------------------------------------
-const DATA_FILE = path.join(process.cwd(), "data", "feedbacks.json");
-const TMP_FILE = path.join(process.cwd(), "data", "feedbacks.tmp.json");
+const redis = Redis.fromEnv();
 
-// ---------------------------------------------------------------------------
-// In-memory rate limit store  { ipHash: lastSubmitTimestamp }
-// Resets on server restart — fine for a portfolio.
-// ---------------------------------------------------------------------------
-const rateLimitMap = new Map<string, number>();
-const RATE_LIMIT_MS = 24 * 60 * 60 * 1000; // 24 hours
-
-// ---------------------------------------------------------------------------
-// Sequential write queue — prevents concurrent write corruption
-// ---------------------------------------------------------------------------
-let writeQueue: Promise<void> = Promise.resolve();
+const FEEDBACKS_KEY = "feedbacks";
+const RATE_LIMIT_TTL = 86400; // 24 hours in seconds
+const RATE_LIMIT_MS = RATE_LIMIT_TTL * 1000;
 
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
-function readFeedbacks(): Feedback[] {
-  try {
-    if (!fs.existsSync(DATA_FILE)) return [];
-    const raw = fs.readFileSync(DATA_FILE, "utf-8").trim();
-    return raw ? (JSON.parse(raw) as Feedback[]) : [];
-  } catch {
-    return [];
-  }
-}
-
-function atomicWrite(data: Feedback[]): void {
-  const json = JSON.stringify(data, null, 2);
-  fs.writeFileSync(TMP_FILE, json, "utf-8");
-  fs.renameSync(TMP_FILE, DATA_FILE); // OS-level atomic rename
-}
-
 function hashIp(ip: string): string {
-  return crypto.createHash("sha256").update(ip + "portfolio-salt").digest("hex").slice(0, 16);
+  return crypto
+    .createHash("sha256")
+    .update(ip + "portfolio-salt")
+    .digest("hex")
+    .slice(0, 16);
 }
 
 function sanitize(str: string, maxLen: number): string {
   return str
-    .replace(/<[^>]*>/g, "") // strip HTML tags
-    .replace(/[^\w\s.,!?'"@()\-:;]/g, "") // keep safe chars
+    .replace(/<[^>]*>/g, "") // strip HTML
+    .replace(/[^\w\s.,!?'"@()\-:;]/g, "")
     .slice(0, maxLen)
     .trim();
 }
@@ -71,19 +50,33 @@ function uuid(): string {
 }
 
 // ---------------------------------------------------------------------------
-// GET /api/feedback  — returns only approved feedbacks
+// GET /api/feedback — returns approved feedbacks, newest first
 // ---------------------------------------------------------------------------
 export async function GET() {
-  const feedbacks = readFeedbacks()
-    .filter((f) => f.approved)
-    .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .map(({ ipHash: _ipHash, approved: _approved, ...rest }) => rest); // strip private fields
+  try {
+    // lrange returns items as stored — each item is already parsed by Upstash
+    const raw = await redis.lrange<Feedback>(FEEDBACKS_KEY, 0, -1);
 
-  return NextResponse.json(feedbacks, { status: 200 });
+    const feedbacks = raw
+      .filter((f) => f.approved)
+      .sort(
+        (a, b) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+      )
+      .map(({ ipHash: _ip, approved: _approved, ...rest }) => rest); // strip private fields
+
+    return NextResponse.json(feedbacks, { status: 200 });
+  } catch (err) {
+    console.error("[feedback:GET]", err);
+    return NextResponse.json(
+      { error: "Failed to fetch feedbacks." },
+      { status: 500 }
+    );
+  }
 }
 
 // ---------------------------------------------------------------------------
-// POST /api/feedback  — validates, rate-limits, and persists
+// POST /api/feedback — validates, rate-limits, and persists
 // ---------------------------------------------------------------------------
 export async function POST(req: NextRequest) {
   // --- Parse body ---
@@ -94,29 +87,38 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: "Invalid JSON body" }, { status: 400 });
   }
 
-  // --- Validate fields ---
+  // --- Validate ---
   const errors: Record<string, string> = {};
 
-  const name = typeof body.name === "string" ? sanitize(body.name, 60) : "";
-  const role = typeof body.role === "string" ? sanitize(body.role, 80) : "";
-  const message = typeof body.message === "string" ? sanitize(body.message, 500) : "";
-  const rating = typeof body.rating === "number" ? Math.round(body.rating) : NaN;
+  const name =
+    typeof body.name === "string" ? sanitize(body.name, 60) : "";
+  const role =
+    typeof body.role === "string" ? sanitize(body.role, 80) : "";
+  const message =
+    typeof body.message === "string" ? sanitize(body.message, 500) : "";
+  const rating =
+    typeof body.rating === "number" ? Math.round(body.rating) : NaN;
 
-  if (!name || name.length < 2) errors.name = "Name must be at least 2 characters.";
-  if (!message || message.length < 10) errors.message = "Message must be at least 10 characters.";
+  if (!name || name.length < 2) errors.name = "At least 2 characters required.";
+  if (!message || message.length < 10) errors.message = "At least 10 characters required.";
   if (isNaN(rating) || rating < 1 || rating > 5) errors.rating = "Rating must be between 1 and 5.";
 
   if (Object.keys(errors).length > 0) {
-    return NextResponse.json({ error: "Validation failed", fields: errors }, { status: 400 });
+    return NextResponse.json(
+      { error: "Validation failed", fields: errors },
+      { status: 400 }
+    );
   }
 
-  // --- Rate limit ---
+  // --- Rate limit (persisted in Redis, survives cold starts) ---
   const rawIp =
     req.headers.get("x-forwarded-for")?.split(",")[0].trim() ??
     req.headers.get("x-real-ip") ??
     "unknown";
   const ipHash = hashIp(rawIp);
-  const lastSubmit = rateLimitMap.get(ipHash);
+  const rateLimitKey = `ratelimit:${ipHash}`;
+
+  const lastSubmit = await redis.get<number>(rateLimitKey);
   if (lastSubmit && Date.now() - lastSubmit < RATE_LIMIT_MS) {
     return NextResponse.json(
       { error: "You can only submit feedback once every 24 hours." },
@@ -131,30 +133,24 @@ export async function POST(req: NextRequest) {
     role,
     rating,
     message,
-    approved: false, // manual moderation required
+    approved: false, // manual moderation — flip in Upstash console or CLI
     createdAt: new Date().toISOString(),
     ipHash,
   };
 
-  // --- Atomic sequential write ---
-  const result = await new Promise<NextResponse>((resolve) => {
-    writeQueue = writeQueue.then(() => {
-      try {
-        const existing = readFeedbacks();
-        existing.push(entry);
-        atomicWrite(existing);
-        rateLimitMap.set(ipHash, Date.now());
-        resolve(
-          NextResponse.json({ success: true, id: entry.id }, { status: 201 })
-        );
-      } catch (err) {
-        console.error("[feedback] write error:", err);
-        resolve(
-          NextResponse.json({ error: "Failed to save feedback. Please try again." }, { status: 500 })
-        );
-      }
-    });
-  });
+  // --- Persist ---
+  try {
+    // lpush prepends → newest items are at index 0
+    await redis.lpush(FEEDBACKS_KEY, entry);
+    // Set rate limit key with 24h TTL
+    await redis.set(rateLimitKey, Date.now(), { ex: RATE_LIMIT_TTL });
 
-  return result;
+    return NextResponse.json({ success: true, id: entry.id }, { status: 201 });
+  } catch (err) {
+    console.error("[feedback:POST]", err);
+    return NextResponse.json(
+      { error: "Failed to save feedback. Please try again." },
+      { status: 500 }
+    );
+  }
 }
