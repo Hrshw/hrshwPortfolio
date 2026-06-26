@@ -58,7 +58,7 @@ export default function ContactSection() {
       </motion.div>
 
       <div className="absolute bottom-10 text-zinc-600 font-mono text-xs tracking-widest uppercase">
-        © {new Date().getFullYear()} Rahul Singh Shekhawat. Built with Next.js & Tailwind.
+        © {new Date().getFullYear()} Rahul Singh Shekhawat.
       </div>
     </section>
   );

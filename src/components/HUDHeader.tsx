@@ -95,6 +95,12 @@ export default function HUDHeader() {
             >
               Insights
             </Link>
+            <Link
+              href="/testimonials"
+              className={`relative px-4 py-2 text-sm font-medium transition-colors duration-500 rounded-full text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
+            >
+              Testimonials
+            </Link>
           </nav>
           <ThemeToggle />
           
@@ -134,6 +140,13 @@ export default function HUDHeader() {
             onClick={() => setIsMobileMenuOpen(false)}
           >
             Insights
+          </Link>
+          <Link
+            href="/testimonials"
+            className={`text-left text-xl font-medium transition-colors text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Testimonials
           </Link>
         </motion.div>
       )}
