@@ -8,7 +8,7 @@ export default function StructuredData() {
     name: 'Rahul Singh Shekhawat',
     jobTitle: 'Full-Stack & Cloud Engineer',
     url: siteMetadata.siteUrl,
-    image: `${siteMetadata.siteUrl}/rahul.jpg`,
+    image: `${siteMetadata.siteUrl}/rahul.png`,
     email: 'rahulsinghpilani7@gmail.com',
     address: {
       '@type': 'PostalAddress',

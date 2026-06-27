@@ -42,7 +42,7 @@ export default async function InsightPost(props: { params: Promise<{ slug: strin
       '@type': 'Person',
       name: 'Rahul Singh Shekhawat',
       url: 'https://rahulshekhawat.dev',
-      image: 'https://rahulshekhawat.dev/rahul.jpg',
+      image: 'https://rahulshekhawat.dev/rahul.png',
     },
     publisher: {
       '@type': 'Person',

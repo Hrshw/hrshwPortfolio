@@ -19,7 +19,7 @@ export default function AboutSection() {
           <div className="absolute inset-0 bg-gradient-to-tr from-[var(--color-primary)]/20 to-[var(--color-secondary)]/20 rounded-3xl blur-2xl group-hover:blur-3xl transition-all duration-700 pointer-events-none" />
           <div className="relative rounded-3xl overflow-hidden border border-black/10 dark:border-white/10 bg-white/50 dark:bg-zinc-900/50 backdrop-blur-xl aspect-[4/5]">
             <Image 
-              src="/rahul.jpg" 
+              src="/rahul.png" 
               alt="Rahul Singh Shekhawat" 
               fill
               priority 

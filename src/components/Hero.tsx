@@ -26,7 +26,7 @@ export default function Hero() {
           }}
         >
           <Image
-            src="/rahul.jpg"
+            src="/rahul.png"
             alt="Rahul Singh Shekhawat"
             fill
             style={{ objectFit: "cover" }}
