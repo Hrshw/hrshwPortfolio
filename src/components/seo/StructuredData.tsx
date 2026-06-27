@@ -18,7 +18,7 @@ export default function StructuredData() {
     sameAs: [
       'https://github.com/Hrshw',
       'https://www.linkedin.com/in/rahul-singh-shekhawat-b4ba481ab',
-      'https://www.instagram.com/hrshw_/',
+      'https://www.instagram.com/hr.shw/',
     ],
     description: siteMetadata.description,
     inLanguage: 'en-US',

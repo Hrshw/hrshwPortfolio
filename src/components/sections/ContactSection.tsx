@@ -68,7 +68,7 @@ export default function ContactSection() {
           <motion.a
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            href="https://www.instagram.com/hrshw_/"
+            href="https://www.instagram.com/hr.shw/"
             target="_blank"
             rel="noopener noreferrer"
             className="px-8 py-5 bg-transparent border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-semibold tracking-wide rounded-full hover:border-zinc-900 hover:text-zinc-900 dark:hover:border-zinc-400 dark:hover:text-white transition-all duration-300 w-full sm:w-auto"
