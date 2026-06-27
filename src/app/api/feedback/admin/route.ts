@@ -2,21 +2,36 @@ import { NextRequest, NextResponse } from "next/server";
 import { Redis } from "@upstash/redis";
 import { Feedback } from "../route";
 
+import crypto from 'crypto';
+
 const redis = new Redis({
   url: process.env.KV_REST_API_URL || process.env.UPSTASH_REDIS_REST_URL || "",
   token: process.env.KV_REST_API_TOKEN || process.env.UPSTASH_REDIS_REST_TOKEN || "",
 });
 const FEEDBACKS_KEY = "feedbacks";
 
-// Fallback passcode if environment variable is not set
-const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || "admin123";
+// Secure passcode without a hardcoded default fallback.
+const ADMIN_PASSCODE = process.env.ADMIN_PASSCODE || "";
 
-// Helper to check passcode
+// Helper to check passcode securely using constant-time comparison
 function isAuthorized(req: NextRequest) {
   const authHeader = req.headers.get("authorization");
   if (!authHeader || !authHeader.startsWith("Bearer ")) return false;
+  
   const token = authHeader.split(" ")[1];
-  return token === ADMIN_PASSCODE;
+  
+  // If the admin passcode isn't set in env, automatically fail authorization.
+  if (!ADMIN_PASSCODE) return false;
+  
+  // Use timingSafeEqual to prevent timing attacks
+  try {
+    const a = Buffer.from(token);
+    const b = Buffer.from(ADMIN_PASSCODE);
+    if (a.length !== b.length) return false;
+    return crypto.timingSafeEqual(a, b);
+  } catch {
+    return false;
+  }
 }
 
 // ---------------------------------------------------------------------------
