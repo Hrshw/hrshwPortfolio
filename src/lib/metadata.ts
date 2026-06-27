@@ -30,7 +30,6 @@ export const siteMetadata = {
   ],
   author: 'Rahul Singh Shekhawat',
   siteUrl: defaultUrl,
-  twitterHandle: '@rahulshekhawat', // Replace with actual Twitter handle if applicable
 };
 
 export function constructMetadata({
@@ -81,7 +80,6 @@ export function constructMetadata({
       title,
       description,
       images: [image],
-      creator: siteMetadata.twitterHandle,
     },
     robots: {
       index: !noIndex,

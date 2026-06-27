@@ -57,12 +57,23 @@ export default function ContactSection() {
           <motion.a
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            href="https://linkedin.com/in/rahulsinghshekhawat"
+            href="https://www.linkedin.com/in/rahul-singh-shekhawat-b4ba481ab"
             target="_blank"
-            rel="noreferrer"
+            rel="noopener noreferrer"
             className="px-8 py-5 bg-transparent border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-semibold tracking-wide rounded-full hover:border-zinc-900 hover:text-zinc-900 dark:hover:border-zinc-400 dark:hover:text-white transition-all duration-300 w-full sm:w-auto"
           >
             LinkedIn
+          </motion.a>
+
+          <motion.a
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            href="https://www.instagram.com/hrshw_/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-5 bg-transparent border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-semibold tracking-wide rounded-full hover:border-zinc-900 hover:text-zinc-900 dark:hover:border-zinc-400 dark:hover:text-white transition-all duration-300 w-full sm:w-auto"
+          >
+            Instagram
           </motion.a>
         </div>
       </motion.div>
