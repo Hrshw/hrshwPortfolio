@@ -36,10 +36,13 @@ export default async function InsightPost(props: { params: Promise<{ slug: strin
     headline: title,
     description: summary,
     datePublished: date,
+    dateModified: date,
+    inLanguage: 'en-US',
     author: {
       '@type': 'Person',
       name: 'Rahul Singh Shekhawat',
       url: 'https://rahulshekhawat.dev',
+      image: 'https://rahulshekhawat.dev/rahul.jpg',
     },
     publisher: {
       '@type': 'Person',
@@ -49,6 +52,14 @@ export default async function InsightPost(props: { params: Promise<{ slug: strin
     mainEntityOfPage: {
       '@type': 'WebPage',
       '@id': `https://rahulshekhawat.dev/insights/${slug}`,
+    },
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://rahulshekhawat.dev' },
+        { '@type': 'ListItem', position: 2, name: 'Insights', item: 'https://rahulshekhawat.dev/insights' },
+        { '@type': 'ListItem', position: 3, name: title, item: `https://rahulshekhawat.dev/insights/${slug}` },
+      ],
     },
     keywords: tags ? tags.join(', ') : '',
   };

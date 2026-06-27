@@ -8,11 +8,19 @@ export default function StructuredData() {
     name: 'Rahul Singh Shekhawat',
     jobTitle: 'Full-Stack & Cloud Engineer',
     url: siteMetadata.siteUrl,
+    image: `${siteMetadata.siteUrl}/rahul.jpg`,
+    email: 'rahulsinghpilani7@gmail.com',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Mumbai',
+      addressCountry: 'IN',
+    },
     sameAs: [
-      'https://github.com/hrshw',
+      'https://github.com/Hrshw',
       'https://www.linkedin.com/in/rahul-singh-shekhawat-b4ba481ab',
     ],
     description: siteMetadata.description,
+    inLanguage: 'en-US',
     knowsAbout: [
       'Cloud Engineering',
       'AWS',
@@ -27,6 +35,8 @@ export default function StructuredData() {
       'MongoDB',
       'AI Systems',
       'Observability',
+      'Serverless Architecture',
+      'SaaS Development',
     ],
   };
 
@@ -36,6 +46,15 @@ export default function StructuredData() {
     name: siteMetadata.title,
     url: siteMetadata.siteUrl,
     description: siteMetadata.description,
+    inLanguage: 'en-US',
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${siteMetadata.siteUrl}/insights?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
   };
 
   const pulseGuardSchema = {
@@ -47,9 +66,10 @@ export default function StructuredData() {
     author: {
       '@type': 'Person',
       name: 'Rahul Singh Shekhawat',
+      url: siteMetadata.siteUrl,
     },
-    description: 'An AI Systems and Observability platform.',
-    url: `${siteMetadata.siteUrl}/#section-projects`, // Update if there's a dedicated page
+    description: 'AI-powered uptime monitoring, SSL certificate tracking, and global status pages with real-time anomaly detection.',
+    url: 'https://pulseguard.in',
   };
 
   const observyzeSchema = {
@@ -61,9 +81,28 @@ export default function StructuredData() {
     author: {
       '@type': 'Person',
       name: 'Rahul Singh Shekhawat',
+      url: siteMetadata.siteUrl,
     },
-    description: 'Cloud observability and monitoring solution.',
-    url: `${siteMetadata.siteUrl}/#section-projects`, // Update if there's a dedicated page
+    description: 'High-throughput cloud observability and telemetry ingestion platform using Fastify, Redis, and MongoDB Time-Series collections.',
+    url: `${siteMetadata.siteUrl}/#section-projects`,
+  };
+
+  const envSecretLockSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SoftwareApplication',
+    name: 'env-secret-lock',
+    applicationCategory: 'DeveloperApplication',
+    operatingSystem: 'Windows, macOS, Linux',
+    author: {
+      '@type': 'Person',
+      name: 'Rahul Singh Shekhawat',
+      url: siteMetadata.siteUrl,
+    },
+    description: 'A local-first developer CLI tool for AES-256-GCM encrypted environment secret management with Git pre-commit protection.',
+    url: 'https://github.com/Hrshw/env-secret-lock',
+    downloadUrl: 'https://www.npmjs.com/package/env-secret-lock',
+    softwareVersion: '1.0.0',
+    license: 'https://opensource.org/licenses/MIT',
   };
 
   return (
@@ -84,6 +123,12 @@ export default function StructuredData() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(observyzeSchema) }}
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(envSecretLockSchema) }}
+      />
     </>
   );
 }
+
+

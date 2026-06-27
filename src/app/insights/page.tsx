@@ -5,7 +5,7 @@ import { constructMetadata } from '@/lib/metadata';
 
 export const metadata = constructMetadata({
   title: 'Engineering Insights | Rahul Singh Shekhawat',
-  description: 'Technical deep dives, architecture breakdowns, and problem-solving logs.',
+  description: 'Technical deep dives into cloud architecture, system design breakdowns, AWS serverless patterns, Node.js performance, and AI engineering — from real production builds.',
   path: '/insights',
 });
 

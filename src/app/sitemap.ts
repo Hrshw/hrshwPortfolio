@@ -51,5 +51,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     ...insightUrls,
     ...specializationUrls,
+    {
+      url: `${baseUrl}/testimonials`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly' as const,
+      priority: 0.75,
+    },
   ];
 }
