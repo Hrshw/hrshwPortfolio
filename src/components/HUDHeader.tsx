@@ -4,11 +4,14 @@ import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ThemeToggle from "@/components/ThemeToggle";
 import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function HUDHeader() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const pathname = usePathname();
+  const router = useRouter();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,9 +38,21 @@ export default function HUDHeader() {
 
   const scrollTo = (id: string) => {
     setIsMobileMenuOpen(false);
-    const el = document.getElementById(`section-${id}`);
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
+    if (pathname !== "/") {
+      router.push(`/#section-${id}`);
+    } else {
+      const el = document.getElementById(`section-${id}`);
+      if (el) {
+        el.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  };
+
+  const handleLogoClick = () => {
+    if (pathname !== "/") {
+      router.push("/");
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
 
@@ -59,7 +74,7 @@ export default function HUDHeader() {
       <div className="max-w-7xl mx-auto px-8 flex items-center justify-between relative">
         {/* Logo/Name */}
         <div 
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={handleLogoClick}
           className="cursor-pointer group flex items-center gap-3"
         >
           <div className="w-8 h-8 rounded-full bg-zinc-900 dark:bg-white flex items-center justify-center text-white dark:text-black font-bold tracking-tighter group-hover:scale-105 transition-transform duration-500">
@@ -89,6 +104,12 @@ export default function HUDHeader() {
                 {link.label}
               </button>
             ))}
+            <Link
+              href="/system-design"
+              className={`relative px-4 py-2 text-sm font-medium transition-colors duration-500 rounded-full text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
+            >
+              System Design
+            </Link>
             <Link
               href="/insights"
               className={`relative px-4 py-2 text-sm font-medium transition-colors duration-500 rounded-full text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
@@ -134,6 +155,13 @@ export default function HUDHeader() {
               {link.label}
             </button>
           ))}
+          <Link
+            href="/system-design"
+            className={`text-left text-xl font-medium transition-colors text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            System Design
+          </Link>
           <Link
             href="/insights"
             className={`text-left text-xl font-medium transition-colors text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}

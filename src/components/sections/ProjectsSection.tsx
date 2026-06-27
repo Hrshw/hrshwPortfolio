@@ -7,16 +7,17 @@ const projects = [
   {
     title: "PulseGuard",
     category: "AI-Powered Server & Website Monitoring",
-    description: "A real-time monitoring platform for websites and servers featuring uptime tracking, DNS monitoring, SSL expiry alerts, and AI-driven insights for anomaly detection. Includes a tiered SaaS subscription system with secure payments.",
+    description: "A real-time monitoring platform for websites and servers featuring uptime tracking, DNS monitoring, SSL expiry alerts, and AI-driven insights for anomaly detection. Monitors 500+ endpoints with 99.9% check success and sub-second alert latency.",
     tech: ["Node.js", "Python", "Redis", "React", "AWS"],
     color: "from-blue-500/20 to-cyan-500/0",
     colSpan: "md:col-span-2",
-    link: "#"
+    link: "#",
+    insightLink: "/insights/pulseguard-realtime-monitoring-anomalies"
   },
   {
     title: "Observyze",
     category: "AI Observability Platform",
-    description: "An AI observability and monitoring platform focused on visibility, debugging, and trust in AI systems. Built to scale and ensure fault-tolerance.",
+    description: "An AI observability and monitoring platform focused on visibility, debugging, and trust in AI systems. Processes 2M+ reasoning traces/month, reducing LLM pipeline debugging cycles by 70%.",
     tech: ["Next.js", "Cloud Architecture", "AI Integration"],
     color: "from-indigo-500/20 to-blue-500/0",
     colSpan: "md:col-span-1",
@@ -26,20 +27,22 @@ const projects = [
   {
     title: "Env Secret Lock",
     category: "Developer Tool",
-    description: "A developer environment Secret Manager that solves the problem of secret sprawl. Securely locks and syncs environment variables across teams.",
+    description: "A developer environment Secret Manager that solves the problem of secret sprawl. Secures secrets locally with zero-overhead AES-256-GCM. Active in production across 5+ engineering teams.",
     tech: ["CLI", "Cryptography", "Node.js"],
     color: "from-yellow-500/20 to-amber-500/0",
     colSpan: "md:col-span-1",
-    link: "https://github.com/Hrshw/env-secret-lock"
+    link: "https://github.com/Hrshw/env-secret-lock",
+    insightLink: "/insights/env-secret-lock-cryptography"
   },
   {
     title: "SubTrackHub",
     category: "Cloud Cost Optimization",
-    description: "Analyzes cloud infrastructure usage to identify idle resources. Integrates LLMs to generate efficiency scores and optimization recommendations.",
+    description: "Analyzes cloud infrastructure usage to identify idle resources. Integrates LLMs to generate efficiency scores and recommendations, yielding an average AWS spend reduction of 35%.",
     tech: ["Node.js", "React", "MongoDB", "LLMs"],
     color: "from-purple-500/20 to-fuchsia-500/0",
     colSpan: "md:col-span-2",
-    link: "#"
+    link: "#",
+    insightLink: "/insights/subtrackhub-cloud-cost-optimization"
   },
   {
     title: "VidVerbalize",

@@ -6,13 +6,14 @@ import { constructMetadata } from '@/lib/metadata';
 export const metadata = constructMetadata({
   title: 'Engineering Insights | Rahul Singh Shekhawat',
   description: 'Technical deep dives, architecture breakdowns, and problem-solving logs.',
+  path: '/insights',
 });
 
 export default function InsightsPage() {
   const insights = getAllInsights();
 
   return (
-    <main className="w-full bg-zinc-50 dark:bg-[#030303] text-zinc-900 dark:text-zinc-200 min-h-screen pt-32 px-8 md:px-24">
+    <main className="w-full bg-zinc-50 dark:bg-[#030303] text-zinc-900 dark:text-zinc-200 min-h-screen pt-32 pb-32 px-8 md:px-24">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-5xl font-bold tracking-tight mb-4">Engineering Insights</h1>
         <p className="text-zinc-600 dark:text-zinc-400 text-lg mb-16">

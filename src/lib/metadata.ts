@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 const defaultUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rahulshekhawat.dev';
 
 export const siteMetadata = {
-  title: 'Rahul Singh Shekhawat | Software & Cloud Engineer',
-  description: 'Portfolio of Rahul Singh Shekhawat, Software & Cloud Engineer specializing in Next.js, Node.js, AWS infrastructure, and AI integrations.',
+  title: 'Rahul Singh Shekhawat | Full-Stack & Cloud Engineer',
+  description: 'Rahul Singh Shekhawat is a Full-Stack & Cloud Engineer specializing in scalable SaaS, AWS infrastructure, AI integrations, and serverless architecture.',
   keywords: [
     'Rahul Singh Shekhawat',
     'Rahul Shekhawat Cloud Engineer',
@@ -22,6 +22,11 @@ export const siteMetadata = {
     'Software Engineer',
     'React',
     'Next.js',
+    'AWS Developer India',
+    'Full Stack Developer Portfolio',
+    'Node.js Developer',
+    'AI Engineer Portfolio',
+    'Serverless Architecture Engineer',
   ],
   author: 'Rahul Singh Shekhawat',
   siteUrl: defaultUrl,
@@ -33,12 +38,17 @@ export function constructMetadata({
   description = siteMetadata.description,
   image = `${siteMetadata.siteUrl}/og-image.png`, // We assume an og-image.png exists or will be added
   noIndex = false,
+  path = '',
 }: {
   title?: string;
   description?: string;
   image?: string;
   noIndex?: boolean;
+  path?: string;
 } = {}): Metadata {
+  const cleanPath = path.startsWith('/') ? path : `/${path}`;
+  const canonicalUrl = `${siteMetadata.siteUrl}${cleanPath === '/' ? '' : cleanPath}`;
+
   return {
     title,
     description,
@@ -48,12 +58,12 @@ export function constructMetadata({
     publisher: siteMetadata.author,
     metadataBase: new URL(siteMetadata.siteUrl),
     alternates: {
-      canonical: '/',
+      canonical: canonicalUrl,
     },
     openGraph: {
       title,
       description,
-      url: siteMetadata.siteUrl,
+      url: canonicalUrl,
       siteName: siteMetadata.title,
       images: [
         {

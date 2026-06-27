@@ -22,16 +22,45 @@ export async function generateMetadata(props: { params: Promise<{ slug: string }
   return constructMetadata({
     title: `${title} | Engineering Insights`,
     description: summary,
-    // Provide a specific canonical URL logic if you want
+    path: `/insights/${slug}`,
   });
 }
 
 export default async function InsightPost(props: { params: Promise<{ slug: string }> }) {
   const params = await props.params;
-  const { title, date, content, tags } = getInsightBySlug(params.slug);
+  const { title, date, content, tags, summary, slug } = getInsightBySlug(params.slug);
+
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: title,
+    description: summary,
+    datePublished: date,
+    author: {
+      '@type': 'Person',
+      name: 'Rahul Singh Shekhawat',
+      url: 'https://rahulshekhawat.dev',
+    },
+    publisher: {
+      '@type': 'Person',
+      name: 'Rahul Singh Shekhawat',
+      url: 'https://rahulshekhawat.dev',
+    },
+    mainEntityOfPage: {
+      '@type': 'WebPage',
+      '@id': `https://rahulshekhawat.dev/insights/${slug}`,
+    },
+    keywords: tags ? tags.join(', ') : '',
+  };
 
   return (
     <main className="w-full bg-zinc-50 dark:bg-[#030303] text-zinc-900 dark:text-zinc-200 min-h-screen pt-32 px-8 md:px-24 pb-32">
+      {/* Dynamic JSON-LD Structured Data for BlogPosting */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      
       <div className="max-w-3xl mx-auto">
         <Link href="/insights" className="text-zinc-500 hover:text-zinc-900 dark:hover:text-white transition-colors mb-8 inline-block font-mono text-sm">
           ← Back to Insights

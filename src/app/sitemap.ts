@@ -14,6 +14,22 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
+  const specializations = [
+    'cloud-engineer',
+    'aws-developer',
+    'full-stack-developer',
+    'node-js-developer',
+    'ai-engineer',
+    'serverless-engineer',
+  ];
+
+  const specializationUrls: MetadataRoute.Sitemap = specializations.map((slug) => ({
+    url: `${baseUrl}/specialization/${slug}`,
+    lastModified: new Date(),
+    changeFrequency: 'weekly',
+    priority: 0.85,
+  }));
+
   return [
     {
       url: baseUrl,
@@ -22,11 +38,18 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1,
     },
     {
+      url: `${baseUrl}/system-design`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.95,
+    },
+    {
       url: `${baseUrl}/insights`,
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     ...insightUrls,
+    ...specializationUrls,
   ];
 }

@@ -20,17 +20,27 @@ export default function ContactSection() {
 
         <h2 className="text-5xl md:text-7xl font-bold text-zinc-900 dark:text-white mb-6 tracking-tighter relative z-10 transition-colors duration-500">Let&apos;s collaborate.</h2>
         <p className="text-zinc-600 dark:text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto mb-14 font-light tracking-tight relative z-10 transition-colors duration-500">
-          I&apos;m currently open for new opportunities. Whether you have a question, a project idea, or just want to connect, my inbox is always open.
+          Whether you have a question, a project idea, or just want to discuss scalability, my inbox is always open.
         </p>
 
-        <div className="flex flex-col sm:flex-row justify-center items-center gap-6 relative z-10">
+        <div className="flex flex-col sm:flex-row justify-center items-center gap-4 relative z-10 flex-wrap">
           <motion.a
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             href="mailto:rahulsinghpilani7@gmail.com"
-            className="px-10 py-5 bg-zinc-900 dark:bg-white text-white dark:text-black font-semibold tracking-wide rounded-full hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors duration-300 w-full sm:w-auto"
+            className="px-8 py-5 bg-zinc-900 dark:bg-white text-white dark:text-black font-semibold tracking-wide rounded-full hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors duration-300 w-full sm:w-auto"
           >
             Say Hello
+          </motion.a>
+
+          <motion.a
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            href="/resume.pdf"
+            download="Rahul_Singh_Shekhawat_Resume.pdf"
+            className="px-8 py-5 bg-transparent border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-semibold tracking-wide rounded-full hover:border-zinc-900 hover:text-zinc-900 dark:hover:border-zinc-400 dark:hover:text-white transition-all duration-300 w-full sm:w-auto"
+          >
+            Download Resume
           </motion.a>
           
           <motion.a
@@ -39,9 +49,9 @@ export default function ContactSection() {
             href="https://github.com/Hrshw"
             target="_blank"
             rel="noreferrer"
-            className="px-10 py-5 bg-transparent border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-semibold tracking-wide rounded-full hover:border-zinc-900 hover:text-zinc-900 dark:hover:border-zinc-500 dark:hover:text-white transition-all duration-300 w-full sm:w-auto"
+            className="px-8 py-5 bg-transparent border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-semibold tracking-wide rounded-full hover:border-zinc-900 hover:text-zinc-900 dark:hover:border-zinc-400 dark:hover:text-white transition-all duration-300 w-full sm:w-auto"
           >
-            GitHub Profile
+            GitHub
           </motion.a>
 
           <motion.a
@@ -50,7 +60,7 @@ export default function ContactSection() {
             href="https://linkedin.com/in/rahulsinghshekhawat"
             target="_blank"
             rel="noreferrer"
-            className="px-10 py-5 bg-transparent border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-semibold tracking-wide rounded-full hover:border-zinc-900 hover:text-zinc-900 dark:hover:border-zinc-500 dark:hover:text-white transition-all duration-300 w-full sm:w-auto"
+            className="px-8 py-5 bg-transparent border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 font-semibold tracking-wide rounded-full hover:border-zinc-900 hover:text-zinc-900 dark:hover:border-zinc-400 dark:hover:text-white transition-all duration-300 w-full sm:w-auto"
           >
             LinkedIn
           </motion.a>

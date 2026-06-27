@@ -12,6 +12,8 @@ export interface FeedbackEntry {
   rating: number;
   message: string;
   createdAt: string;
+  linkedinUrl?: string;
+  company?: string;
 }
 
 export interface SubmitPayload {
@@ -42,7 +44,6 @@ export function useFeedback() {
       const data: FeedbackEntry[] = await res.json();
       setFeedbacks(data);
     } catch {
-      // Silent fail — show empty state
       setFeedbacks([]);
     } finally {
       setIsLoading(false);

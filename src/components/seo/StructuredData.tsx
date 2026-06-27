@@ -6,7 +6,7 @@ export default function StructuredData() {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Rahul Singh Shekhawat',
-    jobTitle: 'Software & Cloud Engineer',
+    jobTitle: 'Full-Stack & Cloud Engineer',
     url: siteMetadata.siteUrl,
     sameAs: [
       'https://github.com/hrshw',

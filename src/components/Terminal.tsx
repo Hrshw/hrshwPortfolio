@@ -56,7 +56,7 @@ export default function Terminal() {
           ...newHistory,
           {
             type: "output",
-            text: "Rahul Singh Shekhawat - Software & Cloud Engineer based in Mumbai, India.",
+            text: "Rahul Singh Shekhawat - Full-Stack & Cloud Engineer based in Mumbai, India.",
           },
           {
             type: "output",
