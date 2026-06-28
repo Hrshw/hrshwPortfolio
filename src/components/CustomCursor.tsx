@@ -39,8 +39,8 @@ export default function CustomCursor() {
   const [isMobile, setIsMobile] = useState(true);
 
   const mousePos = useRef({ x: 0, y: 0 });
-  const dotPos = useRef({ x: -4, y: -4 });
-  const ringPos = useRef({ x: -20, y: -20 });
+  const dotPos = useRef({ x: 0, y: 0 });
+  const ringPos = useRef({ x: 0, y: 0 });
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef<CursorState>("default");
@@ -67,8 +67,8 @@ export default function CustomCursor() {
       mousePos.current = { x: e.clientX, y: e.clientY };
       if (!tickRef.current) {
         tickRef.current = true;
-        dotPos.current = { x: e.clientX - 4, y: e.clientY - 4 };
-        ringPos.current = { x: e.clientX - 20, y: e.clientY - 20 };
+        dotPos.current = { x: e.clientX, y: e.clientY };
+        ringPos.current = { x: e.clientX, y: e.clientY };
         setIsVisible(true);
       }
       detect(e.clientX, e.clientY);
@@ -101,10 +101,10 @@ export default function CustomCursor() {
       ringPos.current.y += (ty - ringPos.current.y) * 0.35;
 
       if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${dotPos.current.x}px, ${dotPos.current.y}px, 0)`;
+        dotRef.current.style.transform = `translate3d(${dotPos.current.x - 4}px, ${dotPos.current.y - 4}px, 0)`;
       }
       if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0)`;
+        ringRef.current.style.transform = `translate3d(${ringPos.current.x - 20}px, ${ringPos.current.y - 20}px, 0)`;
       }
 
       frameId = requestAnimationFrame(tick);
