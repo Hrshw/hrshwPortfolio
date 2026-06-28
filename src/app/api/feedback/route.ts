@@ -105,9 +105,8 @@ export async function POST(req: NextRequest) {
   // LinkedIn URL — basic URL validation, optional
   const rawLinkedin = typeof body.linkedinUrl === "string" ? body.linkedinUrl.trim() : "";
   const linkedinUrl = rawLinkedin && rawLinkedin.startsWith("https://www.linkedin.com/") ? rawLinkedin.slice(0, 200) : undefined;
-  // Project tag — only allow known values
-  const ALLOWED_PROJECTS = ["PulseGuard", "Observyze", "SubTrackHub", "env-secret-lock", "Envint Work", "Other"];
-  const project = typeof body.project === "string" && ALLOWED_PROJECTS.includes(body.project) ? body.project : undefined;
+  // Project — free-text, sanitized
+  const project = typeof body.project === "string" ? sanitize(body.project, 80) : undefined;
 
   if (!name || name.length < 2) errors.name = "At least 2 characters required.";
   if (!message || message.length < 10) errors.message = "At least 10 characters required.";

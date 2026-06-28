@@ -4,16 +4,6 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SubmitPayload } from "@/hooks/useFeedback";
 
-const PROJECTS = [
-  { value: "", label: "— Select a project (optional)" },
-  { value: "PulseGuard", label: "PulseGuard — AI Uptime Monitoring" },
-  { value: "Observyze", label: "Observyze — AI Observability Platform" },
-  { value: "SubTrackHub", label: "SubTrackHub — Subscription Manager" },
-  { value: "env-secret-lock", label: "env-secret-lock — CLI Secret Tool" },
-  { value: "Envint Work", label: "Envint Services — Work Collaboration" },
-  { value: "Other", label: "Other / General" },
-];
-
 // ---------------------------------------------------------------------------
 // Star Picker
 // ---------------------------------------------------------------------------
@@ -200,18 +190,16 @@ export default function FeedbackForm({
           </p>
         </Field>
         <Field label="Project Context" hint="optional">
-          <select
+          <input
             id="feedback-project"
+            type="text"
             value={project}
             onChange={(e) => setProject(e.target.value)}
-            className={`${inputClass} cursor-pointer`}
-          >
-            {PROJECTS.map((p) => (
-              <option key={p.value} value={p.value} className="bg-zinc-900 text-zinc-100">
-                {p.label}
-              </option>
-            ))}
-          </select>
+            placeholder="e.g. PulseGuard, Observyze, freelance work…"
+            maxLength={80}
+            className={inputClass}
+            autoComplete="off"
+          />
           <p className="text-[11px] text-zinc-400 dark:text-zinc-600 font-mono">
             What project or context did we work on together?
           </p>
