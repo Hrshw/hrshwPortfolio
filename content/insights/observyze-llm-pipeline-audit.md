@@ -74,6 +74,18 @@ Once the data hits the backend (AWS Lambda + MongoDB), the Observyze dashboard r
 
 This reduced my debugging time by over **70%**.
 
+## The Compliance Bottleneck & Zero-Trust Telemetry
+
+While the visual tracing solved my debugging loops, deploying it in enterprise environments immediately raised Infosec flags. Standard observability platforms require you to rewrite your API base URL to route your LLM calls through their third-party proxy gateway. If a user inputs proprietary IP, patient records (PII), or API keys, that data is instantly leaked outside your Virtual Private Cloud (VPC).
+
+To bridge the gap between telemetry and corporate compliance (GDPR, HIPAA), I architected **Compliance Mode**—a dual-layer security wrapper for the ingestion pipeline:
+
+1. **Direct Routing Bypass (`enableProxyRedirect: false`):** The client SDK communicates directly with the model providers (OpenAI, Anthropic). Telemetry packets bypass the Observyze proxy server completely.
+2. **Local SDK-side PII Scrubbing (`enablePiiRedaction: true`):** The SDK acts as in-memory middleware, scrubbing credit cards, SSNs, API keys, and emails on the client VPC before shipping the sanitized metadata logs.
+3. **Server-side Gatekeeping:** The Fastify gateway runs a secondary high-performance regex parsing stream, immediately redacting any PII before it gets committed to the MongoDB store.
+
+This zero-data-leak pipeline runs with `<3ms` of overhead, giving developers deep visibility without security compromise.
+
 ## The Engineering Value
 
 Building AI systems requires a shift in how we monitor software. You are no longer just debugging code; you are debugging *logic and reasoning*. 

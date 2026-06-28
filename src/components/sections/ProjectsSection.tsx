@@ -16,9 +16,9 @@ const projects = [
   },
   {
     title: "Observyze",
-    category: "AI Observability Platform",
-    description: "An AI observability and monitoring platform focused on visibility, debugging, and trust in AI systems. Processes 2M+ reasoning traces/month, reducing LLM pipeline debugging cycles by 70%.",
-    tech: ["Next.js", "Cloud Architecture", "AI Integration"],
+    category: "AI Observability & Governance Platform",
+    description: "Enterprise-grade AI observability platform with a Zero-Trust/GDPR-compliant architecture. Features local in-memory PII scrubbing and direct proxy bypass. Processes 2M+ traces/month, reducing debugging cycles by 70%.",
+    tech: ["Next.js", "Node.js", "Security / Compliance", "Cloud Architecture"],
     color: "from-indigo-500/20 to-blue-500/0",
     colSpan: "md:col-span-1",
     link: "https://observyze.com",

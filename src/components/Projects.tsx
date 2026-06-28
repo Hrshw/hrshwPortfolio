@@ -15,10 +15,10 @@ export default function Projects() {
   const projects: Project[] = [
     {
       title: "Observyze",
-      category: "Real-time Operations & Analytics Platform",
+      category: "Zero-Trust AI Observability & Governance Platform",
       description:
-        "An enterprise monitoring and coverage analytics platform built to automate performance tracking and code coverage insights. Integrates cloud pipelines and telemetry dashboard reporting.",
-      technologies: ["React.js", "Node.js", "AWS", "Analytics Engine", "SaaS"],
+        "An enterprise AI monitoring and governance platform featuring local in-memory PII scrubbing and direct-to-provider routing to ensure zero data leakage inside your VPC. Built for GDPR and HIPAA compliance.",
+      technologies: ["React.js", "Node.js", "Security / Compliance", "AWS", "Fastify", "SaaS"],
       liveUrl: "https://observyze.com",
     },
     {
