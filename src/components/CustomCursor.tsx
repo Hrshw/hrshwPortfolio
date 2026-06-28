@@ -107,9 +107,8 @@ export default function CustomCursor() {
           width: 8,
           height: 8,
           borderRadius: "50%",
-          transform: "translate3d(-100px, -100px, 0)",
           willChange: "transform",
-          transition: "opacity 0.15s, transform 0.15s",
+          transition: "opacity 0.15s",
           opacity: isHover || isText ? 0 : 1,
           backgroundColor: "var(--dot-color, currentColor)",
         }}
@@ -125,7 +124,6 @@ export default function CustomCursor() {
           width: 40,
           height: 40,
           borderRadius: "50%",
-          transform: "translate3d(-100px, -100px, 0)",
           willChange: "transform",
           transition: "opacity 0.2s, scale 0.3s, border-color 0.2s, background-color 0.2s",
           opacity: isText ? 0 : 1,
