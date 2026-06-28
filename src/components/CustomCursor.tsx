@@ -1,67 +1,110 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type CursorState = "default" | "hover" | "text";
+
+const HOVER_SELECTORS = [
+  "a[href]",
+  "button",
+  '[role="button"]',
+  '[role="link"]',
+  '[role="tab"]',
+  '[role="menuitem"]',
+  "[onclick]",
+  ".cursor-pointer",
+  "[tabindex]:not([tabindex='-1'])",
+  "area[href]",
+  "summary",
+].join(",");
+
+const TEXT_SELECTORS = [
+  "input:not([type='hidden']):not([type='submit']):not([type='button']):not([type='checkbox']):not([type='radio'])",
+  "textarea",
+  "select",
+  "[contenteditable='true']",
+].join(",");
+
+function getCursorState(el: EventTarget | null): CursorState {
+  const target = el instanceof HTMLElement ? el : null;
+  if (!target || !target.closest) return "default";
+  if (target.closest(TEXT_SELECTORS)) return "text";
+  if (target.closest(HOVER_SELECTORS)) return "hover";
+  return "default";
+}
 
 export default function CustomCursor() {
   const [cursorState, setCursorState] = useState<CursorState>("default");
   const [isVisible, setIsVisible] = useState(false);
   const [isMobile, setIsMobile] = useState(true);
 
-  // Refs so the rAF loop never closes over stale state
   const mousePos = useRef({ x: 0, y: 0 });
-  const ringPos = useRef({ x: 0, y: 0 });
-  const dotPos = useRef({ x: 0, y: 0 });
+  const dotPos = useRef({ x: -4, y: -4 });
+  const ringPos = useRef({ x: -20, y: -20 });
   const dotRef = useRef<HTMLDivElement>(null);
   const ringRef = useRef<HTMLDivElement>(null);
+  const stateRef = useRef<CursorState>("default");
+  const tickRef = useRef(false);
+
+  const updateState = (next: CursorState) => {
+    if (stateRef.current !== next) {
+      stateRef.current = next;
+      setCursorState(next);
+    }
+  };
 
   useEffect(() => {
-    // Detect touch-only devices — bail early, render nothing
-    const isTouchOnly = window.matchMedia("(pointer: coarse)").matches;
-    setIsMobile(isTouchOnly);
-    if (isTouchOnly) return;
+    const isTouch = window.matchMedia("(pointer: coarse)").matches;
+    setIsMobile(isTouch);
+    if (isTouch) return;
 
-    // Small delay so the cursor doesn't flash at (0,0) on mount
-    const showTimeout = setTimeout(() => setIsVisible(true), 100);
+    const detect = (x: number, y: number) => {
+      const el = document.elementFromPoint(x, y);
+      if (el) updateState(getCursorState(el));
+    };
 
     const onMouseMove = (e: MouseEvent) => {
       mousePos.current = { x: e.clientX, y: e.clientY };
+      if (!tickRef.current) {
+        tickRef.current = true;
+        dotPos.current = { x: e.clientX - 4, y: e.clientY - 4 };
+        ringPos.current = { x: e.clientX - 20, y: e.clientY - 20 };
+        setIsVisible(true);
+      }
+      detect(e.clientX, e.clientY);
     };
 
     const onMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (!target) return;
+      updateState(getCursorState(e.target));
+    };
 
-      if (target.closest("input, textarea, select")) {
-        // Over a text field — hide custom cursor, native I-beam shows via CSS
-        setCursorState("text");
-      } else if (target.closest("a, button, [role='button']")) {
-        // Over a clickable — enlarge ring, hide dot
-        setCursorState("hover");
-      } else {
-        setCursorState("default");
-      }
+    const onMouseLeaveDoc = () => updateState("default");
+
+    const onResize = () => {
+      const last = mousePos.current;
+      if (last.x > 0 || last.y > 0) detect(last.x, last.y);
     };
 
     window.addEventListener("mousemove", onMouseMove, { passive: true });
     window.addEventListener("mouseover", onMouseOver, { passive: true });
+    document.documentElement.addEventListener("mouseleave", onMouseLeaveDoc);
+    window.addEventListener("resize", onResize, { passive: true });
 
-    // rAF loop: runs continuously, component never unmounts
     let frameId: number;
     const tick = () => {
-      // Dot: snappy (50% lerp per frame)
-      dotPos.current.x += (mousePos.current.x - dotPos.current.x) * 0.5;
-      dotPos.current.y += (mousePos.current.y - dotPos.current.y) * 0.5;
-      if (dotRef.current) {
-        dotRef.current.style.transform = `translate3d(${dotPos.current.x - 4}px, ${dotPos.current.y - 4}px, 0)`;
-      }
+      const tx = mousePos.current.x;
+      const ty = mousePos.current.y;
 
-      // Ring: smooth but responsive (35% lerp per frame)
-      ringPos.current.x += (mousePos.current.x - ringPos.current.x) * 0.35;
-      ringPos.current.y += (mousePos.current.y - ringPos.current.y) * 0.35;
+      dotPos.current.x += (tx - dotPos.current.x) * 0.5;
+      dotPos.current.y += (ty - dotPos.current.y) * 0.5;
+      ringPos.current.x += (tx - ringPos.current.x) * 0.35;
+      ringPos.current.y += (ty - ringPos.current.y) * 0.35;
+
+      if (dotRef.current) {
+        dotRef.current.style.transform = `translate3d(${dotPos.current.x}px, ${dotPos.current.y}px, 0)`;
+      }
       if (ringRef.current) {
-        ringRef.current.style.transform = `translate3d(${ringPos.current.x - 20}px, ${ringPos.current.y - 20}px, 0)`;
+        ringRef.current.style.transform = `translate3d(${ringPos.current.x}px, ${ringPos.current.y}px, 0)`;
       }
 
       frameId = requestAnimationFrame(tick);
@@ -69,71 +112,65 @@ export default function CustomCursor() {
     frameId = requestAnimationFrame(tick);
 
     return () => {
-      clearTimeout(showTimeout);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseover", onMouseOver);
+      document.documentElement.removeEventListener("mouseleave", onMouseLeaveDoc);
+      window.removeEventListener("resize", onResize);
       cancelAnimationFrame(frameId);
     };
-  }, []); // ← empty deps: run once, never re-mount mid-session
+  }, []);
 
-  // Don't render at all on touch devices
   if (isMobile) return null;
 
   const isText = cursorState === "text";
   const isHover = cursorState === "hover";
 
   return (
-    // Wrap with visibility: hidden until first mouse move fires
     <div
+      aria-hidden="true"
       style={{
         pointerEvents: "none",
         zIndex: 99999,
         position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100%",
-        height: "100%",
-        // Keep the wrapper invisible until the cursor has moved at least once
+        inset: 0,
         opacity: isVisible ? 1 : 0,
         transition: "opacity 0.3s",
       }}
     >
-      {/* Central solid dot
-          – hidden on hover (only ring shows) and hidden on text fields */}
       <div
         ref={dotRef}
+        className="bg-zinc-900 dark:bg-white"
         style={{
           position: "absolute",
+          top: 0,
+          left: 0,
           width: 8,
           height: 8,
           borderRadius: "50%",
           willChange: "transform",
-          transition: "opacity 0.15s",
+          transition: "opacity 0.2s",
           opacity: isHover || isText ? 0 : 1,
-          backgroundColor: "var(--dot-color, currentColor)",
         }}
-        className="bg-zinc-900 dark:bg-white"
       />
-
-      {/* Outer smooth ring
-          – enlarges on hover, completely hidden on text fields */}
       <div
         ref={ringRef}
-        style={{
-          position: "absolute",
-          width: 40,
-          height: 40,
-          borderRadius: "50%",
-          willChange: "transform",
-          transition: "opacity 0.2s, scale 0.3s, border-color 0.2s, background-color 0.2s",
-          opacity: isText ? 0 : 1,
-          scale: isHover ? "1.5" : "1",
-        }}
         className={
           isHover
             ? "border border-zinc-900/80 dark:border-white/80 bg-zinc-900/5 dark:bg-white/5 backdrop-blur-[2px]"
             : "border border-zinc-900/30 dark:border-white/30 bg-transparent"
         }
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: 40,
+          height: 40,
+          borderRadius: "50%",
+          willChange: "transform",
+          transition: "opacity 0.2s, scale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1)",
+          opacity: isText ? 0 : 1,
+          scale: isHover ? 1.5 : 1,
+        }}
       />
     </div>
   );
