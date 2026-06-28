@@ -32,6 +32,12 @@
   * {
     cursor: none !important;
   }
+  /* Restore native text cursor on typing elements so the I-beam shows */
+  input,
+  textarea,
+  select {
+    cursor: text !important;
+  }
 }
 
 * {
