@@ -14,6 +14,8 @@ export interface FeedbackEntry {
   createdAt: string;
   linkedinUrl?: string;
   company?: string;
+  project?: string;
+  isVerifiedCollaborator?: boolean;
 }
 
 export interface SubmitPayload {
@@ -21,6 +23,8 @@ export interface SubmitPayload {
   role: string;
   rating: number;
   message: string;
+  linkedinUrl?: string;
+  project?: string;
 }
 
 export type SubmitStatus = "idle" | "loading" | "success" | "error";
@@ -63,7 +67,11 @@ export function useFeedback() {
       const res = await fetch("/api/feedback", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({
+          ...payload,
+          linkedinUrl: payload.linkedinUrl?.trim() || undefined,
+          project: payload.project || undefined,
+        }),
       });
 
       const data = await res.json();

@@ -14,6 +14,8 @@ export interface Feedback {
   approved: boolean;
   createdAt: string;
   ipHash: string;
+  linkedinUrl?: string;
+  project?: string;
 }
 
 // ---------------------------------------------------------------------------
@@ -100,6 +102,12 @@ export async function POST(req: NextRequest) {
     typeof body.message === "string" ? sanitize(body.message, 500) : "";
   const rating =
     typeof body.rating === "number" ? Math.round(body.rating) : NaN;
+  // LinkedIn URL — basic URL validation, optional
+  const rawLinkedin = typeof body.linkedinUrl === "string" ? body.linkedinUrl.trim() : "";
+  const linkedinUrl = rawLinkedin && rawLinkedin.startsWith("https://www.linkedin.com/") ? rawLinkedin.slice(0, 200) : undefined;
+  // Project tag — only allow known values
+  const ALLOWED_PROJECTS = ["PulseGuard", "Observyze", "SubTrackHub", "env-secret-lock", "Envint Work", "Other"];
+  const project = typeof body.project === "string" && ALLOWED_PROJECTS.includes(body.project) ? body.project : undefined;
 
   if (!name || name.length < 2) errors.name = "At least 2 characters required.";
   if (!message || message.length < 10) errors.message = "At least 10 characters required.";
@@ -135,9 +143,11 @@ export async function POST(req: NextRequest) {
     role,
     rating,
     message,
-    approved: false, // manual moderation — flip in Upstash console or CLI
+    approved: false,
     createdAt: new Date().toISOString(),
     ipHash,
+    ...(linkedinUrl ? { linkedinUrl } : {}),
+    ...(project ? { project } : {}),
   };
 
   // --- Persist ---

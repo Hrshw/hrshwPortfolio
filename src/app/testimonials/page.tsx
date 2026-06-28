@@ -1,12 +1,78 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import FeedbackForm from "@/components/feedback/FeedbackForm";
 import FeedbackGrid from "@/components/feedback/FeedbackGrid";
 import FeedbackSuccess from "@/components/feedback/FeedbackSuccess";
 import { useFeedback } from "@/hooks/useFeedback";
+
+// ---------------------------------------------------------------------------
+// Stats Bar
+// ---------------------------------------------------------------------------
+function StatsBar({ feedbacks }: { feedbacks: ReturnType<typeof useFeedback>["feedbacks"] }) {
+  const stats = useMemo(() => {
+    if (feedbacks.length === 0) return null;
+    const avg = feedbacks.reduce((s, f) => s + f.rating, 0) / feedbacks.length;
+    const recommend = feedbacks.filter((f) => f.rating >= 4).length;
+    const recommendPct = Math.round((recommend / feedbacks.length) * 100);
+    return { avg: avg.toFixed(1), count: feedbacks.length, recommendPct };
+  }, [feedbacks]);
+
+  if (!stats) return null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.2 }}
+      className="flex flex-wrap items-center gap-x-8 gap-y-4 mb-10 p-6 bg-black/5 dark:bg-zinc-900/40 backdrop-blur-2xl border border-black/5 dark:border-white/5 rounded-3xl"
+    >
+      {/* Average rating */}
+      <div className="flex items-center gap-3">
+        <div className="flex gap-0.5">
+          {Array.from({ length: 5 }).map((_, i) => (
+            <svg
+              key={i}
+              className={`w-5 h-5 ${i < Math.round(Number(stats.avg)) ? "text-amber-400" : "text-zinc-300 dark:text-zinc-700"}`}
+              fill="currentColor"
+              viewBox="0 0 20 20"
+            >
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          ))}
+        </div>
+        <div>
+          <span className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight">{stats.avg}</span>
+          <span className="text-zinc-500 dark:text-zinc-400 text-sm ml-1">/ 5</span>
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div className="hidden sm:block w-px h-8 bg-black/10 dark:bg-white/10" />
+
+      {/* Count */}
+      <div className="text-center sm:text-left">
+        <div className="text-xl font-bold text-zinc-900 dark:text-white">{stats.count}</div>
+        <div className="text-xs font-mono text-zinc-500 dark:text-zinc-400 tracking-widest uppercase">
+          Verified testimonials
+        </div>
+      </div>
+
+      {/* Divider */}
+      <div className="hidden sm:block w-px h-8 bg-black/10 dark:bg-white/10" />
+
+      {/* Recommend % */}
+      <div className="text-center sm:text-left">
+        <div className="text-xl font-bold text-emerald-600 dark:text-emerald-400">{stats.recommendPct}%</div>
+        <div className="text-xs font-mono text-zinc-500 dark:text-zinc-400 tracking-widest uppercase">
+          Recommend
+        </div>
+      </div>
+    </motion.div>
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Page
@@ -55,7 +121,7 @@ export default function TestimonialsPage() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-16"
+          className="mb-10"
         >
           <h1 className="text-5xl md:text-7xl font-bold text-zinc-900 dark:text-white tracking-tighter mb-5 transition-colors duration-500">
             Testimonials.
@@ -64,6 +130,9 @@ export default function TestimonialsPage() {
             Honest words from colleagues, collaborators, and clients. Every note is read and genuinely appreciated.
           </p>
         </motion.div>
+
+        {/* Stats bar */}
+        {!isLoading && <StatsBar feedbacks={feedbacks} />}
 
         {/* Form toggle + success */}
         <motion.div
@@ -143,7 +212,7 @@ export default function TestimonialsPage() {
           </AnimatePresence>
         </motion.div>
 
-        {/* Divider */}
+        {/* Divider with count */}
         <div className="flex items-center gap-4 mb-12">
           <div className="h-px flex-1 bg-black/5 dark:bg-white/5" />
           <span className="text-zinc-400 dark:text-zinc-600 font-mono text-xs tracking-widest uppercase">

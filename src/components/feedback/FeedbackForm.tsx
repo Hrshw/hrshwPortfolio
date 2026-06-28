@@ -4,6 +4,16 @@ import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SubmitPayload } from "@/hooks/useFeedback";
 
+const PROJECTS = [
+  { value: "", label: "— Select a project (optional)" },
+  { value: "PulseGuard", label: "PulseGuard — AI Uptime Monitoring" },
+  { value: "Observyze", label: "Observyze — AI Observability Platform" },
+  { value: "SubTrackHub", label: "SubTrackHub — Subscription Manager" },
+  { value: "env-secret-lock", label: "env-secret-lock — CLI Secret Tool" },
+  { value: "Envint Work", label: "Envint Services — Work Collaboration" },
+  { value: "Other", label: "Other / General" },
+];
+
 // ---------------------------------------------------------------------------
 // Star Picker
 // ---------------------------------------------------------------------------
@@ -27,7 +37,7 @@ function StarPicker({
             onClick={() => onChange(i + 1)}
             onMouseEnter={() => setHovered(i + 1)}
             onMouseLeave={() => setHovered(0)}
-            className="focus:outline-none group"
+            className="focus:outline-none"
             aria-label={`Rate ${i + 1} star${i > 0 ? "s" : ""}`}
           >
             <motion.svg
@@ -56,18 +66,25 @@ function StarPicker({
 // ---------------------------------------------------------------------------
 function Field({
   label,
+  hint,
   error,
   children,
 }: {
   label: string;
+  hint?: string;
   error?: string;
   children: React.ReactNode;
 }) {
   return (
     <div className="flex flex-col gap-1.5">
-      <label className="text-xs font-mono text-zinc-500 dark:text-zinc-400 tracking-widest uppercase">
-        {label}
-      </label>
+      <div className="flex items-center justify-between">
+        <label className="text-xs font-mono text-zinc-500 dark:text-zinc-400 tracking-widest uppercase">
+          {label}
+        </label>
+        {hint && (
+          <span className="text-xs text-zinc-400 dark:text-zinc-600 font-light">{hint}</span>
+        )}
+      </div>
       {children}
       <AnimatePresence>
         {error && (
@@ -106,6 +123,8 @@ export default function FeedbackForm({
   const [role, setRole] = useState("");
   const [message, setMessage] = useState("");
   const [rating, setRating] = useState(0);
+  const [linkedinUrl, setLinkedinUrl] = useState("");
+  const [project, setProject] = useState("");
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const validate = () => {
@@ -113,6 +132,9 @@ export default function FeedbackForm({
     if (!name.trim() || name.trim().length < 2) e.name = "At least 2 characters required.";
     if (!message.trim() || message.trim().length < 10) e.message = "At least 10 characters required.";
     if (rating < 1) e.rating = "Please select a rating.";
+    if (linkedinUrl && !linkedinUrl.startsWith("https://www.linkedin.com/")) {
+      e.linkedinUrl = "Must be a valid linkedin.com URL.";
+    }
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -120,7 +142,14 @@ export default function FeedbackForm({
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
-    await onSubmit({ name: name.trim(), role: role.trim(), rating, message: message.trim() });
+    await onSubmit({
+      name: name.trim(),
+      role: role.trim(),
+      rating,
+      message: message.trim(),
+      linkedinUrl: linkedinUrl.trim() || undefined,
+      project: project || undefined,
+    });
   };
 
   return (
@@ -150,6 +179,42 @@ export default function FeedbackForm({
             className={inputClass}
             autoComplete="organization-title"
           />
+        </Field>
+      </div>
+
+      {/* LinkedIn URL + Project row */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <Field label="LinkedIn Profile" hint="optional" error={errors.linkedinUrl}>
+          <input
+            id="feedback-linkedin"
+            type="url"
+            value={linkedinUrl}
+            onChange={(e) => { setLinkedinUrl(e.target.value); setErrors((p) => ({ ...p, linkedinUrl: "" })); }}
+            placeholder="https://www.linkedin.com/in/..."
+            maxLength={200}
+            className={`${inputClass} ${errors.linkedinUrl ? "border-rose-400/60 dark:border-rose-500/50" : ""}`}
+            autoComplete="off"
+          />
+          <p className="text-[11px] text-zinc-400 dark:text-zinc-600 font-mono">
+            Your name will link to your profile on the testimonials page.
+          </p>
+        </Field>
+        <Field label="Project Context" hint="optional">
+          <select
+            id="feedback-project"
+            value={project}
+            onChange={(e) => setProject(e.target.value)}
+            className={`${inputClass} cursor-pointer`}
+          >
+            {PROJECTS.map((p) => (
+              <option key={p.value} value={p.value} className="bg-zinc-900 text-zinc-100">
+                {p.label}
+              </option>
+            ))}
+          </select>
+          <p className="text-[11px] text-zinc-400 dark:text-zinc-600 font-mono">
+            What project or context did we work on together?
+          </p>
         </Field>
       </div>
 
