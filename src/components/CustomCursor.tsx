@@ -57,9 +57,9 @@ export default function CustomCursor() {
         dotRef.current.style.transform = `translate3d(${dotPos.current.x - 4}px, ${dotPos.current.y - 4}px, 0)`;
       }
 
-      // Ring: smooth, slightly lagged (15% lerp per frame)
-      ringPos.current.x += (mousePos.current.x - ringPos.current.x) * 0.15;
-      ringPos.current.y += (mousePos.current.y - ringPos.current.y) * 0.15;
+      // Ring: smooth but responsive (35% lerp per frame)
+      ringPos.current.x += (mousePos.current.x - ringPos.current.x) * 0.35;
+      ringPos.current.y += (mousePos.current.y - ringPos.current.y) * 0.35;
       if (ringRef.current) {
         ringRef.current.style.transform = `translate3d(${ringPos.current.x - 20}px, ${ringPos.current.y - 20}px, 0)`;
       }
