@@ -7,8 +7,6 @@ tags: ["Security", "Cryptography", "Node.js", "Developer Tools"]
 project: "Env Secret Lock"
 ---
 
-# Securing the Local Environment: Zero-Knowledge Secret Management for Teams
-
 We’ve all seen it: a developer commits a `.env` file containing production Stripe keys, or drops database credentials into a private Slack channel because "the QA engineer needed it." Secret sprawl is one of the most common vectors for security breaches in modern software engineering. 
 
 When building **[Env Secret Lock](/#section-projects)**, my goal was to solve the convenience-versus-security trade-off. I wanted a CLI tool that developers would *actually* use—allowing them to encrypt local environment files, commit the encrypted artifacts securely to Git, and synchronize keys across a team without a central authority having plain-text access.

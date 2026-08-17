@@ -14,7 +14,12 @@ interface ArchitectureTab {
   cicd: string[];
 }
 
-export default function SystemDesignSection() {
+interface SystemDesignSectionProps {
+  /** Render the section title as an <h1> when the section is a standalone page (e.g. /system-design). */
+  headingLevel?: "h1" | "h2";
+}
+
+export default function SystemDesignSection({ headingLevel = "h2" }: SystemDesignSectionProps) {
   const [activeTab, setActiveTab] = useState("pulseguard");
 
   const tabs: ArchitectureTab[] = [
@@ -234,9 +239,15 @@ export default function SystemDesignSection() {
       >
         {/* Header */}
         <div className="mb-20">
-          <h2 className="text-4xl md:text-6xl font-bold text-zinc-900 dark:text-white tracking-tighter mb-4 transition-colors duration-500">
-            System Design Blueprint.
-          </h2>
+          {headingLevel === "h1" ? (
+            <h1 className="text-4xl md:text-6xl font-bold text-zinc-900 dark:text-white tracking-tighter mb-4 transition-colors duration-500">
+              System Design Blueprint.
+            </h1>
+          ) : (
+            <h2 className="text-4xl md:text-6xl font-bold text-zinc-900 dark:text-white tracking-tighter mb-4 transition-colors duration-500">
+              System Design Blueprint.
+            </h2>
+          )}
           <p className="text-zinc-600 dark:text-zinc-500 text-lg md:text-xl font-light tracking-tight max-w-2xl transition-colors duration-500">
             Interactive breakdowns of structural design decisions, cloud scaling models, cost efficiency boundaries, and deployment configurations.
           </p>

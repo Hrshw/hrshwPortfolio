@@ -7,8 +7,6 @@ tags: ["Redis", "Node.js", "AWS", "Monitoring"]
 project: "PulseGuard"
 ---
 
-# Beyond Standard Pings: Engineering a High-Throughput Monitoring Engine
-
 Uptime monitors like Pingdom or UptimeRobot look deceptively simple. You send an HTTP request; if it returns a `200 OK`, the site is up. However, when you try to scale this to monitor thousands of URLs, check them every 30 seconds, verify SSL expiry dates, detect DNS hijackings (DNS drift), and flag anomalies in response times, standard approaches break down.
 
 When building **[PulseGuard](/#section-projects)**, my goal was to build a developer-first monitoring system that does more than ping endpoints. It needed to capture DNS resolution details, inspect the TLS handshake, and run custom anomaly detection algorithms to identify degradation before a total outage occurs.

@@ -12,7 +12,7 @@ export default function SystemDesignPage() {
   return (
     <main className="w-full bg-zinc-50 dark:bg-[#030303] text-zinc-900 dark:text-zinc-200 min-h-screen pt-32 pb-24">
       <div className="max-w-7xl mx-auto">
-        <SystemDesignSection />
+        <SystemDesignSection headingLevel="h1" />
       </div>
     </main>
   );

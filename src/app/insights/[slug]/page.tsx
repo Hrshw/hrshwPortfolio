@@ -4,7 +4,7 @@ import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
 import 'highlight.js/styles/github-dark.css'; // Add syntax highlighting theme
 import { getInsightBySlug, getInsightSlugs } from '@/lib/insights';
-import { constructMetadata } from '@/lib/metadata';
+import { constructMetadata, siteMetadata } from '@/lib/metadata';
 import Link from 'next/link';
 
 export const dynamic = 'force-static';
@@ -41,24 +41,24 @@ export default async function InsightPost(props: { params: Promise<{ slug: strin
     author: {
       '@type': 'Person',
       name: 'Rahul Singh Shekhawat',
-      url: 'https://rahulshekhawat.dev',
-      image: 'https://rahulshekhawat.dev/rahul.png',
+      url: siteMetadata.siteUrl,
+      image: `${siteMetadata.siteUrl}/rahul.png`,
     },
     publisher: {
       '@type': 'Person',
       name: 'Rahul Singh Shekhawat',
-      url: 'https://rahulshekhawat.dev',
+      url: siteMetadata.siteUrl,
     },
     mainEntityOfPage: {
       '@type': 'WebPage',
-      '@id': `https://rahulshekhawat.dev/insights/${slug}`,
+      '@id': `${siteMetadata.siteUrl}/insights/${slug}`,
     },
     breadcrumb: {
       '@type': 'BreadcrumbList',
       itemListElement: [
-        { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://rahulshekhawat.dev' },
-        { '@type': 'ListItem', position: 2, name: 'Insights', item: 'https://rahulshekhawat.dev/insights' },
-        { '@type': 'ListItem', position: 3, name: title, item: `https://rahulshekhawat.dev/insights/${slug}` },
+        { '@type': 'ListItem', position: 1, name: 'Home', item: siteMetadata.siteUrl },
+        { '@type': 'ListItem', position: 2, name: 'Insights', item: `${siteMetadata.siteUrl}/insights` },
+        { '@type': 'ListItem', position: 3, name: title, item: `${siteMetadata.siteUrl}/insights/${slug}` },
       ],
     },
     keywords: tags ? tags.join(', ') : '',

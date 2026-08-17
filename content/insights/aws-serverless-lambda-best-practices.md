@@ -6,8 +6,6 @@ slug: "aws-serverless-lambda-best-practices"
 tags: ["AWS", "Serverless", "Lambda", "Architecture"]
 ---
 
-# Scaling Beyond the Basics: AWS Serverless Best Practices
-
 Serverless architecture promises automatic scaling, zero idle costs, and reduced operational overhead. But when you move from a basic "Hello World" function to a production API processing millions of requests, you run into real-world engineering bottlenecks: database connection exhaustion, latency spikes from cold starts, and complex permission hierarchies.
 
 Through building scalable backends like the **[Observyze](/#section-projects)** ingestion pipeline, I have compiled a set of battle-tested patterns and practices for deploying high-throughput, secure, and cost-effective serverless architectures on AWS using Lambda and API Gateway.

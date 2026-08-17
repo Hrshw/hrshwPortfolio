@@ -92,5 +92,14 @@ export function constructMetadata({
         'max-snippet': -1,
       },
     },
+    // Google Search Console verification. Set NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+    // to your GSC verification token to enable the meta tag (inert otherwise).
+    ...(process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION
+      ? {
+          verification: {
+            google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+          },
+        }
+      : {}),
   };
 }

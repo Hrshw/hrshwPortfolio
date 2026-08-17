@@ -7,8 +7,6 @@ tags: ["AWS", "Cloud Costs", "LLMs", "MongoDB"]
 project: "SubTrackHub"
 ---
 
-# Beyond Simple Dashboards: Automating Cloud Savings with Intelligent Infrastructure Analysis
-
 Every engineering team has a graveyard of forgotten resources: detached EBS volumes retaining data at $\$0.10$/GB-month, idle EC2 instances running at 2% CPU utilization, and elastic IPs costing money because they aren't attached to anything. Over a year, this infrastructure waste amounts to thousands of dollars of bloated billing.
 
 When building **[SubTrackHub](/#section-projects)**, I wanted to go beyond displaying raw cloud cost charts. Developers don't have time to look at AWS Cost Explorer and figure out which EC2 instances can be safely downsized or shut down. I wanted a system that automatically aggregates resource metrics, scores infrastructure efficiency, and uses Large Language Models (LLMs) to synthesize safe, context-aware cleanup instructions.

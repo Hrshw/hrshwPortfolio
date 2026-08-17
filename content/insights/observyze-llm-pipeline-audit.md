@@ -7,8 +7,6 @@ tags: ["Observability", "LLM", "AWS", "AI Engineering"]
 project: "Observyze"
 ---
 
-# Stop Debugging AI with "Print" Statements.
-
 If you are building an AI agent, you know the feeling. The user submits a prompt, the loader spins, and the application returns a response that is completely unhinged. You check the logs. 
 
 `HTTP 200 OK`. 
