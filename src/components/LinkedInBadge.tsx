@@ -16,7 +16,7 @@ import Link from "next/link";
 const PROFILE = {
   vanity: "rahul-singh-shekhawat-b4ba481ab",
   name: "Rahul Singh Shekhawat",
-  headline: "Full-Stack & Cloud Engineer · AWS · SaaS",
+  headline: "Full-Stack & Cloud Engineer · AI-Powered SaaS",
   location: "Mumbai, India",
   // Real photo, served by GitHub and auto-updated when the GitHub avatar
   // changes. (LinkedIn's badge — which used to supply the photo — is

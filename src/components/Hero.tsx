@@ -79,7 +79,7 @@ export default function Hero() {
           fontFamily: "var(--font-mono)",
         }}
       >
-        &lt; Software &amp; Cloud Engineer /&gt;
+        &lt; AI-Powered SaaS &amp; Cloud Engineer /&gt;
       </h2>
 
       {/* Professional Bio */}

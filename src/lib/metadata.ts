@@ -3,8 +3,8 @@ import type { Metadata } from 'next';
 const defaultUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rahulshekhawat.dev';
 
 export const siteMetadata = {
-  title: 'Rahul Singh Shekhawat | Full-Stack & Cloud Engineer',
-  description: 'Rahul Singh Shekhawat is a Full-Stack & Cloud Engineer specializing in scalable SaaS, AWS infrastructure, AI integrations, and serverless architecture.',
+  title: 'Rahul Singh Shekhawat | Full-Stack & Cloud Engineer · AI SaaS',
+  description: 'Rahul Singh Shekhawat is a Full-Stack & Cloud Engineer building AI-powered SaaS on AWS — scalable products, cloud infrastructure, and serverless architecture.',
   keywords: [
     'Rahul Singh Shekhawat',
     'Rahul Shekhawat Cloud Engineer',
@@ -16,6 +16,8 @@ export const siteMetadata = {
     'AI Systems Engineer Portfolio',
     'AWS Developer Portfolio',
     'Node.js Developer Portfolio',
+    'AI SaaS Developer',
+    'AI-Powered SaaS Engineer India',
     'AI Observability Engineer',
     'PulseGuard',
     'Observyze',

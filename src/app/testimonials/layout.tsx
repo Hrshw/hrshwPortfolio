@@ -4,7 +4,7 @@ import { siteMetadata } from '@/lib/metadata';
 
 export const metadata: Metadata = constructMetadata({
   title: 'Developer Testimonials | Rahul Singh Shekhawat',
-  description: 'Read what collaborators, peers, and colleagues say about working with Rahul Singh Shekhawat, Full-Stack & Cloud Engineer.',
+  description: 'Read what collaborators, peers, and colleagues say about working with Rahul Singh Shekhawat, Full-Stack & Cloud Engineer building AI-powered SaaS.',
   path: '/testimonials',
 });
 

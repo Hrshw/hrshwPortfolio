@@ -22,7 +22,7 @@ interface SpecializationConfig {
 const specializations: Record<string, SpecializationConfig> = {
   "cloud-engineer": {
     title: "Rahul Shekhawat | Cloud Engineer Portfolio",
-    tagline: "Full-Stack & Cloud Engineer specializing in scalable AWS architectures, infrastructure as code, and performance tuning.",
+    tagline: "Full-Stack & Cloud Engineer building AI-powered SaaS on scalable AWS architectures, infrastructure as code, and performance tuning.",
     intro: "As a cloud engineer based in India, I design, build, and operate scalable AWS infrastructure for production SaaS platforms — from account-level architecture and infrastructure-as-code to performance tuning and FinOps cost control. My work spans EC2, ECS/Fargate, S3, DynamoDB, and serverless compute, with a focus on reliability, security, and measurable efficiency gains.",
   },
   "aws-developer": {
@@ -32,7 +32,7 @@ const specializations: Record<string, SpecializationConfig> = {
   },
   "full-stack-developer": {
     title: "Rahul Shekhawat | Full Stack Developer Portfolio",
-    tagline: "Full Stack Developer specializing in robust Node.js backends, React interfaces, and cloud-native scalable systems.",
+    tagline: "Full Stack Developer building AI-powered SaaS with robust Node.js backends, React interfaces, and cloud-native scalable systems.",
     intro: "I'm a full-stack developer who ships complete products: robust Node.js and Express/Fastify backends, React and Next.js interfaces, and cloud-native deployment pipelines. From transport booking platforms to AI-powered monitoring dashboards, I take projects from first architecture decision to production deployment.",
   },
   "node-js-developer": {

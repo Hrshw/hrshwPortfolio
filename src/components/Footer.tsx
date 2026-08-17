@@ -20,8 +20,7 @@ export default function Footer() {
               Rahul Singh Shekhawat
             </p>
             <p className="text-sm font-light text-zinc-500 dark:text-zinc-400 max-w-xs leading-relaxed">
-              Full-Stack &amp; Cloud Engineer — building scalable SaaS, AWS
-              infrastructure, and AI integrations.
+              Full-Stack &amp; Cloud Engineer — building AI-powered SaaS on AWS.
             </p>
           </div>
 

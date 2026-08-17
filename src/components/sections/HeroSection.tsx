@@ -23,7 +23,7 @@ export default function HeroSection({ customTagline }: HeroProps) {
         >
           <h2 className="text-zinc-500 font-mono text-sm tracking-[0.2em] uppercase">
             <span className="text-[var(--color-primary)] pr-2">{"//"}</span>
-            Full-Stack & Cloud Engineer
+            Full-Stack & Cloud Engineer · AI-Powered SaaS
           </h2>
         </motion.div>
         
