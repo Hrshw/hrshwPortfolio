@@ -1,0 +1,25 @@
+# Rahul Singh Shekhawat
+
+Rahul Singh Shekhawat is a Full-Stack & Cloud Engineer based in Mumbai, India, who builds AI-powered SaaS products on AWS and works remotely with clients worldwide.
+
+## Summary
+- Full-stack web development with Node.js, React, Next.js, and TypeScript
+- AWS cloud architecture (Lambda, EC2, S3, Route 53, DynamoDB) and serverless backends
+- AI integrations and LLM-powered features for SaaS products
+- End-to-end SaaS builds, from MVP to production, plus project work on existing applications
+- Performance, SEO, and cloud-migration improvements for existing apps
+
+## Key pages
+- [Home](https://rahulshekhawat.dev/): Portfolio overview
+- [Contact](https://rahulshekhawat.dev/contact): Contact details and message form
+- [System Design](https://rahulshekhawat.dev/system-design): System design work
+- [Insights](https://rahulshekhawat.dev/insights): Technical articles on AWS, serverless, AI, and SaaS
+- [Testimonials](https://rahulshekhawat.dev/testimonials): Feedback from collaborators and peers
+
+## External profiles
+- [GitHub](https://github.com/Hrshw): Code and open-source projects
+- [LinkedIn](https://www.linkedin.com/in/rahul-singh-shekhawat-b4ba481ab): Professional profile
+
+## Contact
+- Email: rahulsinghpilani7@gmail.com
+- Location: Mumbai, India (remote-friendly)
