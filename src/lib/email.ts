@@ -1,20 +1,95 @@
 // ---------------------------------------------------------------------------
 // Email notifications for new contact messages (optional).
 //
-// Uses Resend's REST API directly (no SDK dependency). Everything is env-gated:
-// if RESEND_API_KEY / CONTACT_EMAIL_TO aren't set, no email is sent and the
-// message still lands in the /admin inbox. Failures are logged, never thrown —
-// a down email provider must not lose the visitor's message.
+// Two transports, no extra services required:
+//   1. Gmail SMTP (preferred, no third party) — set SMTP_USER + SMTP_PASS
+//      (a Gmail App Password; requires 2-Step Verification on the account).
+//   2. Resend API fallback — set RESEND_API_KEY only.
 //
-// Setup (free tier: 100 emails/day):
-//   1. Create an account at https://resend.com and copy the API key.
-//   2. For testing, send to your own inbox with the default sender
-//      (onboarding@resend.dev). For production, verify a domain and set
-//      CONTACT_EMAIL_FROM to an address on it.
+// Owner notifications always go to the personal inbox below
+// (CONTACT_EMAIL_TO overrides it). Failures are logged, never thrown — a down
+// email provider must not lose the visitor's message.
+//
+// Gmail setup (3 minutes, once):
+//   1. Google Account → Security → turn ON 2-Step Verification.
+//   2. Search "Google App Passwords" → create one for "Mail" → copy the
+//      16-character password.
+//   3. Set SMTP_USER=rahulsinghpilani7@gmail.com, SMTP_PASS=<app password>.
 // ---------------------------------------------------------------------------
 
+import nodemailer from "nodemailer";
 import type { Inquiry } from "./hire";
 import { labelFor } from "./hire-i18n";
+
+type Transport = "smtp" | "resend";
+
+/** Which transport is configured, or null if email is entirely off. */
+function transport(): Transport | null {
+  if (process.env.SMTP_USER && process.env.SMTP_PASS) return "smtp";
+  if (process.env.RESEND_API_KEY) return "resend";
+  return null;
+}
+
+/** Send via Gmail (or any) SMTP with an App Password. */
+async function sendViaSmtp(opts: {
+  from: string;
+  to: string[];
+  replyTo?: string;
+  subject: string;
+  text: string;
+}): Promise<boolean> {
+  try {
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST || "smtp.gmail.com",
+      port: Number(process.env.SMTP_PORT || 465),
+      secure: (process.env.SMTP_PORT || "465") === "465",
+      auth: {
+        user: process.env.SMTP_USER as string,
+        pass: process.env.SMTP_PASS as string,
+      },
+    });
+    await transporter.sendMail({
+      from: opts.from,
+      to: opts.to.join(", "),
+      replyTo: opts.replyTo,
+      subject: opts.subject,
+      text: opts.text,
+    });
+    return true;
+  } catch (err) {
+    console.error("[email:smtp]", err);
+    return false;
+  }
+}
+
+/** Send via Resend's REST API (fallback transport). */
+async function sendViaResend(opts: {
+  from: string;
+  to: string[];
+  replyTo?: string;
+  subject: string;
+  text: string;
+}): Promise<boolean> {
+  try {
+    const res = await fetch("https://api.resend.com/emails", {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(opts),
+    });
+    if (!res.ok) {
+      const detail = await res.text().catch(() => "");
+      console.error("[email:resend]", res.status, detail.slice(0, 300));
+      return false;
+    }
+    return true;
+  } catch (err) {
+    console.error("[email:resend]", err);
+    return false;
+  }
+}
 
 /** Shared low-level sender — returns true if the request was accepted. */
 async function sendEmail(opts: {
@@ -24,35 +99,26 @@ async function sendEmail(opts: {
   subject: string;
   text: string;
 }): Promise<boolean> {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return false;
-  try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(opts),
-    });
-    if (!res.ok) {
-      const detail = await res.text().catch(() => "");
-      console.error("[email]", res.status, detail.slice(0, 300));
-      return false;
-    }
-    return true;
-  } catch (err) {
-    console.error("[email]", err);
-    return false;
-  }
+  const t = transport();
+  if (t === "smtp") return sendViaSmtp(opts);
+  if (t === "resend") return sendViaResend(opts);
+  return false;
 }
 
 const fromAddress = () =>
-  process.env.CONTACT_EMAIL_FROM || "Portfolio Contact <onboarding@resend.dev>";
+  process.env.CONTACT_EMAIL_FROM ||
+  process.env.SMTP_USER ||
+  "Portfolio Contact <onboarding@resend.dev>";
 
-/** Whether email notifications are configured (Resend key + inbox). */
+/**
+ * The only address owner notifications are ever sent to.
+ * Defaults to the personal inbox; CONTACT_EMAIL_TO overrides it.
+ */
+const ownerEmail = () => process.env.CONTACT_EMAIL_TO || "rahulsinghpilani7@gmail.com";
+
+/** Whether email notifications are configured (SMTP creds or Resend key). */
 export function isEmailConfigured(): boolean {
-  return Boolean(process.env.RESEND_API_KEY && process.env.CONTACT_EMAIL_TO);
+  return transport() !== null;
 }
 
 export async function sendContactEmail(opts: {
@@ -60,13 +126,11 @@ export async function sendContactEmail(opts: {
   email: string;
   message: string;
 }): Promise<void> {
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_EMAIL_TO;
-  if (!apiKey || !to) return; // not configured — admin inbox still has it
+  if (!isEmailConfigured()) return; // not configured — admin inbox still has it
 
   await sendEmail({
     from: fromAddress(),
-    to: [to],
+    to: [ownerEmail()],
     replyTo: opts.email,
     subject: `New portfolio message from ${opts.name}`,
     text: [
@@ -130,8 +194,8 @@ export async function sendInquiryNotifications(
   inquiry: Inquiry,
   summary: string
 ): Promise<void> {
-  const ownerTo = process.env.CONTACT_EMAIL_TO;
-  if (!isEmailConfigured() || !ownerTo) return; // admin panel still has it
+  const ownerTo = ownerEmail();
+  if (!isEmailConfigured()) return; // admin panel still has it
 
   const senderLabel = inquiry.company
     ? `${inquiry.name} (${inquiry.company})`

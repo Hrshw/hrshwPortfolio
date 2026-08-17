@@ -576,8 +576,9 @@ export default function AdminPage() {
             {emailConfigured === false && (
               <div className="px-5 py-4 bg-amber-500/10 border border-amber-500/20 rounded-2xl text-sm text-amber-600 dark:text-amber-400 font-mono">
                 ⚠ Email notifications aren&apos;t configured — clients won&apos;t get
-                confirmations and you won&apos;t get notified. Set RESEND_API_KEY +
-                CONTACT_EMAIL_TO to enable.
+                confirmations and you won&apos;t get notified. Set SMTP_USER +
+                SMTP_PASS (Gmail App Password) or RESEND_API_KEY to enable
+                (notifications go to rahulsinghpilani7@gmail.com).
               </div>
             )}
 
