@@ -54,7 +54,7 @@ export default function Footer() {
 
         <div className="mt-12 pt-6 border-t border-black/5 dark:border-white/5 flex flex-col sm:flex-row justify-between gap-3 text-xs text-zinc-500 dark:text-zinc-600">
           <span>© {new Date().getFullYear()} Rahul Singh Shekhawat</span>
-          <span>Built with Next.js · Mumbai, India</span>
+          <span>Let&apos;s build something great together.</span>
         </div>
       </div>
     </footer>
