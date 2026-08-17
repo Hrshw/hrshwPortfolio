@@ -51,7 +51,7 @@ export default function AboutSection() {
             </h2>
             <div className="space-y-6 text-lg md:text-xl text-zinc-600 dark:text-zinc-400 font-light leading-relaxed transition-colors duration-500">
               <p>
-                I&apos;m <span className="text-zinc-900 dark:text-white font-medium">Rahul Singh Shekhawat</span>. A Cloud Engineer and Full-Stack Developer who genuinely enjoys turning ideas into real-world products.
+                I&apos;m <span className="text-zinc-900 dark:text-white font-medium">Rahul Singh Shekhawat</span>. A Cloud Engineer and Full-Stack Developer who genuinely enjoys turning ideas into real-world products — from AI-powered SaaS platforms and AWS cloud infrastructure to Next.js apps and serverless backends.
               </p>
               <p>
                 My journey started with curiosity — understanding how applications work, how systems scale, and how technology can solve real problems. Over time, that curiosity evolved into building production-grade applications, cloud infrastructure, automation systems, and AI-powered tools.
@@ -82,7 +82,7 @@ export default function AboutSection() {
                 Whether it&apos;s optimizing cloud infrastructure, designing architectures, or building monitoring platforms, I love the process of turning problems into solutions.
               </p>
               <p className="text-zinc-800 dark:text-zinc-200 font-medium text-sm italic transition-colors duration-500">
-                "Engineering is about understanding people, solving meaningful problems, and building technology that makes an impact."
+                &quot;Engineering is about understanding people, solving meaningful problems, and building technology that makes an impact.&quot;
               </p>
             </div>
           </div>

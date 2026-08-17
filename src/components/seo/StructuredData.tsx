@@ -90,6 +90,53 @@ export default function StructuredData() {
     url: `${siteMetadata.siteUrl}/#section-projects`,
   };
 
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What services do you offer?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Full-stack web development, AWS cloud architecture, AI integrations, and end-to-end SaaS product builds — from MVP to production. I also take on feature work, API/backend development, performance and SEO improvements, and migrations of existing applications to the cloud.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Do you build AI-powered SaaS products?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. I design and build AI-powered SaaS platforms on AWS — including LLM integrations, AI features, automation, and serverless backends that scale.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'What technologies do you work with?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Node.js, React, Next.js, TypeScript, AWS (Lambda, EC2, S3, Route 53, DynamoDB), serverless architecture, Redis, MongoDB, and LLM/OpenAI integrations.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can you work on an existing project?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes — I take on new features, integrations, bug fixes, performance and SEO improvements, and moving existing apps onto AWS infrastructure.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Where are you based and do you work remotely?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Based in Mumbai, India, and working remotely with clients worldwide.',
+        },
+      },
+    ],
+  };
+
   const envSecretLockSchema = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
@@ -129,6 +176,10 @@ export default function StructuredData() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(envSecretLockSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
     </>
   );
