@@ -30,6 +30,12 @@ const csp = [
 const nextConfig: NextConfig = {
   trailingSlash: false,
   poweredByHeader: false,
+  images: {
+    // GitHub avatar used in the LinkedIn card
+    remotePatterns: [
+      { protocol: "https", hostname: "avatars.githubusercontent.com" },
+    ],
+  },
   async headers() {
     return [
       {

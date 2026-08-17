@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import HUDHeader from "@/components/HUDHeader";
+import Footer from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { constructMetadata } from "@/lib/metadata";
 
@@ -20,6 +21,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <HUDHeader />
           {children}
+          <Footer />
         </ThemeProvider>
       </body>
     </html>

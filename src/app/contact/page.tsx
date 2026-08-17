@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
+import LinkedInBadge from "@/components/LinkedInBadge";
 import { constructMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = constructMetadata({
@@ -107,6 +108,10 @@ export default function ContactPage() {
                   {s.label}
                 </a>
               ))}
+            </div>
+
+            <div className="flex justify-center pt-2">
+              <LinkedInBadge />
             </div>
 
             <p className="text-xs text-zinc-500 dark:text-zinc-600 font-mono mt-auto">
