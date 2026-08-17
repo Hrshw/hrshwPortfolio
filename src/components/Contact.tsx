@@ -77,7 +77,7 @@ export default function Contact() {
             <span style={{ fontSize: "0.85rem", color: "var(--color-muted)", display: "block", fontFamily: "var(--font-mono)", marginBottom: "0.75rem" }}>NETWORKS</span>
             <div style={{ display: "flex", gap: "1.25rem", flexWrap: "wrap" }}>
               <a
-                href="https://github.com/rahulsinghpilani7"
+                href="https://github.com/Hrshw"
                 target="_blank"
                 rel="noreferrer"
                 style={{
@@ -89,7 +89,7 @@ export default function Contact() {
                 GitHub
               </a>
               <a
-                href="https://linkedin.com/in/rahul-singh-shekhawat"
+                href="https://www.linkedin.com/in/rahul-singh-shekhawat-b4ba481ab"
                 target="_blank"
                 rel="noreferrer"
                 style={{

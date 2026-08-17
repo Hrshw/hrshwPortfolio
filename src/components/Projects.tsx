@@ -51,7 +51,7 @@ export default function Projects() {
       description:
         "An AI system that transcribes YouTube/local media, analyzes key moments, overlays auto-generated subtitles, trims video ratios, and produces ready-to-share social media clips.",
       technologies: ["Node.js", "Python", "Whisper AI", "FFmpeg", "Social APIs"],
-      githubUrl: "https://github.com/rahulsinghpilani7",
+      githubUrl: "https://github.com/Hrshw",
     },
     {
       title: "NFT Showcase Platform",
@@ -59,7 +59,7 @@ export default function Projects() {
       description:
         "A fully responsive Web3 showcase gallery hosting curated NFT collections. Configured static asset hosting on AWS S3 with Route 53 domain routing for highly optimized content delivery.",
       technologies: ["HTML5", "CSS3", "JavaScript", "AWS S3", "AWS Route 53"],
-      githubUrl: "https://github.com/rahulsinghpilani7",
+      githubUrl: "https://github.com/Hrshw",
     },
   ];
 

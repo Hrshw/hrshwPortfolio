@@ -99,8 +99,8 @@ export default function Terminal() {
           ...newHistory,
           { type: "output", text: "📧 Email: rahulsinghpilani7@gmail.com" },
           { type: "output", text: "📞 Phone: +91 7082739587" },
-          { type: "output", text: "🔗 GitHub: github.com/rahulsinghpilani7" },
-          { type: "output", text: "🔗 LinkedIn: linkedin.com/in/rahul-singh-shekhawat" },
+          { type: "output", text: "🔗 GitHub: github.com/Hrshw" },
+          { type: "output", text: "🔗 LinkedIn: linkedin.com/in/rahul-singh-shekhawat-b4ba481ab" },
         ]);
         break;
       case "hack":

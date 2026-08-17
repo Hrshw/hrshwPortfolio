@@ -93,8 +93,8 @@ export default function ContactPage() {
 
             <div className="flex flex-wrap gap-4 pt-4 border-t border-black/5 dark:border-white/5">
               {[
-                { label: "GitHub", href: "https://github.com/rahulsinghpilani7" },
-                { label: "LinkedIn", href: "https://www.linkedin.com/in/rahul-singh-shekhawat" },
+                { label: "GitHub", href: "https://github.com/Hrshw" },
+                { label: "LinkedIn", href: "https://www.linkedin.com/in/rahul-singh-shekhawat-b4ba481ab" },
                 { label: "Instagram", href: "https://www.instagram.com/hr.shw/" },
               ].map((s) => (
                 <a
