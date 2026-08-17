@@ -2,6 +2,7 @@
 
 import React from "react";
 import { motion } from "framer-motion";
+import ContactForm from "@/components/ContactForm";
 
 export default function ContactSection() {
   return (
@@ -75,6 +76,66 @@ export default function ContactSection() {
           >
             Instagram
           </motion.a>
+        </div>
+      </motion.div>
+
+      {/* Contact form — server-validated, rate-limited, spam-filtered */}
+      <motion.div
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: "-100px" }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        className="w-full max-w-5xl mt-12 bg-black/5 dark:bg-[#050505]/40 backdrop-blur-2xl border border-black/5 dark:border-white/5 rounded-[2rem] p-8 md:p-12 transition-colors duration-500"
+      >
+        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10">
+          {/* Info column */}
+          <div className="lg:col-span-2 flex flex-col gap-8">
+            <div>
+              <h3 className="text-2xl font-bold text-zinc-900 dark:text-white tracking-tight mb-2">
+                Send a message.
+              </h3>
+              <p className="text-zinc-600 dark:text-zinc-400 text-sm font-light leading-relaxed">
+                For project inquiries, collaborations, or just to say hi — your
+                message goes straight to my inbox. I reply to every serious note.
+              </p>
+            </div>
+
+            <div className="flex flex-col gap-4 text-sm">
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-black flex items-center justify-center text-xs">
+                  ✉
+                </span>
+                <a
+                  href="mailto:rahulsinghpilani7@gmail.com"
+                  className="text-zinc-700 dark:text-zinc-300 hover:text-zinc-900 dark:hover:text-white transition-colors"
+                >
+                  rahulsinghpilani7@gmail.com
+                </a>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-black flex items-center justify-center text-xs">
+                  ☎
+                </span>
+                <span className="text-zinc-700 dark:text-zinc-300">+91 7082739587</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <span className="w-8 h-8 rounded-full bg-zinc-900 dark:bg-white text-white dark:text-black flex items-center justify-center text-xs">
+                  ⌖
+                </span>
+                <span className="text-zinc-700 dark:text-zinc-300">Mumbai, India</span>
+              </div>
+            </div>
+
+            <p className="text-xs text-zinc-500 dark:text-zinc-600 font-mono">
+              Messages are spam-filtered and rate-limited. Your email is only
+              used to reply — never shared.
+            </p>
+          </div>
+
+          {/* Form column */}
+          <div className="lg:col-span-3">
+            <ContactForm />
+          </div>
         </div>
       </motion.div>
 

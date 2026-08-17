@@ -7,6 +7,7 @@ import ProjectsSection from "@/components/sections/ProjectsSection";
 import SystemDesignSection from "@/components/sections/SystemDesignSection";
 import CertificationsSection from "@/components/sections/CertificationsSection";
 import FeedbackTeaserSection from "@/components/sections/FeedbackTeaserSection";
+import SupportSection from "@/components/support/SupportSection";
 import ContactSection from "@/components/sections/ContactSection";
 import BlueprintCanvas from "@/components/3d/BlueprintCanvas";
 import StructuredData from "@/components/seo/StructuredData";
@@ -18,7 +19,7 @@ export default function Home() {
       {/* Sophisticated Dark Mesh Gradient Background */}
       <div className="fixed inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03]" />
+        <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-[0.03]" />
         <BlueprintCanvas />
       </div>
 
@@ -32,6 +33,7 @@ export default function Home() {
         <SystemDesignSection />
         <FeedbackTeaserSection />
         <CertificationsSection />
+        <SupportSection />
         <ContactSection />
       </div>
     </main>

@@ -25,6 +25,10 @@ export interface SubmitPayload {
   message: string;
   linkedinUrl?: string;
   project?: string;
+  /** Honeypot — must stay empty for humans. */
+  website?: string;
+  /** Epoch ms when the form was rendered (time-trap for bots). */
+  formStartedAt?: number;
 }
 
 export type SubmitStatus = "idle" | "loading" | "success" | "error";
@@ -39,24 +43,27 @@ export function useFeedback() {
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submittedEntry, setSubmittedEntry] = useState<SubmitPayload | null>(null);
 
-  // --- Fetch approved feedbacks ---
-  const fetchFeedbacks = useCallback(async () => {
-    try {
-      setIsLoading(true);
-      const res = await fetch("/api/feedback");
-      if (!res.ok) throw new Error("Failed to fetch");
-      const data: FeedbackEntry[] = await res.json();
-      setFeedbacks(data);
-    } catch {
-      setFeedbacks([]);
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
-
+  // --- Fetch approved feedbacks (on mount) ---
+  // isLoading starts true and is cleared only when the request settles,
+  // so there's no synchronous setState during the mount effect.
   useEffect(() => {
-    fetchFeedbacks();
-  }, [fetchFeedbacks]);
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/feedback");
+        if (!res.ok) throw new Error("Failed to fetch");
+        const data: FeedbackEntry[] = await res.json();
+        if (!cancelled) setFeedbacks(data);
+      } catch {
+        if (!cancelled) setFeedbacks([]);
+      } finally {
+        if (!cancelled) setIsLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
 
   // --- Submit a new feedback ---
   const submitFeedback = useCallback(async (payload: SubmitPayload) => {

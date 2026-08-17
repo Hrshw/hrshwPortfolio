@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rahul Singh Shekhawat — Portfolio
 
-## Getting Started
+Full-stack / cloud engineer portfolio built with **Next.js 16 (App Router)**, React 19, Tailwind CSS, GSAP, Three.js, and Upstash Redis.
 
-First, run the development server:
+## Features
+
+- **Homepage** — hero, about, experience, skills, projects, system design, certifications, testimonials, support, and contact sections (dark/light themes).
+- **Testimonials** (`/testimonials`) — visitors leave ratings + notes. Submissions are **spam-filtered**, **rate-limited**, and held for **admin approval** before going live.
+- **Contact form** — server-validated, honeypot + time-trap spam filtering, per-IP and global rate limits. Messages land in the admin inbox.
+- **Admin panel** (`/admin`) — passcode-protected moderation of testimonials (approve / delete), inbox messages (read / delete), a manual donations tracker (+1 per UPI payment, optional amount, total in ₹), and a project **Inquiries** pipeline (New → Contacted → Quoted → Won/Lost). Login attempts are throttled; passcode comparison is constant-time.
+- **Hire page** (`/hire`, private) — a project-brief page shared directly with potential clients: services, rate ranges, typical project pricing, and a structured brief form. Deliberately **not linked in the nav and noindexed** (robots.txt + meta robots) so it stays out of search engines. Submissions generate a scope summary, land in the admin Inquiries tab, and email a copy to you plus a confirmation to the client. **English + Hindi** (auto-detects Hindi browsers; toggle in the header); client confirmation emails are sent in the client's language while data stays stored in canonical English. Adjust rates/bundles in `src/lib/hire.ts`, translations in `src/lib/hire-i18n.ts`.
+- **Support / donations** — "Buy me a coffee" section. Payments use **UPI deep links generated server-side** (payee can never be tampered with) with strict amount validation (₹10–₹10,000, ≤2 decimals). An optional **Polar** hosted-checkout button can be enabled via env var.
+- **Insights blog** — markdown-powered posts under `content/insights`.
+- **SEO** — metadata, OpenGraph/Twitter cards, sitemap, robots, structured data.
+
+## Local development
 
 ```bash
+npm install
+cp .env.example .env      # optional locally; REQUIRED in production
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Without Redis env vars the app uses an in-memory fallback so everything works locally — data resets on restart. **Set `KV_REST_API_URL` / `KV_REST_API_TOKEN` in production.**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Production deployment (Vercel / any Node host)
 
-## Learn More
+1. Create a free [Upstash Redis](https://upstash.com) database and copy `KV_REST_API_URL` + `KV_REST_API_TOKEN`.
+2. Set a strong `ADMIN_PASSCODE` (long, random — e.g. `openssl rand -base64 24`).
+3. Generate a secret `RATE_LIMIT_SALT` — `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`.
+4. Set `NEXT_PUBLIC_SITE_URL` to your canonical domain.
+5. **Payments** — decide which option:
+   - **UPI (default, zero setup):** the code already ships with your UPI ID (`7082739587@jupiteraxis`), overridable via `SUPPORT_UPI_ID`. Visitors pay you directly via any UPI app. `SUPPORT_UPI_NAME` / `SUPPORT_UPI_REF_PREFIX` are optional.
+   - **Polar:** create a donation checkout in your [Polar dashboard](https://polar.sh) and paste the link into `POLAR_CHECKOUT_URL` for card / international payments. For full Polar integration (webhooks, verifying payments server-side) add the Polar SDK + a webhook route.
+6. **Email notifications (recommended):** create a free [Resend](https://resend.com) account, copy the API key into `RESEND_API_KEY`, and set `CONTACT_EMAIL_TO` to your inbox. New contact-form messages will then be emailed to you (with `Reply-To` set to the sender) *and* stored in `/admin`. Without these vars, messages appear only in the `/admin` inbox.
+7. Build & ship: `npm run build && npm run start`.
+6. Build & ship: `npm run build && npm run start`.
 
-To learn more about Next.js, take a look at the following resources:
+## Security notes
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- All user input is sanitized server-side (HTML/control characters stripped, Unicode preserved) and validated (email format, LinkedIn hostname, rating range, message lengths).
+- Anti-abuse: honeypot field, submission time-trap, per-IP rate limits, and daily global caps — applied to both contact and feedback.
+- Admin auth: passcode lives only in server env, compared in constant time, login attempts throttled per IP (10 / 15 min), admin routes blocked from search engines and robots.txt.
+- Payments: the UPI payee ID is never derived from user input — it comes from server env and the intent URL is built server-side.
+- Production security headers are applied via `next.config.ts` (CSP, nosniff, X-Frame-Options DENY, etc.). CSP uses `'unsafe-inline'` for Next's inline bootstrap scripts; a nonce-based CSP is a recommended follow-up.
+- IPs are stored only as salted hashes (never raw), with a per-deployment salt.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Recommended follow-ups
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Tighten CSP with nonces once you add a nonce middleware.
+- Move testimonial moderation behind a real auth provider (e.g. Auth.js) if you need multi-admin or sessions.
+- Add webhook-based payment verification if you enable Polar.

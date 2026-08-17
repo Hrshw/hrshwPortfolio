@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import ThemeToggle from "@/components/ThemeToggle";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -16,8 +16,16 @@ export default function HUDHeader() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-      
-      const sections = ["about", "experience", "skills", "projects", "certifications", "contact"];
+
+      const sections = [
+        "about",
+        "experience",
+        "skills",
+        "projects",
+        "certifications",
+        "support",
+        "contact",
+      ];
       let current = "";
       for (const section of sections) {
         const el = document.getElementById(`section-${section}`);
@@ -62,37 +70,46 @@ export default function HUDHeader() {
     { id: "skills", label: "Skills" },
     { id: "projects", label: "Projects" },
     { id: "certifications", label: "Certifications" },
-    { id: "contact", label: "Connect" },
+    { id: "support", label: "Support" },
   ];
+
+  const navLinkClass = (active: boolean) =>
+    `relative px-3 py-1.5 text-[13px] font-medium transition-colors duration-500 rounded-full whitespace-nowrap ${
+      active
+        ? "text-white dark:text-black"
+        : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
+    }`;
 
   return (
     <header
       className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${
-        scrolled ? "py-4 bg-white/80 dark:bg-[#030303]/80 backdrop-blur-xl border-b border-black/5 dark:border-white/5" : "py-6 bg-transparent"
+        scrolled
+          ? "py-3 bg-white/80 dark:bg-[#030303]/80 backdrop-blur-xl border-b border-black/5 dark:border-white/5"
+          : "py-4 bg-transparent"
       }`}
     >
-      <div className="max-w-7xl mx-auto px-8 flex items-center justify-between relative">
+      <div className="max-w-7xl mx-auto px-8 flex items-center justify-between gap-4 relative">
         {/* Logo/Name */}
-        <div 
+        <div
           onClick={handleLogoClick}
-          className="cursor-pointer group flex items-center gap-3"
+          className="cursor-pointer group flex items-center gap-3 min-w-0"
         >
-          <div className="w-8 h-8 rounded-full bg-zinc-900 dark:bg-white flex items-center justify-center text-white dark:text-black font-bold tracking-tighter group-hover:scale-105 transition-transform duration-500">
+          <div className="w-7 h-7 rounded-full bg-zinc-900 dark:bg-white flex items-center justify-center text-white dark:text-black text-xs font-bold tracking-tighter group-hover:scale-105 transition-transform duration-500 shrink-0">
             RS
           </div>
-          <span className="text-zinc-900 dark:text-white font-medium tracking-tight hidden sm:block transition-colors duration-500">Rahul Singh Shekhawat</span>
+          <span className="text-zinc-900 dark:text-white font-medium text-[15px] tracking-tight hidden lg:block truncate transition-colors duration-500">
+            Rahul Singh Shekhawat
+          </span>
         </div>
 
         {/* Desktop Nav */}
-        <div className="flex items-center gap-4">
-          <nav className="hidden md:flex items-center gap-1 bg-black/5 dark:bg-white/5 backdrop-blur-md px-2 py-1.5 rounded-full border border-black/10 dark:border-white/10 transition-colors duration-500">
+        <div className="flex items-center gap-3">
+          <nav className="hidden md:flex items-center gap-0.5 bg-black/5 dark:bg-white/5 backdrop-blur-md px-1.5 py-1 rounded-full border border-black/10 dark:border-white/10 transition-colors duration-500">
             {navLinks.map((link) => (
               <button
                 key={link.id}
                 onClick={() => scrollTo(link.id)}
-                className={`relative px-4 py-2 text-sm font-medium transition-colors duration-500 rounded-full ${
-                  activeSection === link.id ? "text-white dark:text-black" : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
-                }`}
+                className={navLinkClass(activeSection === link.id)}
               >
                 {activeSection === link.id && (
                   <motion.div
@@ -105,28 +122,34 @@ export default function HUDHeader() {
               </button>
             ))}
             <Link
+              href="/contact"
+              className={navLinkClass(false)}
+            >
+              Contact
+            </Link>
+            <Link
               href="/system-design"
-              className={`relative px-4 py-2 text-sm font-medium transition-colors duration-500 rounded-full text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
+              className={navLinkClass(false)}
             >
               System Design
             </Link>
             <Link
               href="/insights"
-              className={`relative px-4 py-2 text-sm font-medium transition-colors duration-500 rounded-full text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
+              className={navLinkClass(false)}
             >
               Insights
             </Link>
             <Link
               href="/testimonials"
-              className={`relative px-4 py-2 text-sm font-medium transition-colors duration-500 rounded-full text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
+              className={navLinkClass(false)}
             >
               Testimonials
             </Link>
           </nav>
           <ThemeToggle />
-          
+
           {/* Mobile Menu Toggle */}
-          <button 
+          <button
             className="md:hidden p-2 text-zinc-900 dark:text-white"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
@@ -139,7 +162,7 @@ export default function HUDHeader() {
 
       {/* Mobile Menu Dropdown */}
       {isMobileMenuOpen && (
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           className="md:hidden absolute top-full left-0 w-full bg-white/95 dark:bg-[#030303]/95 backdrop-blur-xl border-b border-black/5 dark:border-white/5 py-6 px-8 flex flex-col gap-6 shadow-xl"
@@ -155,6 +178,13 @@ export default function HUDHeader() {
               {link.label}
             </button>
           ))}
+          <Link
+            href="/contact"
+            className={`text-left text-xl font-medium transition-colors text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
+            onClick={() => setIsMobileMenuOpen(false)}
+          >
+            Contact
+          </Link>
           <Link
             href="/system-design"
             className={`text-left text-xl font-medium transition-colors text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}

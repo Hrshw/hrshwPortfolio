@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { SubmitPayload } from "@/hooks/useFeedback";
 
@@ -115,7 +115,13 @@ export default function FeedbackForm({
   const [rating, setRating] = useState(0);
   const [linkedinUrl, setLinkedinUrl] = useState("");
   const [project, setProject] = useState("");
+  const [website, setWebsite] = useState(""); // honeypot — never visible to humans
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const startedAtRef = useRef<number>(0);
+
+  useEffect(() => {
+    startedAtRef.current = Date.now();
+  }, []);
 
   const validate = () => {
     const e: Record<string, string> = {};
@@ -139,11 +145,25 @@ export default function FeedbackForm({
       message: message.trim(),
       linkedinUrl: linkedinUrl.trim() || undefined,
       project: project || undefined,
+      website, // honeypot
+      formStartedAt: startedAtRef.current, // time-trap
     });
   };
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
+      {/* Honeypot — hidden from humans, irresistible to bots */}
+      <div className="absolute -left-[9999px] top-auto" aria-hidden="true">
+        <label htmlFor="feedback-website">Website</label>
+        <input
+          id="feedback-website"
+          type="text"
+          tabIndex={-1}
+          autoComplete="off"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+        />
+      </div>
       {/* Name + Role row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Field label="Your Name *" error={errors.name}>

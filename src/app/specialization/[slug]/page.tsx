@@ -86,7 +86,7 @@ export default async function SpecializationPage({ params }: PageProps) {
       {/* 3D background */}
       <div className="fixed inset-0 w-full h-full pointer-events-none" style={{ zIndex: 0 }}>
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]" />
-        <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-[0.03]" />
+        <div className="absolute inset-0 bg-[url('/noise.svg')] opacity-[0.03]" />
         <BlueprintCanvas />
       </div>
 
