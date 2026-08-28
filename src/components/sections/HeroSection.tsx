@@ -73,7 +73,7 @@ export default function HeroSection({ customTagline }: HeroProps) {
           </motion.div>
         
         <p className="text-zinc-600 dark:text-zinc-400 text-xl md:text-2xl max-w-3xl leading-relaxed mb-14 font-light tracking-tight transition-colors duration-500">
-          {customTagline || "Full-Stack & Cloud Engineer specializing in scalable SaaS, AWS, AI integrations, and serverless architecture."}
+          {customTagline || "Full-Stack & Cloud Engineer building scalable SaaS, AI-powered products, and AWS cloud infrastructure. Available for freelance projects, MVPs, and cloud migration."}
         </p>
 
         <div className="flex flex-wrap gap-4 items-center">

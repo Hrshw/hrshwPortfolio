@@ -134,6 +134,45 @@ export default function StructuredData() {
           text: 'Based in Mumbai, India, and working remotely with clients worldwide.',
         },
       },
+      {
+        '@type': 'Question',
+        name: 'How much does it cost to build a SaaS MVP in India?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'A full SaaS MVP — design, build, and deploy — typically ranges from ₹1,50,000 to ₹5,00,000 depending on scope, features, and integrations. A landing page or marketing site starts at ₹15,000–₹40,000. Final quotes are provided after reviewing the project brief.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Can you help migrate my existing app to AWS?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes. I handle cloud migrations — moving existing applications onto AWS infrastructure, including serverless architectures, containerized deployments, database migrations, and CI/CD setup.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Do you work with startups?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Yes — I regularly work with startups and early-stage teams on MVPs, cloud infrastructure, and scaling from prototype to production. I can also serve as a technical co-founder or fractional CTO for idea-stage companies.',
+        },
+      },
+    ],
+  };
+
+  const siteNavigationSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'SiteNavigationElement',
+    name: 'Main Navigation',
+    url: siteMetadata.siteUrl,
+    hasPart: [
+      { '@type': 'SiteNavigationElement', name: 'About', url: `${siteMetadata.siteUrl}/#section-about` },
+      { '@type': 'SiteNavigationElement', name: 'Projects', url: `${siteMetadata.siteUrl}/#section-projects` },
+      { '@type': 'SiteNavigationElement', name: 'Insights', url: `${siteMetadata.siteUrl}/insights` },
+      { '@type': 'SiteNavigationElement', name: 'System Design', url: `${siteMetadata.siteUrl}/system-design` },
+      { '@type': 'SiteNavigationElement', name: 'Testimonials', url: `${siteMetadata.siteUrl}/testimonials` },
+      { '@type': 'SiteNavigationElement', name: 'Contact', url: `${siteMetadata.siteUrl}/contact` },
     ],
   };
 
@@ -180,6 +219,10 @@ export default function StructuredData() {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(siteNavigationSchema) }}
       />
     </>
   );
