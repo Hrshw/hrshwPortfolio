@@ -160,4 +160,4 @@ The best time to hire a full-stack developer is before you think you need one. T
 
 ---
 
-*Looking for a full-stack developer to build your SaaS MVP? I have shipped production platforms like [PulseGuard](https://pulseguard.in), [Observyze](/#section-projects), and [SubTrackHub](/#section-projects) as a single developer. [Get in touch](/contact) to discuss your project.*
+*Looking for a full-stack developer to build your SaaS MVP? I have shipped production platforms like [PulseGuard](/#section-projects), [Observyze](/#section-projects), and [SubTrackHub](/#section-projects) as a single developer. [Get in touch](/contact) to discuss your project.*

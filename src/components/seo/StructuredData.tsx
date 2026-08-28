@@ -72,7 +72,7 @@ export default function StructuredData() {
       url: siteMetadata.siteUrl,
     },
     description: 'AI-powered uptime monitoring, SSL certificate tracking, and global status pages with real-time anomaly detection.',
-    url: 'https://pulseguard.in',
+    url: `${siteMetadata.siteUrl}/#section-projects`,
   };
 
   const observyzeSchema = {
