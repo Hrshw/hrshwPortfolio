@@ -13,6 +13,7 @@ function BlueprintStructure({ isDarkTheme }: { isDarkTheme: boolean }) {
   const innerGroupRef = useRef<THREE.Group>(null);
 
   const pointsRef = useRef<THREE.Points>(null);
+  const pointsMatRef = useRef<THREE.PointsMaterial>(null);
   
   // State for hover interaction
   const isDesigningRef = useRef(false);
@@ -192,6 +193,7 @@ function BlueprintStructure({ isDarkTheme }: { isDarkTheme: boolean }) {
 
   // Animation variables
   const drawCount = useRef(0);
+  const revealProgress = useRef(0);
 
   useFrame((state) => {
     if (!outerLinesRef.current || !outerGroupRef.current || !innerLinesRef.current || !innerGroupRef.current) return;
@@ -206,6 +208,12 @@ function BlueprintStructure({ isDarkTheme }: { isDarkTheme: boolean }) {
     mouseX.current += (targetMouseX.current - mouseX.current) * 0.05;
     mouseY.current += (targetMouseY.current - mouseY.current) * 0.05;
 
+    // Reveal progress: only visible on hover or scroll
+    const isInteracting = isDesigningRef.current || progress > 0.05;
+    const targetReveal = isInteracting ? 1.0 : 0.0;
+    revealProgress.current += (targetReveal - revealProgress.current) * 0.03;
+    const reveal = revealProgress.current;
+
     // Smooth speed change based on hover
     const targetSpeed = isDesigningRef.current ? 400 : 10;
     speedRef.current += (targetSpeed - speedRef.current) * 0.1;
@@ -214,47 +222,51 @@ function BlueprintStructure({ isDarkTheme }: { isDarkTheme: boolean }) {
     // Outer Shell Updates
     outerLinesRef.current.geometry.setDrawRange(0, Math.floor(drawCount.current % outerVertices));
     
-    // Inner Core Updates - always draw fully
-    innerLinesRef.current.geometry.setDrawRange(0, innerVertices);
+    // Inner Core Updates - only draw when revealed
+    const drawAmount = Math.floor(innerVertices * reveal);
+    innerLinesRef.current.geometry.setDrawRange(0, drawAmount);
 
     // ----------------------------------------------------
     // SCROLL & MOUSE INTERACTION (ROTATIONS & SCALES)
     // ----------------------------------------------------
     
-    // 1. Outer Shell: Scale & Rotation
+    // 1. Outer Shell: Scale & Rotation - positioned right
     const outerScaleTarget = isDesigningRef.current ? 1.2 : 1.0;
     const finalOuterScale = THREE.MathUtils.lerp(outerScaleTarget, 12.0, Math.pow(progress, 1.5));
     outerGroupRef.current.scale.set(finalOuterScale, finalOuterScale, finalOuterScale);
+    outerGroupRef.current.position.x = 4.0 * reveal; // Slide in from right
     
     // Combine automatic spin with mouse parallax tilt
     outerGroupRef.current.rotation.y = time * 0.02 + mouseX.current * 0.3;
     outerGroupRef.current.rotation.x = Math.sin(time * 0.1) * 0.1 + mouseY.current * 0.3;
 
-    // 2. Inner Core: Scale & Rotation
-    const finalInnerScale = THREE.MathUtils.lerp(0.01, 1.2, progress);
+    // 2. Inner Core: Scale & Rotation - positioned right
+    const finalInnerScale = THREE.MathUtils.lerp(0.01, 1.2, progress) * reveal;
     innerGroupRef.current.scale.set(finalInnerScale, finalInnerScale, finalInnerScale);
+    innerGroupRef.current.position.x = 4.0 * reveal; // Slide in from right
     
     // Spin inner core faster, responding to mouse tilt & scroll progress
     innerGroupRef.current.rotation.y = time * 0.4 + (progress * Math.PI) + mouseX.current * 0.6;
     innerGroupRef.current.rotation.x = time * 0.2 + (progress * Math.PI * 0.5) + mouseY.current * 0.6;
 
-    // 3. Particles Swarm movement
+    // 3. Particles Swarm movement - positioned right, only when revealed
     if (pointsRef.current) {
+      pointsRef.current.position.x = 4.0 * reveal;
       pointsRef.current.rotation.y = time * 0.01 + mouseX.current * 0.2;
       pointsRef.current.rotation.x = time * 0.005 + mouseY.current * 0.2;
+      // Update particle opacity based on reveal
+      if (pointsMatRef.current) {
+        const targetParticleOpacity = (isDarkTheme ? 0.12 : 0.05) * reveal;
+        pointsMatRef.current.opacity += (targetParticleOpacity - pointsMatRef.current.opacity) * 0.05;
+      }
 
-      // Animate particles flying forward as scroll happens
       const posArr = pointsRef.current.geometry.attributes.position.array as Float32Array;
       for (let i = 0; i < particleCount; i++) {
         const baseSpeed = 0.005;
         const scrollBonus = progress * 0.08;
-        
-        // Move towards camera
         posArr[i * 3 + 2] += (baseSpeed + scrollBonus) * particleSpeeds[i];
-        
-        // Wrap around when passing target cameras z coordinate (Z > 5)
         if (posArr[i * 3 + 2] > 6) {
-          posArr[i * 3 + 2] = -8; // Teleport back
+          posArr[i * 3 + 2] = -8;
         }
       }
       pointsRef.current.geometry.attributes.position.needsUpdate = true;
@@ -288,19 +300,22 @@ function BlueprintStructure({ isDarkTheme }: { isDarkTheme: boolean }) {
     const baseOuterOpacity = isDarkTheme ? 0.3 : 0.05;
     const targetOuterOpacity = THREE.MathUtils.lerp(baseOuterOpacity, 0.0, Math.pow(progress, 0.5));
     
+    // Only show when interacting (hover or scroll)
+    const opacityMultiplier = reveal;
+    
     if (isDesigningRef.current && progress < 0.5) {
       outerMat.color.lerp(new THREE.Color(0x00f2fe), 0.1);
-      outerMat.opacity = THREE.MathUtils.lerp(outerMat.opacity, 0.8 * (1 - progress), 0.1);
+      outerMat.opacity = THREE.MathUtils.lerp(outerMat.opacity, 0.8 * (1 - progress) * opacityMultiplier, 0.1);
     } else {
       outerMat.color.lerp(new THREE.Color(isDarkTheme ? 0x444444 : 0xa1a1aa), 0.1);
-      outerMat.opacity = THREE.MathUtils.lerp(outerMat.opacity, targetOuterOpacity, 0.1);
+      outerMat.opacity = THREE.MathUtils.lerp(outerMat.opacity, targetOuterOpacity * opacityMultiplier, 0.1);
     }
 
     // Dynamic inner material configurations
     const coreColor = isDarkTheme ? new THREE.Color(0x00f2fe) : new THREE.Color(0x0284c7);
     innerShaderMaterial.uniforms.uColor.value.copy(coreColor);
     
-    const targetInnerOpacity = THREE.MathUtils.lerp(0.0, isDarkTheme ? 0.15 : 0.06, progress);
+    const targetInnerOpacity = THREE.MathUtils.lerp(0.0, isDarkTheme ? 0.15 : 0.06, progress) * reveal;
     innerShaderMaterial.uniforms.uOpacity.value = THREE.MathUtils.lerp(
       innerShaderMaterial.uniforms.uOpacity.value,
       targetInnerOpacity,
@@ -351,6 +366,7 @@ function BlueprintStructure({ isDarkTheme }: { isDarkTheme: boolean }) {
           />
         </bufferGeometry>
         <pointsMaterial
+          ref={pointsMatRef}
           color={isDarkTheme ? 0x00f2fe : 0x0284c7}
           size={0.05}
           transparent
