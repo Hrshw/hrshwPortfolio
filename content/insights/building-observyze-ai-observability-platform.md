@@ -10,7 +10,7 @@ Two years ago, I had a problem. I was building AI-powered features into SaaS pro
 
 Standard monitoring tools treat LLMs like slow databases. They track latency, token usage, and uptime. But they cannot tell you why the model made a specific decision, whether its output is actually grounded in reality, or whether the reasoning chain is about to spiral into an infinite loop.
 
-I built Observyze to solve this. Not as a side project - as a production platform that real teams use to monitor, evaluate, and govern their AI systems. Here are the lessons that mattered.
+I built [Observyze](https://observyze.com) to solve this. Not as a side project - as a production platform that real teams use to monitor, evaluate, and govern their AI systems. Here are the lessons that mattered.
 
 ---
 
@@ -128,7 +128,7 @@ What I will say: the platform runs on a distributed architecture with separate s
 
 ## Try It
 
-Observyze is live at observyze.com. The Node.js SDK is open-source:
+Observyze is live at [observyze.com](https://observyze.com). The Node.js SDK is open-source:
 
     npm install @observyze/sdk
 
@@ -136,4 +136,4 @@ If you are building AI features in production and need to know whether your mode
 
 ---
 
-*Built as a full-stack project: TypeScript API gateway, Python evaluation engine, native SDK core, Next.js dashboard, all deployed on AWS. View the architecture at observyze.com/docs or get in touch to discuss AI infrastructure.*
+*Built as a full-stack project: TypeScript API gateway, Python evaluation engine, native SDK core, Next.js dashboard, all deployed on AWS. View the architecture at [observyze.com/docs](https://observyze.com/docs) or get in touch to discuss AI infrastructure.*
