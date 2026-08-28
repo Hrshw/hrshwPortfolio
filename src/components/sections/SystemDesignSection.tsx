@@ -99,67 +99,67 @@ export default function SystemDesignSection({ headingLevel = "h2" }: SystemDesig
     {
       id: "observyze",
       title: "Observyze",
-      subtitle: "Event-Driven High-Volume LLM Telemetry Ingestor",
+      subtitle: "AI Observability & Agent Safety Platform",
       diagram: (
         <div className="flex flex-col items-center justify-center p-6 bg-zinc-950/30 dark:bg-black/40 rounded-3xl border border-black/5 dark:border-white/5 font-mono text-xs text-zinc-400 min-h-[300px]">
           <div className="flex flex-col gap-6 w-full max-w-md items-center">
             {/* Top Node */}
             <div className="px-4 py-3 bg-zinc-900/80 border border-zinc-700/60 rounded-xl text-center shadow-lg w-full max-w-[240px]">
               <div className="text-zinc-500 text-[10px] tracking-wider uppercase mb-1">SDK Client</div>
-              <div className="text-white font-semibold">@observyze/node SDK</div>
-              <div className="text-[10px] text-cyan-400 mt-0.5">Tracks spans & tool execution</div>
+              <div className="text-white font-semibold">1-Line Auto-Instrumentation</div>
+              <div className="text-[10px] text-cyan-400 mt-0.5">Traces spans & tool execution</div>
             </div>
 
             {/* Down Arrow */}
-            <div className="text-zinc-600 text-lg">↓ HTTPS POST (Gzipped)</div>
+            <div className="text-zinc-600 text-lg">↓ Async Buffered Ingestion</div>
 
             {/* Ingestion Node */}
             <div className="px-4 py-3 bg-indigo-500/10 border border-indigo-500/30 rounded-xl text-center shadow-lg w-full max-w-[240px]">
-              <div className="text-indigo-400 text-[10px] tracking-wider uppercase mb-1">Ingestion Layer</div>
-              <div className="text-white font-semibold">Fastify Ingest Endpoint</div>
-              <div className="text-[10px] text-cyan-400 mt-0.5">Buffered by ioredis client</div>
+              <div className="text-indigo-400 text-[10px] tracking-wider uppercase mb-1">API Gateway</div>
+              <div className="text-white font-semibold">Authenticated Ingest Endpoint</div>
+              <div className="text-[10px] text-cyan-400 mt-0.5">Validates & transforms traces</div>
             </div>
 
             {/* Down Arrow */}
-            <div className="text-zinc-600 text-lg">↓ Decouples Database</div>
+            <div className="text-zinc-600 text-lg">↓ Decouples Write Path</div>
 
             {/* Buffer Node */}
             <div className="px-4 py-3 bg-zinc-900/80 border border-zinc-700/60 rounded-xl text-center shadow-lg w-full max-w-[240px]">
-              <div className="text-zinc-500 text-[10px] tracking-wider uppercase mb-1">Load Buffer</div>
-              <div className="text-white font-semibold">AWS SQS Message Queue</div>
+              <div className="text-zinc-500 text-[10px] tracking-wider uppercase mb-1">Message Queue</div>
+              <div className="text-white font-semibold">Async Buffer Layer</div>
               <div className="text-[10px] text-zinc-500 mt-0.5">Absorbs peak traffic spikes</div>
             </div>
 
             {/* Down Arrow */}
-            <div className="text-zinc-600 text-lg">↓ Batch Processing (100 msgs)</div>
+            <div className="text-zinc-600 text-lg">↓ Batch Processing</div>
 
             {/* Consumer Node */}
             <div className="px-4 py-3 bg-purple-500/10 border border-purple-500/30 rounded-xl text-center shadow-lg w-full max-w-[240px]">
-              <div className="text-purple-400 text-[10px] tracking-wider uppercase mb-1">Processing Worker</div>
-              <div className="text-white font-semibold">Node.js SQS Worker</div>
-              <div className="text-[10px] text-zinc-500 mt-0.5">Writes to MongoDB Atlas</div>
+              <div className="text-purple-400 text-[10px] tracking-wider uppercase mb-1">Evaluation Engine</div>
+              <div className="text-white font-semibold">Hallucination Detection</div>
+              <div className="text-[10px] text-zinc-500 mt-0.5">4-layer hybrid scoring</div>
             </div>
           </div>
         </div>
       ),
       scaling: [
-        "Built ingestion server core utilizing Fastify and ioredis stream pipelines to guarantee latency bounds below 5ms.",
-        "Leveraged AWS SQS queue configurations as a high-volume load buffer to decouple HTTP ingestion servers from DB operations.",
-        "Set SQS consumer batched lambda triggers (100 messages per execution) to pace database writes and reduce connections."
+        "Built the SDK core in a systems language compiled to a native addon, maintaining sub-millisecond overhead per LLM call.",
+        "Decoupled ingestion from persistence using an async message buffer to absorb traffic spikes without dropping traces.",
+        "Batched trace writes to reduce database connection pressure at high throughput."
       ],
       costOpt: [
-        "Persists distributed telemetry trace records inside optimized MongoDB Time-Series collections, reducing query retrieval overhead and indexing size by 40%.",
-        "Compressed incoming payloads via gzip at the SDK connection client layer to optimize network egress charges.",
-        "Managed server instance footprints using Dockerized Node.js lightweight alpine configurations."
+        "Deterministic checks (syntax validation, format verification) catch the majority of issues at zero LLM cost.",
+        "Local NLI models handle grounding checks without API calls, reserving frontier models for hard cases only.",
+        "Cold storage archival keeps the hot database fast while maintaining audit-ready traces for compliance."
       ],
       monitoring: [
-        "Visualizes hierarchical parent-child traces mapping LLM prompts, latency, token spend, and tool execution (shell/fs) Gantt timelines.",
-        "Tracks agent execution spans and runs hallucination and safety evaluators to alert developers of silent failures.",
-        "Triggers warnings when SQS Queue MessageAge exceeds safety limits, indicating processing consumer lag."
+        "Visualizes hierarchical parent-child traces mapping LLM prompts, latency, token spend, and tool execution timelines.",
+        "Runs hallucination and safety evaluators with a 3-class verdict system (entailed / neutral / contradicted).",
+        "Automatic circuit breakers halt affected scopes when persistent issues are detected."
       ],
       cicd: [
-        "TurboRepo workspace management builds and tests modular libraries (`@observyze/db`, `@observyze/types`) dynamically on PR checks.",
-        "Automated CI/CD pipelines compile typescript bundles, verify linting, and deploy rolling Docker containered services."
+        "Monorepo workspace management builds and tests modular packages dynamically on PR checks.",
+        "Automated CI/CD pipelines compile TypeScript bundles, verify linting, and deploy containerized services."
       ]
     },
     {

@@ -34,13 +34,13 @@ Instead of treating the LLM as a black box, Observyze intercepts the input/outpu
 To make this work without slowing down the primary application, I designed Observyze to use asynchronous event ingestion. Here is a simplified look at how an LLM wrapper sends telemetry to the Observyze ingestion engine:
 
 ```typescript
-import { ObservyzeTracer } from 'observyze-node';
+import { ObservyzeClient } from '@observyze/sdk';
 
-const tracer = new ObservyzeTracer({ apiKey: process.env.OBSERVYZE_KEY });
+const nw = new ObservyzeClient({ apiKey: process.env.OBSERVYZE_API_KEY });
 
 async function executeAgentTask(userPrompt: string) {
   // Start a new reasoning chain
-  const trace = tracer.startTrace({ name: "ResearchAgent" });
+  const trace = nw.startTrace({ name: "ResearchAgent" });
   
   try {
     trace.addEvent("retrieval_start", { query: userPrompt });
