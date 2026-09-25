@@ -1,25 +1,50 @@
 # Rahul Singh Shekhawat
 
-Rahul Singh Shekhawat is a Full-Stack & Cloud Engineer based in Mumbai, India, who builds AI-powered SaaS products on AWS and works remotely with clients worldwide.
+> Full-Stack & Cloud Engineer based in Mumbai, India. I design, build, and operate production systems on AWS — serverless architecture, Node.js backends, and AI-powered SaaS — and write detailed engineering write-ups about how those systems actually work.
 
 ## Summary
-- Full-stack web development with Node.js, React, Next.js, and TypeScript
-- AWS cloud architecture (Lambda, EC2, S3, Route 53, DynamoDB) and serverless backends
-- AI integrations and LLM-powered features for SaaS products
-- End-to-end SaaS builds, from MVP to production, plus project work on existing applications
-- Performance, SEO, and cloud-migration improvements for existing apps
+
+- Full-stack development with Node.js, Fastify, TypeScript, React, and Next.js
+- AWS cloud architecture: Lambda, API Gateway, SQS, EC2/ECS Fargate, S3, Route 53, DynamoDB, RDS
+- AI systems engineering: LLM integrations, RAG pipelines, agent tracing, and AI observability
+- Cloud cost optimization and FinOps tooling (up to 35% AWS spend reduction on real projects)
+- Open-source developer tooling, including env-secret-lock (AES-256-GCM secret management CLI)
+- Technical writing on serverless patterns, observability, and system design
+
+## Technical focus areas
+
+- [Cloud engineering](https://rahulshekhawat.dev/specialization/cloud-engineer): AWS infrastructure, IaC, reliability, and FinOps cost control
+- [AWS & serverless](https://rahulshekhawat.dev/specialization/aws-developer): API Gateway, Lambda, SQS, DynamoDB, and event-driven backends
+- [Full-stack engineering](https://rahulshekhawat.dev/specialization/full-stack-developer): Node.js APIs, React/Next.js interfaces, cloud deployment
+- [Node.js engineering](https://rahulshekhawat.dev/specialization/node-js-developer): Fastify, distributed workers, and developer tooling
+- [AI engineering](https://rahulshekhawat.dev/specialization/ai-engineer): LLM pipelines, agent observability, and telemetry
+- [Serverless architecture](https://rahulshekhawat.dev/specialization/serverless-engineer): event-driven design, concurrency, and cost control
 
 ## Key pages
-- [Home](https://rahulshekhawat.dev/): Portfolio overview
-- [Contact](https://rahulshekhawat.dev/contact): Contact details and message form
-- [System Design](https://rahulshekhawat.dev/system-design): System design work
-- [Insights](https://rahulshekhawat.dev/insights): Technical articles on AWS, serverless, AI, and SaaS
+
+- [Home](https://rahulshekhawat.dev/): Overview, experience, projects, and stack
+- [Engineering Insights](https://rahulshekhawat.dev/insights): Technical articles and production write-ups
+- [RSS feed](https://rahulshekhawat.dev/rss.xml): Feed of all engineering write-ups
+- [System Design](https://rahulshekhawat.dev/system-design): Architecture breakdowns and design decisions
 - [Testimonials](https://rahulshekhawat.dev/testimonials): Feedback from collaborators and peers
 
+## Selected writing
+
+- [AWS Cloud Migration for Startups](https://rahulshekhawat.dev/insights/aws-cloud-migration-startups-guide): Lift-and-shift vs. re-architecture, with real cost comparisons
+- [How We Saved 35% on Cloud Spend](https://rahulshekhawat.dev/insights/subtrackhub-cloud-cost-optimization): Finding idle AWS resources with usage metrics and LLMs
+- [Why Your LLM Pipeline is Failing Silently](https://rahulshekhawat.dev/insights/observyze-llm-pipeline-audit): Building trace trees for agent debugging
+- [PulseGuard: Real-Time Monitoring and Anomaly Detection](https://rahulshekhawat.dev/insights/pulseguard-realtime-monitoring-anomalies): Monitoring 500+ endpoints at sub-second alert latency
+
+## Open source
+
+- [env-secret-lock](https://github.com/Hrshw/env-secret-lock): Encrypted environment secret management CLI (npm: env-secret-lock)
+
 ## External profiles
+
 - [GitHub](https://github.com/Hrshw): Code and open-source projects
 - [LinkedIn](https://www.linkedin.com/in/rahul-singh-shekhawat-b4ba481ab): Professional profile
 
 ## Contact
+
 - Email: rahulsinghpilani7@gmail.com
-- Location: Mumbai, India (remote-friendly)
+- Location: Mumbai, India

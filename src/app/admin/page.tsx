@@ -2,7 +2,7 @@
 
 import React, { useState, useCallback } from "react";
 import { motion } from "framer-motion";
-import { Feedback } from "@/app/api/feedback/route";
+import type { Feedback } from "@/lib/feedback";
 import { ContactMessage } from "@/app/api/contact/route";
 import { INQUIRY_STATUSES } from "@/lib/hire";
 import type { Inquiry, InquiryStatus } from "@/lib/hire";

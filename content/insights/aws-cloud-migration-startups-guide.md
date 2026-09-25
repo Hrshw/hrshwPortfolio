@@ -197,4 +197,4 @@ The migration takes 1–2 weeks for a typical SaaS. The long-term cost savings a
 
 ---
 
-*Migrating your startup to AWS? I have built and migrated production SaaS platforms to serverless AWS architectures. [Get in touch](/contact) to discuss your migration.*
+*Related reading: [production patterns for Lambda and API Gateway](/insights/aws-serverless-lambda-best-practices), [how the cost model played out on a real platform](/insights/subtrackhub-cloud-cost-optimization), and [what one full-stack developer versus a full team changes about the timeline](/insights/fullstack-vs-team-mvp-tradeoffs).*

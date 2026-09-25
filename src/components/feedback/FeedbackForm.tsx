@@ -215,7 +215,7 @@ export default function FeedbackForm({
             type="text"
             value={project}
             onChange={(e) => setProject(e.target.value)}
-            placeholder="e.g. PulseGuard, Observyze, freelance work…"
+            placeholder="e.g. PulseGuard, Observyze, open-source work…"
             maxLength={80}
             className={inputClass}
             autoComplete="off"

@@ -3,92 +3,117 @@ import type { Metadata } from 'next';
 const defaultUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://rahulshekhawat.dev';
 
 export const siteMetadata = {
+  name: 'Rahul Singh Shekhawat',
   title: 'Rahul Singh Shekhawat | Full-Stack & Cloud Engineer · AI SaaS',
-  description: 'Full-Stack & Cloud Engineer in India building AI-powered SaaS, AWS cloud infrastructure, and serverless backends. Available for freelance projects, SaaS MVPs, cloud migration, and AI integrations.',
-  keywords: [
-    // Brand
-    'Rahul Singh Shekhawat',
-    'Rahul Shekhawat Cloud Engineer',
-    'Rahul Shekhawat AWS Engineer',
-    'Rahul Shekhawat Portfolio',
-    'Rahul Singh Shekhawat Developer',
-    // Client-intent (hire)
-    'Hire Full Stack Developer India',
-    'Hire AWS Developer India',
-    'Hire React Developer Mumbai',
-    'Hire Node.js Developer India',
-    'Hire Cloud Engineer India',
-    'Hire Next.js Developer India',
-    'Hire SaaS Developer India',
-    'Hire AI Developer India',
-    'Freelance Full Stack Developer India',
-    'Freelance AWS Cloud Engineer',
-    'Freelance React Developer Mumbai',
-    'Freelance SaaS MVP Developer',
-    // Service keywords
-    'Full Stack Developer India',
-    'Full Stack Developer for SaaS',
-    'Cloud Engineer India',
-    'AWS Cloud Engineer Portfolio',
-    'AWS Developer India',
-    'AWS Developer for Startups India',
-    'AWS Serverless Developer India',
-    'AI SaaS Developer',
-    'AI-Powered SaaS Engineer India',
-    'AI App Developer India',
-    'AI Integration Developer',
-    'AI Observability Engineer',
-    'SaaS MVP Development India',
-    'SaaS Product Developer India',
-    'Node.js Developer India',
-    'Node.js Developer for Hire',
-    'React Developer Mumbai',
-    'Next.js Developer India',
-    'Serverless Backend Developer',
-    'Serverless Architecture Engineer',
-    // Project-type keywords
-    'Build SaaS MVP India',
-    'SaaS Startup Developer India',
-    'Cloud Migration Developer India',
-    'AWS Infrastructure Engineer India',
-    'AI SaaS MVP Developer',
-    'Custom SaaS Development India',
-    'Startup Technical Co-founder India',
-    'CTO as a Service India',
-    // Tech stack
-    'React', 'Next.js', 'Node.js', 'TypeScript', 'AWS', 'DynamoDB',
-    'Lambda', 'Serverless', 'Redis', 'MongoDB', 'Docker',
-    // Products
-    'PulseGuard', 'Observyze', 'SubTrackHub',
-    // Role variants
-    'Software Engineer', 'AI Systems Engineer Portfolio', 'AWS Developer Portfolio',
-    'Full Stack Developer Portfolio', 'Node.js Developer Portfolio',
-    'AI Engineer Portfolio', 'Cloud Engineer Portfolio India',
-  ],
+  description:
+    'Full-stack and cloud engineer based in Mumbai, India. I build and run production systems on AWS — serverless architecture, Node.js backends, and AI-powered SaaS — and write about how they actually work.',
   author: 'Rahul Singh Shekhawat',
   siteUrl: defaultUrl,
+  /**
+   * Google has ignored <meta name="keywords"> since 2009, so this list is
+   * deliberately short and descriptive. It is documentation, not a ranking
+   * signal — do not grow it back into a keyword-stuffed service pitch.
+   */
+  keywords: [
+    'Rahul Singh Shekhawat',
+    'Rahul Shekhawat engineer',
+    'AWS serverless architecture',
+    'Node.js performance',
+    'AI observability',
+    'LLM engineering',
+    'cloud cost optimization',
+    'system design',
+    'TypeScript',
+    'Next.js',
+  ],
 };
+
+interface ConstructMetadataOptions {
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  noIndex?: boolean;
+  path?: string;
+  /** `article` unlocks OpenGraph article timestamps for blog posts. */
+  type?: 'website' | 'article';
+  publishedTime?: string;
+  modifiedTime?: string;
+  tags?: string[];
+  section?: string;
+  keywords?: string[];
+}
+
+/**
+ * Build a per-page Open Graph image URL served by the `/og` route handler.
+ * Keeps social cards unique per page instead of reusing one static file.
+ */
+export function ogImageUrl({
+  title,
+  eyebrow,
+  subtitle,
+}: {
+  title: string;
+  /** Small label above the title, e.g. "Insights" or the post's first tag. */
+  eyebrow?: string;
+  subtitle?: string;
+}): string {
+  const params = new URLSearchParams({ title });
+  if (eyebrow) params.set('eyebrow', eyebrow);
+  if (subtitle) params.set('subtitle', subtitle);
+  return `${siteMetadata.siteUrl}/og?${params.toString()}`;
+}
 
 export function constructMetadata({
   title = siteMetadata.title,
   description = siteMetadata.description,
-  image = `${siteMetadata.siteUrl}/og-image.png`, // We assume an og-image.png exists or will be added
+  image = `${siteMetadata.siteUrl}/og-image.png`,
+  imageAlt,
   noIndex = false,
   path = '',
-}: {
-  title?: string;
-  description?: string;
-  image?: string;
-  noIndex?: boolean;
-  path?: string;
-} = {}): Metadata {
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  tags,
+  section,
+  keywords = siteMetadata.keywords,
+}: ConstructMetadataOptions = {}): Metadata {
   const cleanPath = path.startsWith('/') ? path : `/${path}`;
   const canonicalUrl = `${siteMetadata.siteUrl}${cleanPath === '/' ? '' : cleanPath}`;
+
+  const openGraphBase = {
+    title,
+    description,
+    url: canonicalUrl,
+    siteName: siteMetadata.name,
+    images: [
+      {
+        url: image,
+        width: 1200,
+        height: 630,
+        alt: imageAlt ?? title,
+      },
+    ],
+    locale: 'en_US',
+  };
+
+  const openGraph: Metadata['openGraph'] =
+    type === 'article'
+      ? {
+          ...openGraphBase,
+          type: 'article',
+          publishedTime,
+          modifiedTime,
+          authors: [`${siteMetadata.siteUrl}/#person`],
+          tags,
+          section,
+        }
+      : { ...openGraphBase, type: 'website' };
 
   return {
     title,
     description,
-    keywords: siteMetadata.keywords,
+    keywords,
     authors: [{ name: siteMetadata.author }],
     creator: siteMetadata.author,
     publisher: siteMetadata.author,
@@ -96,25 +121,15 @@ export function constructMetadata({
     alternates: {
       canonical: canonicalUrl,
       languages: {
-        'en': canonicalUrl,
+        en: canonicalUrl,
+        'x-default': canonicalUrl,
+      },
+      // Feed autodiscovery so readers and aggregators find the RSS feed.
+      types: {
+        'application/rss+xml': `${siteMetadata.siteUrl}/rss.xml`,
       },
     },
-    openGraph: {
-      title,
-      description,
-      url: canonicalUrl,
-      siteName: siteMetadata.title,
-      images: [
-        {
-          url: image,
-          width: 1200,
-          height: 630,
-          alt: title,
-        },
-      ],
-      locale: 'en_US',
-      type: 'website',
-    },
+    openGraph,
     twitter: {
       card: 'summary_large_image',
       title,

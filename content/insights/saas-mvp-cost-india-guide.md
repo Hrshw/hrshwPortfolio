@@ -126,7 +126,7 @@ Based on patterns from projects I have built:
 
 3. **Build the core feature first, not the dashboard.** Many founders want a beautiful admin panel before the product works. Build the thing that delivers value, then make it pretty.
 
-4. **Choose a developer who has shipped before.** A freelancer who has built 3 SaaS products will be 3x faster than a team learning your tech stack on your dime. Look for someone with production deployments, not just GitHub repos.
+4. **Choose a developer who has shipped before.** Someone who has built three SaaS products will move faster than a team learning your stack on your dime. Look for production deployments, not just GitHub repos.
 
 5. **Use serverless for the MVP.** AWS Lambda + API Gateway costs nothing until you have real traffic. You do not need Kubernetes for 100 users.
 
@@ -155,4 +155,4 @@ The best investment is not finding the cheapest developer — it is finding one 
 
 ---
 
-*Building a SaaS and need a technical co-founder or full-stack developer to ship it? I work with startups on MVPs, cloud infrastructure, and AI integrations. [Get in touch](/contact) or [view my work](/#section-projects).*
+*Related reading: [one full-stack developer versus a full team](/insights/fullstack-vs-team-mvp-tradeoffs), the [real AWS cost breakdown for a small SaaS](/insights/aws-cloud-migration-startups-guide), and a [production SaaS architecture end to end](/insights/building-observyze-ai-observability-platform).*

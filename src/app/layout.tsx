@@ -1,5 +1,6 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import HUDHeader from "@/components/HUDHeader";
 import Footer from "@/components/Footer";
@@ -9,6 +10,17 @@ import { constructMetadata } from "@/lib/metadata";
 const inter = Inter({ subsets: ["latin"], display: "swap" });
 
 export const metadata: Metadata = constructMetadata();
+
+// Matches the page background in each theme so mobile browser chrome blends in.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#fafafa" },
+    { media: "(prefers-color-scheme: dark)", color: "#030303" },
+  ],
+};
 
 export default function RootLayout({
   children,
@@ -23,6 +35,9 @@ export default function RootLayout({
           {children}
           <Footer />
         </ThemeProvider>
+        {/* First-party, cookie-free page + event analytics. Served from
+            /_vercel/* so it satisfies the Content-Security-Policy above. */}
+        <Analytics />
       </body>
     </html>
   );

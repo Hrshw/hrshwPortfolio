@@ -2,23 +2,56 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import ContactForm from "@/components/ContactForm";
 import LinkedInBadge from "@/components/LinkedInBadge";
-import { constructMetadata } from "@/lib/metadata";
+import { constructMetadata, ogImageUrl, siteMetadata } from "@/lib/metadata";
 
 export const metadata: Metadata = constructMetadata({
   title: "Contact | Rahul Singh Shekhawat",
   description:
-    "Get in touch with Rahul Singh Shekhawat for project collaborations, cloud architecture consultations, full-stack development, or job opportunities.",
+    "Reach Rahul Singh Shekhawat by email or message — questions about his writing on AWS, serverless architecture, and AI systems, or simply to say hello.",
   path: "/contact",
+  image: ogImageUrl({ title: "Get in touch", eyebrow: "Contact" }),
 });
 
+const contactPageUrl = `${siteMetadata.siteUrl}/contact`;
+
+const breadcrumb = {
+  '@context': 'https://schema.org',
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: siteMetadata.siteUrl },
+    { '@type': 'ListItem', position: 2, name: 'Contact', item: contactPageUrl },
+  ],
+};
+
+const contactPageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'ContactPage',
+  '@id': `${contactPageUrl}#page`,
+  url: contactPageUrl,
+  name: 'Contact',
+  inLanguage: 'en-US',
+  isPartOf: { '@id': `${siteMetadata.siteUrl}/#website` },
+  about: { '@id': `${siteMetadata.siteUrl}/#person` },
+  breadcrumb,
+};
+
 // ---------------------------------------------------------------------------
-// /contact — a dedicated page where clients can reach out about projects.
+// /contact — a general contact page for questions and discussion.
 // Submissions go through /api/contact: validated, spam-filtered, rate-limited,
-// stored in the admin inbox, and (optionally) emailed to the owner via Resend.
+// stored in the admin inbox, and (optionally) emailed to the owner.
 // ---------------------------------------------------------------------------
 export default function ContactPage() {
   return (
     <main className="w-full bg-zinc-50 dark:bg-[#030303] text-zinc-900 dark:text-zinc-200 min-h-screen relative overflow-hidden transition-colors duration-500">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(contactPageSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }}
+      />
+
       {/* Background mesh */}
       <div className="fixed inset-0 pointer-events-none">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.1),rgba(255,255,255,0))]" />
@@ -40,12 +73,12 @@ export default function ContactPage() {
         {/* Page header */}
         <div className="mb-14">
           <h1 className="text-5xl md:text-7xl font-bold text-zinc-900 dark:text-white tracking-tighter mb-5 transition-colors duration-500">
-            Let&apos;s build something.
+            Get in touch.
           </h1>
           <p className="text-zinc-600 dark:text-zinc-400 text-lg md:text-xl font-light tracking-tight max-w-2xl transition-colors duration-500">
-            Have a project, a role, or an idea to discuss? Drop a message and
-            we&apos;ll set up a call — I reply to every serious note within a
-            day or two.
+            A question about something I&apos;ve written, a disagreement about an
+            architecture decision, or just a note — send it over and I&apos;ll
+            reply within a day or two.
           </p>
         </div>
 

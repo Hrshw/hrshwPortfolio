@@ -2,6 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { track } from "@vercel/analytics";
 
 const NAME_MAX = 60;
 const MESSAGE_MAX = 1000;
@@ -99,6 +100,7 @@ export default function ContactForm() {
       }
 
       setStatus("success");
+      track("contact_submitted");
       setName("");
       setEmail("");
       setMessage("");

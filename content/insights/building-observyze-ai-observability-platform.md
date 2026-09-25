@@ -136,4 +136,4 @@ If you are building AI features in production and need to know whether your mode
 
 ---
 
-*Built as a full-stack project: TypeScript API gateway, Python evaluation engine, native SDK core, Next.js dashboard, all deployed on AWS. View the architecture at [observyze.com/docs](https://observyze.com/docs) or get in touch to discuss AI infrastructure.*
+*The full stack: TypeScript API gateway, Python evaluation engine, native SDK core, Next.js dashboard, all deployed on AWS. Architecture docs live at [observyze.com/docs](https://observyze.com/docs). For the tracing design specifically, see [Why Your LLM Pipeline is Failing Silently](/insights/observyze-llm-pipeline-audit).*

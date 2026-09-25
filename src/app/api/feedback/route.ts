@@ -11,24 +11,11 @@ import {
   uuid,
 } from "@/lib/security";
 import { store } from "@/lib/store";
-
-// ---------------------------------------------------------------------------
-// Types
-// ---------------------------------------------------------------------------
-export interface Feedback {
-  id: string;
-  name: string;
-  role: string;
-  rating: number;
-  message: string;
-  approved: boolean;
-  createdAt: string;
-  ipHash: string;
-  linkedinUrl?: string;
-  project?: string;
-}
-
-const FEEDBACKS_KEY = "feedbacks";
+import {
+  FEEDBACKS_KEY,
+  getApprovedFeedback,
+  type Feedback,
+} from "@/lib/feedback";
 
 const NAME_MAX = 60;
 const ROLE_MAX = 80;
@@ -41,24 +28,9 @@ const LINKEDIN_MAX = 200;
 // ---------------------------------------------------------------------------
 export async function GET() {
   try {
-    const raw = await store.listGetAll<Feedback>(FEEDBACKS_KEY);
-
-    const feedbacks = raw
-      .filter((f) => f && f.approved)
-      .sort(
-        (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-      )
-      // Build the public shape explicitly — private fields never leave the server.
-      .map((f) => ({
-        id: f.id,
-        name: f.name,
-        role: f.role,
-        rating: f.rating,
-        message: f.message,
-        createdAt: f.createdAt,
-        ...(f.linkedinUrl ? { linkedinUrl: f.linkedinUrl } : {}),
-        ...(f.project ? { project: f.project } : {}),
-      }));
+    // Shared with the /testimonials server component so both paths expose the
+    // exact same public shape.
+    const feedbacks = await getApprovedFeedback();
 
     return NextResponse.json(feedbacks, {
       status: 200,

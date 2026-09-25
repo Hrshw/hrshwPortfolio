@@ -21,7 +21,7 @@ export default function ContactSection() {
 
         <h2 className="text-5xl md:text-7xl font-bold text-zinc-900 dark:text-white mb-6 tracking-tighter relative z-10 transition-colors duration-500">Let&apos;s collaborate.</h2>
         <p className="text-zinc-600 dark:text-zinc-400 text-lg md:text-xl max-w-2xl mx-auto mb-14 font-light tracking-tight relative z-10 transition-colors duration-500">
-          Whether you have a question, a project idea, or just want to discuss scalability, my inbox is always open.
+          Whether you have a question about something I&apos;ve written, want to compare notes on architecture, or just want to say hi — my inbox is open.
         </p>
 
         <div className="flex flex-col sm:flex-row justify-center items-center gap-4 relative z-10 flex-wrap">
@@ -95,8 +95,8 @@ export default function ContactSection() {
                 Send a message.
               </h3>
               <p className="text-zinc-600 dark:text-zinc-400 text-sm font-light leading-relaxed">
-                For project inquiries, collaborations, or just to say hi — your
-                message goes straight to my inbox. I reply to every serious note.
+                Your message goes straight to my inbox and I reply to every
+                serious note.
               </p>
             </div>
 

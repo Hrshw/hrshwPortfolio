@@ -44,16 +44,22 @@ export default function HUDHeader() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollTo = (id: string) => {
+  /**
+   * Section links are real anchors pointing at `/#section-…` so search engines
+   * can crawl the site's structure (they used to be JS-only buttons, which
+   * exposed no links at all). When the visitor is already on the homepage we
+   * intercept the click and smooth-scroll instead of navigating.
+   */
+  const handleSectionClick = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    id: string
+  ) => {
     setIsMobileMenuOpen(false);
-    if (pathname !== "/") {
-      router.push(`/#section-${id}`);
-    } else {
-      const el = document.getElementById(`section-${id}`);
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
-      }
-    }
+    if (pathname !== "/") return;
+    const el = document.getElementById(`section-${id}`);
+    if (!el) return;
+    event.preventDefault();
+    el.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleLogoClick = () => {
@@ -71,6 +77,14 @@ export default function HUDHeader() {
     { id: "projects", label: "Projects" },
     { id: "certifications", label: "Certifications" },
     { id: "support", label: "Support" },
+  ];
+
+  const pageLinks = [
+    { href: "/specialization", label: "Focus" },
+    { href: "/system-design", label: "System Design" },
+    { href: "/insights", label: "Insights" },
+    { href: "/testimonials", label: "Testimonials" },
+    { href: "/contact", label: "Contact" },
   ];
 
   const navLinkClass = (active: boolean) =>
@@ -104,11 +118,12 @@ export default function HUDHeader() {
 
         {/* Desktop Nav */}
         <div className="flex items-center gap-3">
-          <nav className="hidden md:flex items-center gap-0.5 bg-black/5 dark:bg-white/5 backdrop-blur-md px-1.5 py-1 rounded-full border border-black/10 dark:border-white/10 transition-colors duration-500">
+          <nav className="hidden lg:flex items-center gap-0.5 bg-black/5 dark:bg-white/5 backdrop-blur-md px-1.5 py-1 rounded-full border border-black/10 dark:border-white/10 transition-colors duration-500">
             {navLinks.map((link) => (
-              <button
+              <a
                 key={link.id}
-                onClick={() => scrollTo(link.id)}
+                href={`/#section-${link.id}`}
+                onClick={(event) => handleSectionClick(event, link.id)}
                 className={navLinkClass(activeSection === link.id)}
               >
                 {activeSection === link.id && (
@@ -119,39 +134,22 @@ export default function HUDHeader() {
                   />
                 )}
                 {link.label}
-              </button>
+              </a>
             ))}
-            <Link
-              href="/contact"
-              className={navLinkClass(false)}
-            >
-              Contact
-            </Link>
-            <Link
-              href="/system-design"
-              className={navLinkClass(false)}
-            >
-              System Design
-            </Link>
-            <Link
-              href="/insights"
-              className={navLinkClass(false)}
-            >
-              Insights
-            </Link>
-            <Link
-              href="/testimonials"
-              className={navLinkClass(false)}
-            >
-              Testimonials
-            </Link>
+            {pageLinks.map((link) => (
+              <Link key={link.href} href={link.href} className={navLinkClass(false)}>
+                {link.label}
+              </Link>
+            ))}
           </nav>
           <ThemeToggle />
 
           {/* Mobile Menu Toggle */}
           <button
-            className="md:hidden p-2 text-zinc-900 dark:text-white"
+            className="lg:hidden p-2 text-zinc-900 dark:text-white"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-expanded={isMobileMenuOpen}
+            aria-label="Toggle navigation menu"
           >
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"}></path>
@@ -165,47 +163,30 @@ export default function HUDHeader() {
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="md:hidden absolute top-full left-0 w-full bg-white/95 dark:bg-[#030303]/95 backdrop-blur-xl border-b border-black/5 dark:border-white/5 py-6 px-8 flex flex-col gap-6 shadow-xl"
+          className="lg:hidden absolute top-full left-0 w-full bg-white/95 dark:bg-[#030303]/95 backdrop-blur-xl border-b border-black/5 dark:border-white/5 py-6 px-8 flex flex-col gap-6 shadow-xl"
         >
           {navLinks.map((link) => (
-            <button
+            <a
               key={link.id}
-              onClick={() => scrollTo(link.id)}
+              href={`/#section-${link.id}`}
+              onClick={(event) => handleSectionClick(event, link.id)}
               className={`text-left text-xl font-medium transition-colors ${
                 activeSection === link.id ? "text-zinc-900 dark:text-white" : "text-zinc-600 dark:text-zinc-400"
               }`}
             >
               {link.label}
-            </button>
+            </a>
           ))}
-          <Link
-            href="/contact"
-            className={`text-left text-xl font-medium transition-colors text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Contact
-          </Link>
-          <Link
-            href="/system-design"
-            className={`text-left text-xl font-medium transition-colors text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            System Design
-          </Link>
-          <Link
-            href="/insights"
-            className={`text-left text-xl font-medium transition-colors text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Insights
-          </Link>
-          <Link
-            href="/testimonials"
-            className={`text-left text-xl font-medium transition-colors text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white`}
-            onClick={() => setIsMobileMenuOpen(false)}
-          >
-            Testimonials
-          </Link>
+          {pageLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              className="text-left text-xl font-medium transition-colors text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-white"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              {link.label}
+            </Link>
+          ))}
         </motion.div>
       )}
     </header>

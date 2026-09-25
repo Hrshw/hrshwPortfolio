@@ -12,6 +12,10 @@ const securityHeaders = [
 // Applied only to production builds — dev-mode HMR needs looser script rules.
 // `'unsafe-inline'` is required for Next's inline bootstrap scripts; tightening
 // to a nonce-based CSP is a good follow-up hardening step.
+//
+// Vercel Analytics is deliberately compatible with this policy: its script and
+// its event endpoint are both served same-origin from /_vercel/*, so no
+// third-party origins have to be added to script-src or connect-src.
 const csp = [
   "default-src 'self'",
   "script-src 'self' 'unsafe-inline'",
@@ -35,6 +39,17 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "avatars.githubusercontent.com" },
     ],
+  },
+  async redirects() {
+    return [
+      {
+        // Renamed to drop the "hire me" framing from the URL. The old URL is
+        // indexed, so a permanent redirect preserves whatever equity it has.
+        source: "/insights/hire-fullstack-developer-india-saas",
+        destination: "/insights/fullstack-vs-team-mvp-tradeoffs",
+        permanent: true,
+      },
+    ];
   },
   async headers() {
     return [

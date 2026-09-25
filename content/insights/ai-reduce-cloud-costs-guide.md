@@ -214,4 +214,4 @@ The 35% savings I demonstrated are not theoretical — they are from a real stag
 
 ---
 
-*Want to add AI-powered cost optimization to your cloud infrastructure? I build FinOps tooling and AI-integrated SaaS platforms. [Get in touch](/contact) or explore [SubTrackHub](/#section-projects) for the full architecture.*
+*Related reading: the [full SubTrackHub architecture](/#section-projects) behind this pipeline, the [guardrails that make LLM recommendations safe to apply](/insights/subtrackhub-cloud-cost-optimization), and the [serverless cost model](/insights/aws-serverless-lambda-best-practices) these numbers assume.*

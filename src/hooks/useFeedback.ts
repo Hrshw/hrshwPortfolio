@@ -36,9 +36,15 @@ export type SubmitStatus = "idle" | "loading" | "success" | "error";
 // ---------------------------------------------------------------------------
 // Hook
 // ---------------------------------------------------------------------------
-export function useFeedback() {
-  const [feedbacks, setFeedbacks] = useState<FeedbackEntry[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+/**
+ * @param initialFeedbacks Server-rendered testimonials. When supplied, the hook
+ * skips its mount fetch entirely so the quotes stay in the HTML (better for
+ * crawlers and for first paint). Pass `undefined` to fetch on the client.
+ */
+export function useFeedback(initialFeedbacks?: FeedbackEntry[]) {
+  const hasInitialFeedbacks = initialFeedbacks !== undefined;
+  const [feedbacks, setFeedbacks] = useState<FeedbackEntry[]>(initialFeedbacks ?? []);
+  const [isLoading, setIsLoading] = useState(!hasInitialFeedbacks);
   const [submitStatus, setSubmitStatus] = useState<SubmitStatus>("idle");
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [submittedEntry, setSubmittedEntry] = useState<SubmitPayload | null>(null);
@@ -47,6 +53,8 @@ export function useFeedback() {
   // isLoading starts true and is cleared only when the request settles,
   // so there's no synchronous setState during the mount effect.
   useEffect(() => {
+    if (hasInitialFeedbacks) return;
+
     let cancelled = false;
     (async () => {
       try {
@@ -63,7 +71,7 @@ export function useFeedback() {
     return () => {
       cancelled = true;
     };
-  }, []);
+  }, [hasInitialFeedbacks]);
 
   // --- Submit a new feedback ---
   const submitFeedback = useCallback(async (payload: SubmitPayload) => {

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { Feedback } from "../route";
+import type { Feedback } from "@/lib/feedback";
 import { ADMIN_KEYS, requireAdmin } from "@/lib/admin";
 import { store } from "@/lib/store";
 
